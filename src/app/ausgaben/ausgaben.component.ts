@@ -17,7 +17,10 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './ausgaben.component.html',
   styleUrls: ['./ausgaben.component.scss'],
 })
-export class AusgabenComponent implements AfterViewInit, OnInit {
+export class AusgabenComponent implements OnInit {
+  totalBetrag = 0;
+  totalMonatlich = 0;
+  dataSource!: MatTableDataSource<Ausgabe>;
   displayedColumns: string[] = [
     'id',
     'faelligkeit',
@@ -32,11 +35,6 @@ export class AusgabenComponent implements AfterViewInit, OnInit {
     'jaehrlich',
     'bearbeiten',
   ];
-
-  // dataSource: MatTableDataSource<Ausgabe>;
-  totalBetrag = 0;
-  totalMonatlich = 0;
-  dataSource!: MatTableDataSource<Ausgabe>;
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -56,8 +54,6 @@ export class AusgabenComponent implements AfterViewInit, OnInit {
       this.dataSource.sort = this.sort;
     }, 1000);
   }
-
-  ngAfterViewInit() {}
 
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -165,8 +161,4 @@ export class AusgabenComponent implements AfterViewInit, OnInit {
   get ausgaben(): Ausgabe[] {
     return this.ausgabenService.ausgaben as Ausgabe[];
   }
-
-  // get dataSource() {
-  //   return new MatTableDataSource(this.ausgaben);
-  // }
 }
