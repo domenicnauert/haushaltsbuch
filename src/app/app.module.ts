@@ -10,13 +10,32 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MatDateFormats,
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_NATIVE_DATE_FORMATS,
+} from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+
+export const GRI_DATE_FORMATS: MatDateFormats = {
+  ...MAT_NATIVE_DATE_FORMATS,
+  display: {
+    ...MAT_NATIVE_DATE_FORMATS.display,
+    dateInput: {
+      month: 'long',
+      day: 'numeric',
+    } as Intl.DateTimeFormatOptions,
+  },
+};
 
 @NgModule({
   declarations: [
@@ -41,6 +60,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatInputModule,
     MatIconModule,
     MatDatepickerModule,
+    MatButtonToggleModule,
+    MatTooltipModule,
+    MatSelectModule,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -49,6 +71,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
       provide: LOCALE_ID,
       useValue: 'de-DE',
     },
+    { provide: MAT_DATE_FORMATS, useValue: GRI_DATE_FORMATS },
   ],
   bootstrap: [AppComponent],
 })

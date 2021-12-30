@@ -7,6 +7,53 @@ import {
 import { Ausgabe } from '../ausgabe';
 import { AusgabenComponent } from '../ausgaben/ausgaben.component';
 
+const KATEGORIEN = [
+  {
+    value: undefined,
+    name: '--',
+  },
+  {
+    value: 'abos',
+    name: 'Abos',
+  },
+  {
+    value: 'fixkosten',
+    name: 'Fixkosten',
+  },
+  {
+    value: 'konsum',
+    name: 'Konsum',
+  },
+  {
+    value: 'krdite',
+    name: 'Krdite',
+  },
+  {
+    value: 'sparen',
+    name: 'Sparen',
+  },
+  {
+    value: 'versicherung',
+    name: 'Versicherung',
+  },
+  {
+    value: 'verträge',
+    name: 'Verträge',
+  },
+];
+
+const ZYKLEN = [
+  {
+    value: 'm',
+  },
+  {
+    value: 'q',
+  },
+  {
+    value: 'j',
+  },
+];
+
 @Component({
   selector: 'app-create-ausgabe',
   templateUrl: './create-ausgabe.component.html',
@@ -27,6 +74,8 @@ export class CreateAusgabeComponent {
     };
   }
 
+  kategorien = KATEGORIEN;
+  zyklen = ZYKLEN;
   ausgabe!: Ausgabe;
 
   onNoClick(): void {
