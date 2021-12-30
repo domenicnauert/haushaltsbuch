@@ -5,7 +5,11 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Fälligkeit</mat-label>
-          <input matInput [matDatepicker]="picker" />
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="faelligkeit"
+          />
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
@@ -34,7 +38,7 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Betrag</mat-label>
           <span matSuffix>€</span>
-          <input matInput type="currency" [(ngModel)]="ausgabe.betrag" />
+          <input #betrag matInput type="number" [(ngModel)]="ausgabe.betrag" />
           <button
             *ngIf="ausgabe.betrag"
             matSuffix
@@ -50,38 +54,28 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Sender</mat-label>
-          <input matInput type="text" [(ngModel)]="ausgabe.sender" />
-          <button
-            *ngIf="ausgabe.sender"
-            matSuffix
-            mat-icon-button
-            aria-label="Clear"
-            (click)="ausgabe.sender = ''"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
+          <mat-select [(value)]="ausgabe.sender">
+            <mat-option *ngFor="let item of sender" [value]="item.value">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Empfänger</mat-label>
-          <input matInput type="text" [(ngModel)]="ausgabe.empfaenger" />
-          <button
-            *ngIf="ausgabe.empfaenger"
-            matSuffix
-            mat-icon-button
-            aria-label="Clear"
-            (click)="ausgabe.empfaenger = ''"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
+          <mat-select [(value)]="ausgabe.empfaenger">
+            <mat-option *ngFor="let item of empfaenger" [value]="item.value">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Select an option</mat-label>
+          <mat-label>Kategorie</mat-label>
           <mat-select [(value)]="ausgabe.kategorie">
             <mat-option *ngFor="let item of kategorien" [value]="item.value">
               {{ item.name }}
@@ -100,7 +94,6 @@
             <mat-button-toggle
               *ngFor="let zyklus of zyklen"
               [value]="zyklus.value"
-              [value]="zyklus.value"
               class="example-full-width"
               matTooltip="Betrag monatlich"
               >{{ zyklus.value }}</mat-button-toggle
@@ -113,7 +106,7 @@
 
   <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Verwerfen</button>
-    <button mat-button [mat-dialog-close]="ausgabe" cdkFocusInitial>
+    <button mat-button [mat-dialog-close]="getAusgabe()" cdkFocusInitial>
       Speichern
     </button>
   </div>

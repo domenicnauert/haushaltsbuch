@@ -24,20 +24,20 @@ const ELEMENT_DATA: Ausgabe[] = [
     sender: 'N26',
     empfaenger: 'Extern',
     kategorie: 'Abos',
-    zyklus: 'M',
+    zyklus: 'm',
     monatlich: 100,
     quartalsweise: 400,
     jaehrlich: 1200,
   },
   {
-    id: 2,
+    id: 4,
     faelligkeit: new Date(),
     art: 'Spotify',
     betrag: 200,
     sender: 'N26',
     empfaenger: 'Extern',
     kategorie: 'Abos',
-    zyklus: 'M',
+    zyklus: 'm',
     monatlich: 200,
     quartalsweise: 800,
     jaehrlich: 2400,
@@ -65,10 +65,9 @@ export class AusgabenComponent implements AfterViewInit {
   ];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(
-    private _liveAnnouncer: LiveAnnouncer,
-    public dialog: MatDialog
-  ) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog) {
+    this.getTotalCost();
+  }
 
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -85,12 +84,6 @@ export class AusgabenComponent implements AfterViewInit {
     }
   }
 
-  getTotalCost() {
-    return this.dataSource.data
-      .map((t) => t.betrag)
-      .reduce((acc, value) => acc! + value!, 0);
-  }
-
   addAusgabe() {
     console.log('test');
 
@@ -102,7 +95,7 @@ export class AusgabenComponent implements AfterViewInit {
       sender: 'N26',
       empfaenger: 'Extern',
       kategorie: 'Abos',
-      zyklus: 'M',
+      zyklus: 'm',
       monatlich: 200,
       quartalsweise: 800,
       jaehrlich: 2400,
@@ -112,18 +105,57 @@ export class AusgabenComponent implements AfterViewInit {
 
   save() {}
 
-  animal: string | undefined;
-  name: string | undefined;
+  totalBetrag = 0;
+  totalMonatlich = 0;
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: '50%',
-      data: { name: this.name, animal: this.animal },
+      //data: { name: this.name, animal: this.animal },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.animal = result;
-      console.log(this.animal);
+      if (!result) {
+        return;
+      }
+      this.dataSource.data = [
+        ...this.dataSource.data,
+        this.getAusgabeWithNextId(result),
+      ];
+      console.log(result);
+      this.getTotalCost();
     });
+  }
+
+  private getAusgabeWithNextId(result: Ausgabe) {
+    const id = Math.max(...this.dataSource.data.map((ausgabe) => ausgabe.id!));
+    result.id = id + 1;
+    return result;
+  }
+
+  getTotalCost() {
+    let total: number = 0;
+    let totalMonatlich = 0;
+
+    this.dataSource.data.forEach((ausgabe) => {
+      if (ausgabe.betrag) {
+        total = total + +ausgabe.betrag;
+        if (ausgabe.zyklus === 'm') {
+          totalMonatlich = totalMonatlich + +ausgabe.betrag;
+        } else if (ausgabe.zyklus === 'q') {
+          let q: number = +ausgabe.betrag / 3;
+          totalMonatlich = totalMonatlich + +q;
+        } else if (ausgabe.zyklus === 'j') {
+          let j: number = +ausgabe.betrag / 12;
+          totalMonatlich = totalMonatlich + +j;
+        } else {
+        }
+      }
+    });
+
+    this.totalBetrag = total;
+    this.totalMonatlich = totalMonatlich;
+
+    return total;
   }
 }
