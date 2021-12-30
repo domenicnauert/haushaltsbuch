@@ -1,7 +1,7 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Ausgabe } from './../ausgabe';
+import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Ausgabe } from '../ausgabe';
 
 const KATEGORIEN = [
   {
@@ -9,31 +9,31 @@ const KATEGORIEN = [
     name: '--',
   },
   {
-    value: 'abos',
+    value: 'Abos',
     name: 'Abos',
   },
   {
-    value: 'fixkosten',
+    value: 'Fixkosten',
     name: 'Fixkosten',
   },
   {
-    value: 'konsum',
+    value: 'Konsum',
     name: 'Konsum',
   },
   {
-    value: 'krdite',
+    value: 'Krdite',
     name: 'Krdite',
   },
   {
-    value: 'sparen',
+    value: 'Sparen',
     name: 'Sparen',
   },
   {
-    value: 'versicherung',
+    value: 'Versicherung',
     name: 'Versicherung',
   },
   {
-    value: 'verträge',
+    value: 'Verträge',
     name: 'Verträge',
   },
 ];
@@ -56,15 +56,15 @@ const SENDER = [
     name: '--',
   },
   {
-    value: 'sparkasse',
+    value: 'Sparkasse',
     name: 'Sparkasse',
   },
   {
-    value: 'n26',
+    value: 'N26',
     name: 'N26',
   },
   {
-    value: 'volksbank',
+    value: 'Volksbank',
     name: 'Volksbank',
   },
 ];
@@ -75,27 +75,27 @@ const EMPFAENGER = [
     name: '--',
   },
   {
-    value: 'sparkasse',
+    value: 'Sparkasse',
     name: 'Sparkasse',
   },
   {
-    value: 'n26',
+    value: 'N26',
     name: 'N26',
   },
   {
-    value: 'volksbank',
+    value: 'Volksbank',
     name: 'Volksbank',
   },
   {
-    value: 'bar',
+    value: 'Bar',
     name: 'Bar',
   },
   {
-    value: 'depot',
+    value: 'Depot',
     name: 'Depot',
   },
   {
-    value: 'extern',
+    value: 'Extern',
     name: 'Extern',
   },
 ];
@@ -108,17 +108,9 @@ const EMPFAENGER = [
 export class CreateAusgabeComponent {
   constructor(
     public dialogRef: MatDialogRef<CreateAusgabeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Ausgabe,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(MAT_DIALOG_DATA) public data: Ausgabe
   ) {
-    this.ausgabe = {
-      faelligkeit: new Date(),
-      art: '',
-      sender: 'sparkasse',
-      empfaenger: 'extern',
-      kategorie: 'sparen',
-      zyklus: 'm',
-    };
+    this.initAusgabe();
   }
 
   faelligkeit = new FormControl(new Date());
@@ -155,5 +147,21 @@ export class CreateAusgabeComponent {
     this.ausgabe.jaehrlich = totalMonatlich * 12;
 
     return this.ausgabe;
+  }
+
+  initAusgabe() {
+    if (this.data) {
+      this.ausgabe = this.data;
+      this.faelligkeit.setValue(this.data.faelligkeit);
+    } else {
+      this.ausgabe = {
+        faelligkeit: new Date(),
+        art: '',
+        sender: 'Sparkasse',
+        empfaenger: 'Extern',
+        kategorie: 'Sparen',
+        zyklus: 'm',
+      };
+    }
   }
 }

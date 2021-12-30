@@ -2,16 +2,12 @@ import { Ausgabe } from './../ausgabe';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -62,6 +58,7 @@ export class AusgabenComponent implements AfterViewInit {
     'monatlich',
     'quartalsweise',
     'jaehrlich',
+    'bearbeiten',
   ];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -69,12 +66,12 @@ export class AusgabenComponent implements AfterViewInit {
     this.getTotalCost();
   }
 
-  @ViewChild(MatSort)
-  sort!: MatSort;
-
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
+  @ViewChild(MatSort)
+  sort!: MatSort;
 
   announceSortChange(sortState: any) {
     if (sortState.direction) {
@@ -92,9 +89,9 @@ export class AusgabenComponent implements AfterViewInit {
       faelligkeit: new Date(),
       art: 'Spotify',
       betrag: 200,
-      sender: 'N26',
-      empfaenger: 'Extern',
-      kategorie: 'Abos',
+      sender: 'n26',
+      empfaenger: 'extern',
+      kategorie: 'abos',
       zyklus: 'm',
       monatlich: 200,
       quartalsweise: 800,
@@ -122,7 +119,6 @@ export class AusgabenComponent implements AfterViewInit {
         ...this.dataSource.data,
         this.getAusgabeWithNextId(result),
       ];
-      console.log(result);
       this.getTotalCost();
     });
   }
@@ -157,5 +153,27 @@ export class AusgabenComponent implements AfterViewInit {
     this.totalMonatlich = totalMonatlich;
 
     return total;
+  }
+
+  editAusgabe(ausgabe: Ausgabe) {
+    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+      width: '50%',
+      data: ausgabe,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      this.dataSource.data.map((el) => {
+        if (el.id == result.id) {
+          return Object.assign({}, el, result);
+        }
+        return el;
+      });
+
+      this.getTotalCost();
+    });
   }
 }
