@@ -1,7 +1,8 @@
+import { AusgabenService } from './../ausgaben.service';
 import { Ausgabe } from './../ausgabe';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { registerLocaleData } from '@angular/common';
@@ -11,41 +12,28 @@ import { MatDialog } from '@angular/material/dialog';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
-const ELEMENT_DATA: Ausgabe[] = [
-  {
-    id: 1,
-    faelligkeit: new Date(),
-    art: 'Netflix',
-    betrag: 100,
-    sender: 'N26',
-    empfaenger: 'Extern',
-    kategorie: 'Abos',
-    zyklus: 'm',
-    monatlich: 100,
-    quartalsweise: 400,
-    jaehrlich: 1200,
-  },
-  {
-    id: 4,
-    faelligkeit: new Date(),
-    art: 'Spotify',
-    betrag: 200,
-    sender: 'N26',
-    empfaenger: 'Extern',
-    kategorie: 'Abos',
-    zyklus: 'm',
-    monatlich: 200,
-    quartalsweise: 800,
-    jaehrlich: 2400,
-  },
-];
+// const ELEMENT_DATA: Ausgabe[] = [
+//   {
+//     id: 1,
+//     faelligkeit: new Date(),
+//     art: '',
+//     betrag: 1,
+//     sender: '',
+//     empfaenger: '',
+//     kategorie: '',
+//     zyklus: '',
+//     monatlich: 1,
+//     quartalsweise: 1,
+//     jaehrlich: 1,
+//   },
+// ];
 
 @Component({
   selector: 'app-ausgaben',
   templateUrl: './ausgaben.component.html',
   styleUrls: ['./ausgaben.component.scss'],
 })
-export class AusgabenComponent implements AfterViewInit {
+export class AusgabenComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [
     'id',
     'faelligkeit',
@@ -60,15 +48,32 @@ export class AusgabenComponent implements AfterViewInit {
     'jaehrlich',
     'bearbeiten',
   ];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog) {
-    this.getTotalCost();
+  // dataSource: MatTableDataSource<Ausgabe>;
+  totalBetrag = 0;
+  totalMonatlich = 0;
+  dataSource!: MatTableDataSource<Ausgabe>;
+
+  constructor(
+    private _liveAnnouncer: LiveAnnouncer,
+    public dialog: MatDialog,
+    private ausgabenService: AusgabenService
+  ) {
+    this.ausgabenService.loadAll().then(() => {
+      this.dataSource = new MatTableDataSource(
+        this.ausgabenService.ausgaben as Ausgabe[]
+      );
+      this.getTotalCost();
+    });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  ngOnInit() {
+    setTimeout(() => {
+      this.dataSource.sort = this.sort;
+    }, 1000);
   }
+
+  ngAfterViewInit() {}
 
   @ViewChild(MatSort)
   sort!: MatSort;
@@ -82,8 +87,6 @@ export class AusgabenComponent implements AfterViewInit {
   }
 
   addAusgabe() {
-    console.log('test');
-
     const neu: Ausgabe = {
       id: 1,
       faelligkeit: new Date(),
@@ -100,15 +103,9 @@ export class AusgabenComponent implements AfterViewInit {
     this.dataSource.data = [...this.dataSource.data, neu];
   }
 
-  save() {}
-
-  totalBetrag = 0;
-  totalMonatlich = 0;
-
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: '50%',
-      //data: { name: this.name, animal: this.animal },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -124,7 +121,9 @@ export class AusgabenComponent implements AfterViewInit {
   }
 
   private getAusgabeWithNextId(result: Ausgabe) {
-    const id = Math.max(...this.dataSource.data.map((ausgabe) => ausgabe.id!));
+    const id = Math.max(
+      ...this.dataSource.data.map((ausgabe) => (ausgabe as Ausgabe).id!)
+    );
     result.id = id + 1;
     return result;
   }
@@ -133,7 +132,11 @@ export class AusgabenComponent implements AfterViewInit {
     let total: number = 0;
     let totalMonatlich = 0;
 
-    this.dataSource.data.forEach((ausgabe) => {
+    console.log('hello');
+    console.log(this.ausgaben);
+
+    this.ausgaben.forEach((el) => {
+      let ausgabe = el as Ausgabe;
       if (ausgabe.betrag) {
         total = total + +ausgabe.betrag;
         if (ausgabe.zyklus === 'm') {
@@ -166,7 +169,8 @@ export class AusgabenComponent implements AfterViewInit {
         return;
       }
 
-      this.dataSource.data.map((el) => {
+      this.dataSource.data.map((ausgabe) => {
+        let el = ausgabe as Ausgabe;
         if (el.id == result.id) {
           return Object.assign({}, el, result);
         }
@@ -176,4 +180,12 @@ export class AusgabenComponent implements AfterViewInit {
       this.getTotalCost();
     });
   }
+
+  get ausgaben(): Ausgabe[] {
+    return this.ausgabenService.ausgaben as Ausgabe[];
+  }
+
+  // get dataSource() {
+  //   return new MatTableDataSource(this.ausgaben);
+  // }
 }

@@ -7,6 +7,7 @@
   matSort
   (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8"
+  (change)="getTotalCost()"
 >
   <ng-container matColumnDef="id">
     <th

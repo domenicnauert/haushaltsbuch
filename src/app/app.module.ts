@@ -25,6 +25,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { environment } from '../environments/environment';
+import Backendless from 'backendless';
+
+Backendless.initApp(
+  environment.backendless.APP_ID,
+  environment.backendless.API_KEY
+);
 
 export const GRI_DATE_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,

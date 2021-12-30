@@ -4,14 +4,9 @@
 
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyB1IMonJdXvB9smGsew1DybNxj51PI8Tv0',
-    authDomain: 'haushaltsbuch-2022.firebaseapp.com',
-    projectId: 'haushaltsbuch-2022',
-    storageBucket: 'haushaltsbuch-2022.appspot.com',
-    messagingSenderId: '757676871877',
-    appId: '1:757676871877:web:d7dd93d6b5cb04e38420ac',
-    measurementId: 'G-WWG0V6PWZ1',
+  backendless: {
+    APP_ID: '8643CCDF-E094-60FE-FF6C-7B28D45AD200',
+    API_KEY: 'DA4B4851-EB9E-42FD-AB62-216AE67B3C88',
   },
 };
 
