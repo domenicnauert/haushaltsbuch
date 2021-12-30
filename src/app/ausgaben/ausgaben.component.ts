@@ -12,22 +12,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
-// const ELEMENT_DATA: Ausgabe[] = [
-//   {
-//     id: 1,
-//     faelligkeit: new Date(),
-//     art: '',
-//     betrag: 1,
-//     sender: '',
-//     empfaenger: '',
-//     kategorie: '',
-//     zyklus: '',
-//     monatlich: 1,
-//     quartalsweise: 1,
-//     jaehrlich: 1,
-//   },
-// ];
-
 @Component({
   selector: 'app-ausgaben',
   templateUrl: './ausgaben.component.html',
@@ -131,9 +115,6 @@ export class AusgabenComponent implements AfterViewInit, OnInit {
   getTotalCost() {
     let total: number = 0;
     let totalMonatlich = 0;
-
-    console.log('hello');
-    console.log(this.ausgaben);
 
     this.ausgaben.forEach((el) => {
       let ausgabe = el as Ausgabe;
