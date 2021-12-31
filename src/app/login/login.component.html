@@ -1,3 +1,11 @@
+<mat-slide-toggle
+  align-right
+  class="example-margin"
+  [(ngModel)]="flgRegistration"
+>
+  registrieren
+</mat-slide-toggle>
+
 <div>
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>User</mat-label>
@@ -29,4 +37,14 @@
     </button>
   </mat-form-field>
 </div>
-<button mat-button cdkFocusInitial (click)="login()">Login</button>
+<button *ngIf="!flgRegistration" mat-button cdkFocusInitial (click)="login()">
+  Login
+</button>
+<button
+  *ngIf="flgRegistration"
+  mat-button
+  cdkFocusInitial
+  (click)="registrieren()"
+>
+  Registieren
+</button>
