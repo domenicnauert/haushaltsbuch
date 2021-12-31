@@ -9,9 +9,10 @@ import { LoginService } from './shared/login.service';
 export class AppComponent {
   title = 'Haushaltsbuch';
 
-  constructor(private loginService: LoginService) {}
+  constructor(public loginService: LoginService) {}
 
   logout() {
     this.loginService.logout();
+    this.loginService.loggedIn;
   }
 }

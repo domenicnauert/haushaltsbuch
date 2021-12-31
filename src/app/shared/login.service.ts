@@ -13,6 +13,7 @@ export class LoginService {
   };
 
   private currentUsertoken: string = '';
+  public loggedIn = false;
 
   login(email: string, passwort: string) {
     this.http
@@ -24,6 +25,7 @@ export class LoginService {
       .subscribe((data) => {
         console.log(data['user-token']);
         this.currentUsertoken = data['user-token'];
+        this.loggedIn = true;
         this.router.navigate(['startseite']);
       });
   }
@@ -54,6 +56,8 @@ export class LoginService {
       )
       .subscribe((data) => {
         console.log(data);
+        this.loggedIn = false;
+        this.currentUsertoken = '';
         this.router.navigate(['']);
       });
   }

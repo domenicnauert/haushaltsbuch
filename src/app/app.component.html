@@ -1,6 +1,6 @@
 <div class="container">
   <h1>{{ title }}</h1>
-  <span (click)="logout()">Logout</span>
+  <span *ngIf="this.loginService.loggedIn" (click)="logout()">Logout</span>
 
   <router-outlet></router-outlet>
 </div>
