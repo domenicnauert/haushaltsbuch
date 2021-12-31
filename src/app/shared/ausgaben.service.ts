@@ -1,8 +1,13 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Backendless from 'backendless';
 import { Ausgabe } from './ausgabe';
+import { LoginService } from './login.service';
 
 const AusgabenStore = Backendless.Data.of('Ausgabe');
+
+const url =
+  'https://api.backendless.com/8643CCDF-E094-60FE-FF6C-7B28D45AD200/DA4B4851-EB9E-42FD-AB62-216AE67B3C88/data/Ausgabe';
 
 const ELEMENT_DATA: Ausgabe[] = [
   {
@@ -37,7 +42,7 @@ const ELEMENT_DATA: Ausgabe[] = [
   providedIn: 'root',
 })
 export class AusgabenService {
-  constructor() {}
+  constructor(public loginService: LoginService, private http: HttpClient) {}
 
   public ausgaben: Ausgabe[] = [];
 
@@ -46,6 +51,21 @@ export class AusgabenService {
       ausgaben = ausgaben.sort((a, b) => a.id! - b.id!);
       this.ausgaben = ausgaben;
     });
+  }
+
+  async loadAllRest() {
+    const options = {
+      headers: new HttpHeaders().set('user-token', this.getCookie('token')),
+    };
+
+    const x = this.http
+      .get<any>(url, options)
+      .subscribe((ausgaben: Ausgabe[]) => {
+        ausgaben = ausgaben.sort((a, b) => a.id! - b.id!);
+        this.ausgaben = ausgaben;
+        return ausgaben;
+      });
+    return x;
   }
 
   add(newAusgabe: Ausgabe) {
@@ -78,5 +98,20 @@ export class AusgabenService {
         });
       }
     );
+  }
+
+  private getCookie(name: string) {
+    let ca: Array<string> = document.cookie.split(';');
+    let caLen: number = ca.length;
+    let cookieName = `${name}=`;
+    let c: string;
+
+    for (let i: number = 0; i < caLen; i += 1) {
+      c = ca[i].replace(/^\s+/g, '');
+      if (c.indexOf(cookieName) == 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return '';
   }
 }

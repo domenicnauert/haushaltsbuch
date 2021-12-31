@@ -12,7 +12,7 @@ export class LoginService {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
   };
 
-  private currentUsertoken: string = '';
+  public currentUsertoken: string = '';
   public loggedIn = false;
 
   login(email: string, passwort: string) {
@@ -23,9 +23,10 @@ export class LoginService {
         this.options
       )
       .subscribe((data) => {
-        console.log(data['user-token']);
         this.currentUsertoken = data['user-token'];
         this.loggedIn = true;
+        console.log(this.currentUsertoken);
+        this.setCookie('token', this.currentUsertoken, 1, 'test');
         this.router.navigate(['startseite']);
       });
   }
@@ -37,13 +38,11 @@ export class LoginService {
         { email: email, password: passwort },
         this.options
       )
-      .subscribe((data) => {
-        console.log(data);
-      });
+      .subscribe((data) => {});
   }
 
   logout() {
-    console.log(this.currentUsertoken);
+    this.deleteCookie('token');
 
     const optionsLogout = {
       headers: new HttpHeaders().set('user-token', this.currentUsertoken),
@@ -55,10 +54,31 @@ export class LoginService {
         optionsLogout
       )
       .subscribe((data) => {
-        console.log(data);
         this.loggedIn = false;
         this.currentUsertoken = '';
         this.router.navigate(['']);
       });
+  }
+
+  reload(token: string) {
+    this.loggedIn = true;
+    this.currentUsertoken = token;
+  }
+
+  private setCookie(
+    name: string,
+    value: string,
+    expireDays: number,
+    path: string = ''
+  ) {
+    let d: Date = new Date();
+    d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
+    let expires: string = `expires=${d.toUTCString()}`;
+    let cpath: string = path ? `; path=${path}` : '';
+    document.cookie = `${name}=${value}; ${expires}${cpath}`;
+  }
+
+  private deleteCookie(name: string) {
+    this.setCookie(name, '', -1);
   }
 }

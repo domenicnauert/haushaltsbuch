@@ -1,14 +1,14 @@
-import { AusgabenService } from './../shared/ausgaben.service';
-import { Ausgabe } from '../shared/ausgabe';
-import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Ausgabe } from '../shared/ausgabe';
+import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
+import { AusgabenService } from './../shared/ausgaben.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -41,7 +41,7 @@ export class AusgabenComponent implements OnInit {
     public dialog: MatDialog,
     private ausgabenService: AusgabenService
   ) {
-    this.ausgabenService.loadAll().then(() => {
+    this.ausgabenService.loadAllRest().then(() => {
       this.dataSource = new MatTableDataSource(
         this.ausgabenService.ausgaben as Ausgabe[]
       );
@@ -50,9 +50,12 @@ export class AusgabenComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ausgabenService.loadAllRest();
     setTimeout(() => {
+      this.dataSource.data = this.ausgabenService.ausgaben;
       this.dataSource.sort = this.sort;
-    }, 1000);
+      this.getTotalCost();
+    }, 700);
   }
 
   @ViewChild(MatSort)
@@ -177,5 +180,20 @@ export class AusgabenComponent implements OnInit {
 
   get ausgaben(): Ausgabe[] {
     return this.ausgabenService.ausgaben as Ausgabe[];
+  }
+
+  private getCookie(name: string) {
+    let ca: Array<string> = document.cookie.split(';');
+    let caLen: number = ca.length;
+    let cookieName = `${name}=`;
+    let c: string;
+
+    for (let i: number = 0; i < caLen; i += 1) {
+      c = ca[i].replace(/^\s+/g, '');
+      if (c.indexOf(cookieName) == 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return '';
   }
 }
