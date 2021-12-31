@@ -1,5 +1,5 @@
-import { AusgabenService } from './../ausgaben.service';
-import { Ausgabe } from './../ausgabe';
+import { AusgabenService } from './../shared/ausgaben.service';
+import { Ausgabe } from '../shared/ausgabe';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
@@ -83,19 +83,22 @@ export class AusgabenComponent implements OnInit {
     this.dataSource.data = [...this.dataSource.data, neu];
   }
 
-  openDialog(): void {
+  createAusgabe(): void {
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: '50%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      console.log('speichern');
+
       if (!result) {
         return;
       }
-      this.dataSource.data = [
-        ...this.dataSource.data,
-        this.getAusgabeWithNextId(result),
-      ];
+
+      let ausgabeWithId = this.getAusgabeWithNextId(result);
+      this.ausgabenService.add(ausgabeWithId);
+
+      this.dataSource.data = [...this.dataSource.data, ausgabeWithId];
       this.getTotalCost();
     });
   }
@@ -104,15 +107,52 @@ export class AusgabenComponent implements OnInit {
     const id = Math.max(
       ...this.dataSource.data.map((ausgabe) => (ausgabe as Ausgabe).id!)
     );
-    result.id = id + 1;
+    if (id === -Infinity) {
+      result.id = 1;
+    } else {
+      result.id = id + 1;
+    }
     return result;
+  }
+
+  editAusgabe(ausgabe: Ausgabe) {
+    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+      width: '50%',
+      data: ausgabe,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        console.log('nichts');
+        // nichts editiert
+        return;
+      } else if (result.isDelete) {
+        // gelöschter Zugriff
+        console.log('löschen');
+        this.dataSource.data = this.dataSource.data.filter(
+          (_, i) => i !== this.dataSource.data.indexOf(result)
+        );
+      } else {
+        console.log('edit');
+        this.dataSource.data.map((ausgabe) => {
+          let el = ausgabe as Ausgabe;
+          if (el.id == result.id) {
+            return Object.assign({}, el, result);
+          }
+          return el;
+        });
+      }
+
+      this.getTotalCost();
+    });
   }
 
   getTotalCost() {
     let total: number = 0;
     let totalMonatlich = 0;
+    let ausgaben = this.dataSource.data;
 
-    this.ausgaben.forEach((el) => {
+    ausgaben.forEach((el) => {
       let ausgabe = el as Ausgabe;
       if (ausgabe.betrag) {
         total = total + +ausgabe.betrag;
@@ -133,29 +173,6 @@ export class AusgabenComponent implements OnInit {
     this.totalMonatlich = totalMonatlich;
 
     return total;
-  }
-
-  editAusgabe(ausgabe: Ausgabe) {
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
-      width: '50%',
-      data: ausgabe,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-
-      this.dataSource.data.map((ausgabe) => {
-        let el = ausgabe as Ausgabe;
-        if (el.id == result.id) {
-          return Object.assign({}, el, result);
-        }
-        return el;
-      });
-
-      this.getTotalCost();
-    });
   }
 
   get ausgaben(): Ausgabe[] {

@@ -106,8 +106,30 @@
 
   <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Verwerfen</button>
-    <button mat-button [mat-dialog-close]="getAusgabe()" cdkFocusInitial>
+    <button
+      mat-button
+      *ngIf="flgShowDelete"
+      [mat-dialog-close]="getAusgabe(true)"
+      cdkFocusInitial
+      (click)="onChangeClick()"
+    >
+      Ändern
+    </button>
+    <button
+      mat-button
+      *ngIf="!flgShowDelete"
+      [mat-dialog-close]="getAusgabe(false)"
+      cdkFocusInitial
+    >
       Speichern
+    </button>
+    <button
+      *ngIf="flgShowDelete"
+      mat-button
+      [mat-dialog-close]="ausgabe"
+      (click)="onDeleteClick()"
+    >
+      Löschen
     </button>
   </div>
 </div>

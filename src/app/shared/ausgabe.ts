@@ -1,4 +1,5 @@
 export interface Ausgabe {
+  objectId?: string;
   id?: number;
   faelligkeit: Date;
   art: string;
@@ -10,4 +11,6 @@ export interface Ausgabe {
   monatlich?: number;
   quartalsweise?: number;
   jaehrlich?: number;
+  isDelete?: boolean;
+  isChange?: boolean;
 }

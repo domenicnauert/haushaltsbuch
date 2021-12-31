@@ -1,4 +1,5 @@
-import { Ausgabe } from './../ausgabe';
+import { AusgabenService } from './../shared/ausgaben.service';
+import { Ausgabe } from '../shared/ausgabe';
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -108,7 +109,8 @@ const EMPFAENGER = [
 export class CreateAusgabeComponent {
   constructor(
     public dialogRef: MatDialogRef<CreateAusgabeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Ausgabe
+    @Inject(MAT_DIALOG_DATA) public data: Ausgabe,
+    private ausgabenService: AusgabenService
   ) {
     this.initAusgabe();
   }
@@ -120,12 +122,13 @@ export class CreateAusgabeComponent {
   sender = SENDER;
   empfaenger = EMPFAENGER;
   ausgabe!: Ausgabe;
+  flgShowDelete: boolean = false;
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  getAusgabe(): Ausgabe {
+  getAusgabe(isChange: boolean): Ausgabe {
     this.ausgabe.faelligkeit = this.faelligkeit.value;
 
     let totalMonatlich = 0;
@@ -151,9 +154,11 @@ export class CreateAusgabeComponent {
 
   initAusgabe() {
     if (this.data) {
+      this.flgShowDelete = true;
+      this.faelligkeit.setValue(new Date(this.data.faelligkeit));
       this.ausgabe = this.data;
-      this.faelligkeit.setValue(this.data.faelligkeit);
     } else {
+      this.flgShowDelete = false;
       this.ausgabe = {
         faelligkeit: new Date(),
         art: '',
@@ -163,5 +168,14 @@ export class CreateAusgabeComponent {
         zyklus: 'm',
       };
     }
+  }
+
+  onDeleteClick() {
+    this.ausgabe.isDelete = true;
+    return this.ausgabenService.delete(this.ausgabe);
+  }
+  onChangeClick() {
+    this.ausgabe.isChange = true;
+    return this.ausgabenService.update(this.ausgabe);
   }
 }
