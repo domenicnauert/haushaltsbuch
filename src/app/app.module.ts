@@ -1,32 +1,33 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatTabsModule } from '@angular/material/tabs';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AusgabenComponent } from './ausgaben/ausgaben.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   MatDateFormats,
   MatNativeDateModule,
   MAT_DATE_FORMATS,
   MAT_NATIVE_DATE_FORMATS,
 } from '@angular/material/core';
-import { MatSortModule } from '@angular/material/sort';
-import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { environment } from '../environments/environment';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import Backendless from 'backendless';
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AusgabenComponent } from './ausgaben/ausgaben.component';
+import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 
 Backendless.initApp(
@@ -72,6 +73,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     MatButtonToggleModule,
     MatTooltipModule,
     MatSelectModule,
+    MatSlideToggleModule,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
