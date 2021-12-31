@@ -27,6 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { environment } from '../environments/environment';
 import Backendless from 'backendless';
+import { LoginComponent } from './login/login.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -50,6 +51,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     DashboardComponent,
     AusgabenComponent,
     CreateAusgabeComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
