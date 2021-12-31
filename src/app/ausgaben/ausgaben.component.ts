@@ -2,7 +2,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,6 +19,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 })
 export class AusgabenComponent implements OnInit {
   loading = true;
+  innerWidth: any;
   totalBetrag = 0;
   totalMonatlich = 0;
   dataSource!: MatTableDataSource<Ausgabe>;
@@ -52,11 +53,18 @@ export class AusgabenComponent implements OnInit {
 
   ngOnInit() {
     this.ausgabenService.loadAllRest();
+    this.innerWidth = window.innerWidth;
     setTimeout(() => {
       this.dataSource.data = this.ausgabenService.ausgaben;
       this.dataSource.sort = this.sort;
       this.getTotalCost();
     }, 1000);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(_event: any) {
+    this.innerWidth = window.innerWidth;
+    console.log(this.innerWidth);
   }
 
   @ViewChild(MatSort)
@@ -88,13 +96,15 @@ export class AusgabenComponent implements OnInit {
   }
 
   createAusgabe(): void {
+    let width = '50%';
+    if (this.innerWidth < 1300) {
+      width = '100%';
+    }
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
-      width: '50%',
+      width: width,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('speichern');
-
       if (!result) {
         return;
       }
