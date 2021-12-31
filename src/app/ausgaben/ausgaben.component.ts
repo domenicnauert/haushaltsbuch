@@ -64,7 +64,6 @@ export class AusgabenComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(_event: any) {
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth);
   }
 
   @ViewChild(MatSort)
@@ -137,17 +136,14 @@ export class AusgabenComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
-        console.log('nichts');
         // nichts editiert
         return;
       } else if (result.isDelete) {
         // gelöschter Zugriff
-        console.log('löschen');
         this.dataSource.data = this.dataSource.data.filter(
           (_, i) => i !== this.dataSource.data.indexOf(result)
         );
       } else {
-        console.log('edit');
         this.dataSource.data.map((ausgabe) => {
           let el = ausgabe as Ausgabe;
           if (el.id == result.id) {

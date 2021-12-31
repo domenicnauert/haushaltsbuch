@@ -104,18 +104,16 @@
     </div>
   </div>
 
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Verwerfen</button>
+  <div mat-dialog-actions class="row justify-content-around">
     <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       mat-button
-      *ngIf="flgShowDelete"
-      [mat-dialog-close]="getAusgabe(true)"
-      cdkFocusInitial
-      (click)="onChangeClick()"
+      (click)="onNoClick()"
     >
-      Ändern
+      Esc
     </button>
     <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       mat-button
       *ngIf="!flgShowDelete"
       [mat-dialog-close]="getAusgabe(false)"
@@ -124,12 +122,23 @@
       Speichern
     </button>
     <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       *ngIf="flgShowDelete"
       mat-button
       [mat-dialog-close]="ausgabe"
       (click)="onDeleteClick()"
     >
       Löschen
+    </button>
+    <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
+      mat-button
+      *ngIf="flgShowDelete"
+      [mat-dialog-close]="getAusgabe(true)"
+      cdkFocusInitial
+      (click)="onChangeClick()"
+    >
+      Ändern
     </button>
   </div>
 </div>
