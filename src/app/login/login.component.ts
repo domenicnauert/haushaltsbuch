@@ -1,6 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { LoginService } from '../shared/login.service';
 
 @Component({
@@ -9,11 +8,14 @@ import { LoginService } from '../shared/login.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private loginService: LoginService
-  ) {}
+  constructor(private loginService: LoginService, ngZone: NgZone) {
+    (window as any)['onSignIn'] = (user: any) =>
+      ngZone.run(() => this.onSignIn(user));
+  }
+
+  afterSignUp(user: any) {
+    console.log(user);
+  }
 
   flgRegistration: boolean = false;
 
@@ -32,4 +34,20 @@ export class LoginComponent implements OnInit {
   registrieren() {
     this.loginService.registrieren(this.user, this.password);
   }
+
+  public onSignIn(googleUser: any): void {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+  }
+}
+
+function onSignIn(googleUser: any) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }

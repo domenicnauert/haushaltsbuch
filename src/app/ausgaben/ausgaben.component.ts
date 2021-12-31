@@ -18,6 +18,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   styleUrls: ['./ausgaben.component.scss'],
 })
 export class AusgabenComponent implements OnInit {
+  loading = true;
   totalBetrag = 0;
   totalMonatlich = 0;
   dataSource!: MatTableDataSource<Ausgabe>;
@@ -55,7 +56,7 @@ export class AusgabenComponent implements OnInit {
       this.dataSource.data = this.ausgabenService.ausgaben;
       this.dataSource.sort = this.sort;
       this.getTotalCost();
-    }, 700);
+    }, 1000);
   }
 
   @ViewChild(MatSort)
