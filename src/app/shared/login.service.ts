@@ -18,22 +18,27 @@ export class LoginService {
   login(email: string, passwort: string) {
     console.log('login test');
     Backendless.UserService.login(email, passwort)
-      .then((user) => {
-        console.log(user);
+      .then((user: any) => {
+        console.log('test token');
+        localStorage.setItem('token', user['user-token']);
+        localStorage.getItem('token');
+        console.log(Backendless.UserService.currentUser);
       })
       .then(() => {
-        this.router.navigate(['startseite']);
+        this.router.navigate(['startseite']).then(() => {});
       });
   }
 
   registrieren(email: string, passwort: string) {
-    this.http
-      .post<any>(
-        'https://freecredit.backendless.app/api/users/register',
-        { email: email, password: passwort },
-        this.options
-      )
-      .subscribe((data) => {});
+    let user = new Backendless.User();
+    user.email = email;
+    user.password = passwort;
+
+    Backendless.UserService.register(user)
+      .then(function (registeredUser) {
+        console.log(registeredUser);
+      })
+      .catch(function (error) {});
   }
 
   logout() {

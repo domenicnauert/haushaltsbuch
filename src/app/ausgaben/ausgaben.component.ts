@@ -113,7 +113,7 @@ export class AusgabenComponent implements OnInit {
       }
 
       let ausgabeWithId = this.getAusgabeWithNextId(result);
-      this.ausgabenService.add(ausgabeWithId);
+      this.ausgabenService.add2(ausgabeWithId);
 
       this.dataSource.data = [...this.dataSource.data, ausgabeWithId];
       this.getTotalCost();

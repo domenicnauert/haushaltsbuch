@@ -50,6 +50,8 @@ export class AusgabenService {
   public ausgaben: Ausgabe[] = [];
 
   async loadAll() {
+    this.setCurrentUser();
+
     return AusgabenStore.find<Ausgabe>(queryBuilder).then(
       (ausgaben: Ausgabe[]) => {
         ausgaben = ausgaben.sort((a, b) => a.id! - b.id!);
@@ -73,15 +75,28 @@ export class AusgabenService {
     return x;
   }
 
-  add(newAusgabe: Ausgabe) {
-    return AusgabenStore.save<Ausgabe>(newAusgabe).then(
-      (savedAusgabe: Ausgabe) => {
+  add2(newAusgabe: Ausgabe) {
+    this.setCurrentUser();
+
+    AusgabenStore.save(newAusgabe)
+      .then((savedAusgabe) => {
+        console.log('new Contact instance has been saved');
+        console.log(savedAusgabe);
         this.ausgaben.push(savedAusgabe);
-      }
-    );
+      })
+      .catch(function (error) {
+        console.log('an error has occurred ' + error.message);
+      });
+  }
+
+  async add(newAusgabe: Ausgabe) {
+    const savedAusgabe = await AusgabenStore.save<Ausgabe>(newAusgabe);
+    this.ausgaben.push(savedAusgabe);
   }
 
   delete(deleteAusgabe: Ausgabe) {
+    this.setCurrentUser();
+
     AusgabenStore.remove(deleteAusgabe.objectId!).then(() => {
       this.ausgaben = this.ausgaben.filter(
         (_, i) => i !== this.ausgaben.indexOf(deleteAusgabe)
@@ -92,6 +107,8 @@ export class AusgabenService {
   }
 
   update(updateAusgabe: Ausgabe) {
+    this.setCurrentUser();
+
     return AusgabenStore.save<Ausgabe>(updateAusgabe).then(
       (updatedAusgabe: Ausgabe) => {
         this.ausgaben.map((ausgabe) => {
@@ -103,6 +120,12 @@ export class AusgabenService {
         });
       }
     );
+  }
+
+  private setCurrentUser() {
+    Backendless.UserService.currentUser = { ___class: 'Users' };
+    (Backendless.UserService.currentUser as any)['user-token'] =
+      localStorage.getItem('token');
   }
 
   private getCookie(name: string) {
