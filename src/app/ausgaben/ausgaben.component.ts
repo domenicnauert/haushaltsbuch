@@ -43,7 +43,9 @@ export class AusgabenComponent implements OnInit {
     public dialog: MatDialog,
     private ausgabenService: AusgabenService
   ) {
-    this.ausgabenService.loadAllRest().then(() => {
+    this.ausgabenService.loadAll().then(() => {
+      console.log('const');
+      console.log(this.ausgabenService.ausgaben);
       this.dataSource = new MatTableDataSource(
         this.ausgabenService.ausgaben as Ausgabe[]
       );
@@ -52,9 +54,11 @@ export class AusgabenComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ausgabenService.loadAllRest();
+    this.ausgabenService.loadAll();
     this.innerWidth = window.innerWidth;
     setTimeout(() => {
+      console.log('ng');
+      console.log(this.ausgabenService.ausgaben);
       this.dataSource.data = this.ausgabenService.ausgaben;
       this.dataSource.sort = this.sort;
       this.getTotalCost();

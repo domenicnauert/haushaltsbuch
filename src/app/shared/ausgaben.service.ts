@@ -4,6 +4,9 @@ import Backendless from 'backendless';
 import { Ausgabe } from './ausgabe';
 import { LoginService } from './login.service';
 
+var queryBuilder = Backendless.DataQueryBuilder.create();
+queryBuilder.setPageSize(100);
+
 const AusgabenStore = Backendless.Data.of('Ausgabe');
 
 const url =
@@ -47,10 +50,12 @@ export class AusgabenService {
   public ausgaben: Ausgabe[] = [];
 
   async loadAll() {
-    return AusgabenStore.find<Ausgabe>().then((ausgaben: Ausgabe[]) => {
-      ausgaben = ausgaben.sort((a, b) => a.id! - b.id!);
-      this.ausgaben = ausgaben;
-    });
+    return AusgabenStore.find<Ausgabe>(queryBuilder).then(
+      (ausgaben: Ausgabe[]) => {
+        ausgaben = ausgaben.sort((a, b) => a.id! - b.id!);
+        this.ausgaben = ausgaben;
+      }
+    );
   }
 
   async loadAllRest() {

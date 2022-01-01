@@ -16,17 +16,12 @@ export class LoginService {
   public loggedIn = false;
 
   login(email: string, passwort: string) {
-    this.http
-      .post<any>(
-        'https://freecredit.backendless.app/api/users/login',
-        { login: email, password: passwort },
-        this.options
-      )
-      .subscribe((data) => {
-        this.currentUsertoken = data['user-token'];
-        this.loggedIn = true;
-        console.log(this.currentUsertoken);
-        this.setCookie('token', this.currentUsertoken, 1, 'test');
+    console.log('login test');
+    Backendless.UserService.login(email, passwort)
+      .then((user) => {
+        console.log(user);
+      })
+      .then(() => {
         this.router.navigate(['startseite']);
       });
   }
@@ -42,22 +37,10 @@ export class LoginService {
   }
 
   logout() {
-    this.deleteCookie('token');
-
-    const optionsLogout = {
-      headers: new HttpHeaders().set('user-token', this.currentUsertoken),
-    };
-
-    this.http
-      .get<any>(
-        'https://freecredit.backendless.app/api/users/logout',
-        optionsLogout
-      )
-      .subscribe((data) => {
-        this.loggedIn = false;
-        this.currentUsertoken = '';
-        this.router.navigate(['']);
-      });
+    Backendless.UserService.logout().then((data) => {
+      console.log(data);
+      this.router.navigate(['login']);
+    });
   }
 
   reload(token: string) {
