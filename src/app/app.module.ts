@@ -30,6 +30,8 @@ import { AusgabenComponent } from './ausgaben/ausgaben.component';
 import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { Snackbaromponent } from './snackbar/snackbar.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -54,9 +56,11 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     AusgabenComponent,
     CreateAusgabeComponent,
     LoginComponent,
+    Snackbaromponent
   ],
   imports: [
     BrowserModule,
+    MatSnackBarModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,

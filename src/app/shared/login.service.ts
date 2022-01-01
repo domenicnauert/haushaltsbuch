@@ -14,6 +14,7 @@ export class LoginService {
 
   public currentUsertoken: string = '';
   public loggedIn = false;
+  public registered = false;
 
   login(email: string, passwort: string) {
     console.log('login test');
@@ -35,10 +36,13 @@ export class LoginService {
     user.password = passwort;
 
     Backendless.UserService.register(user)
-      .then(function (registeredUser) {
+      .then( (registeredUser) =>{
+        this.registered = true;
         console.log(registeredUser);
       })
-      .catch(function (error) {});
+      .catch( (error) => {
+        this.registered = false;
+      });
   }
 
   logout() {

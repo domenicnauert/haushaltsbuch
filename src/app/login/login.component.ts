@@ -1,6 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { LoginService } from '../shared/login.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { Snackbaromponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,7 @@ import { LoginService } from '../shared/login.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private loginService: LoginService, ngZone: NgZone) {
+  constructor(private loginService: LoginService, ngZone: NgZone,private _snackBar: MatSnackBar) {
     (window as any)['onSignIn'] = (user: any) =>
       ngZone.run(() => this.onSignIn(user));
   }
@@ -29,10 +31,22 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginService.login(this.user, this.password);
+    
   }
 
   registrieren() {
     this.loginService.registrieren(this.user, this.password);
+    setTimeout(()=>{
+      this.openSnackBar(this.loginService.registered + '', "test");
+    }, 1000);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action)
+    
+    // this._snackBar.openFromComponent(Snackbaromponent, {
+    //   duration: 5* 1000,
+    // });
   }
 
   public onSignIn(googleUser: any): void {
