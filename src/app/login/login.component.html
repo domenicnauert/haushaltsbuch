@@ -1,53 +1,61 @@
-<mat-slide-toggle
-  align-right
-  class="example-margin"
-  [(ngModel)]="flgRegistration"
->
-  registrieren
-</mat-slide-toggle>
+<div class="row">
+  <div class="col-xl-12">
+    <mat-slide-toggle class="example-margin" [(ngModel)]="flgRegistration">
+      registrieren
+    </mat-slide-toggle>
+  </div>
 
-<div>
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>User</mat-label>
-    <input matInput type="text" [(ngModel)]="user" />
-    <button
-      *ngIf="user"
-      matSuffix
-      mat-icon-button
-      aria-label="Clear"
-      (click)="user = ''"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-</div>
+  <div class="col-xl-12">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>User</mat-label>
+      <input matInput type="text" [(ngModel)]="user" />
+      <button
+        *ngIf="user"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="user = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
 
-<div>
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Passwort</mat-label>
-    <input matInput type="password" [(ngModel)]="password" />
+  <div class="col-xl-12">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Passwort</mat-label>
+      <input matInput type="password" [(ngModel)]="password" />
+      <button
+        *ngIf="password"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="password = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="col-xl-12">
     <button
-      *ngIf="password"
-      matSuffix
-      mat-icon-button
-      aria-label="Clear"
-      (click)="password = ''"
+      *ngIf="!flgRegistration"
+      mat-button
+      cdkFocusInitial
+      (click)="login()"
     >
-      <mat-icon>close</mat-icon>
+      Login
     </button>
-  </mat-form-field>
+    <button
+      *ngIf="flgRegistration"
+      mat-button
+      cdkFocusInitial
+      (click)="registrieren()"
+    >
+      Registieren
+    </button>
+  </div>
 </div>
-<button *ngIf="!flgRegistration" mat-button cdkFocusInitial (click)="login()">
-  Login
-</button>
-<button
-  *ngIf="flgRegistration"
-  mat-button
-  cdkFocusInitial
-  (click)="registrieren()"
->
-  Registieren
-</button>
 
 <br />
 <br />
