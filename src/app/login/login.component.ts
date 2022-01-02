@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
           'Erfolgreich registiert. Bestätige die EMail!',
           'Ok!'
         );
+        this.flgRegistration = false;
       } else {
         this.openSnackBar(
           'Registierung fehlgeschlagen. Prüfe deine Eingaben.',

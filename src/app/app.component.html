@@ -1,6 +1,20 @@
+<br />
 <div class="container">
-  <h1>{{ title }}</h1>
-  <span *ngIf="this.loginService.loggedIn" (click)="logout()">Logout</span>
+  <div class="row">
+    <div class="col-9 col-sm-10">
+      <h1>{{ title }}</h1>
+    </div>
+    <div class="col-3 col-sm-2">
+      <button
+        *ngIf="this.loginService.loggedIn"
+        mat-icon-button
+        (click)="logout()"
+        class="btnWidth"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
 
   <router-outlet></router-outlet>
 </div>
