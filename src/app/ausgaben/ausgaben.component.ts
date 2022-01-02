@@ -7,10 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Ausgabe } from '../shared/ausgabe';
-import { Empfaenger } from '../shared/empfaenger';
 import { EnumMapper } from '../shared/enumMapper';
-import { Kategorie } from '../shared/kategorie';
-import { Sender } from '../shared/sender';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { AusgabenService } from './../shared/ausgaben.service';
 import { Zyklus } from './../shared/zyklus';
@@ -44,9 +41,6 @@ export class AusgabenComponent implements OnInit {
   ];
 
   public EnumMapper = EnumMapper;
-  public enumKategorie = Object.values(Kategorie);
-  public enumSender = Object.values(Sender);
-  public enumEmpfaenger = Object.values(Empfaenger);
   public enumZyklus = Object.values(Zyklus);
 
   constructor(
