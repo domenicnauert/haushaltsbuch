@@ -18,12 +18,12 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   styleUrls: ['./ausgaben.component.scss'],
 })
 export class AusgabenComponent implements OnInit {
-  loading = true;
-  innerWidth: any;
-  totalBetrag = 0;
-  totalMonatlich = 0;
-  dataSource!: MatTableDataSource<Ausgabe>;
-  displayedColumns: string[] = [
+  public loading = true;
+  public innerWidth: any;
+  public totalBetrag = 0;
+  public totalMonatlich = 0;
+  public dataSource!: MatTableDataSource<Ausgabe>;
+  public displayedColumns: string[] = [
     'id',
     'faelligkeit',
     'art',
@@ -81,23 +81,6 @@ export class AusgabenComponent implements OnInit {
     }
   }
 
-  addAusgabe() {
-    const neu: Ausgabe = {
-      id: 1,
-      faelligkeit: new Date(),
-      art: 'Spotify',
-      betrag: 200,
-      sender: 'n26',
-      empfaenger: 'extern',
-      kategorie: 'abos',
-      zyklus: 'm',
-      monatlich: 200,
-      quartalsweise: 800,
-      jaehrlich: 2400,
-    };
-    this.dataSource.data = [...this.dataSource.data, neu];
-  }
-
   createAusgabe(): void {
     let width = '50%';
     if (this.innerWidth < 1300) {
@@ -113,7 +96,7 @@ export class AusgabenComponent implements OnInit {
       }
 
       let ausgabeWithId = this.getAusgabeWithNextId(result);
-      this.ausgabenService.add2(ausgabeWithId);
+      this.ausgabenService.add(ausgabeWithId);
 
       this.dataSource.data = [...this.dataSource.data, ausgabeWithId];
       this.getTotalCost();
@@ -189,22 +172,7 @@ export class AusgabenComponent implements OnInit {
     return total;
   }
 
-  get ausgaben(): Ausgabe[] {
+  private get ausgaben(): Ausgabe[] {
     return this.ausgabenService.ausgaben as Ausgabe[];
-  }
-
-  private getCookie(name: string) {
-    let ca: Array<string> = document.cookie.split(';');
-    let caLen: number = ca.length;
-    let cookieName = `${name}=`;
-    let c: string;
-
-    for (let i: number = 0; i < caLen; i += 1) {
-      c = ca[i].replace(/^\s+/g, '');
-      if (c.indexOf(cookieName) == 0) {
-        return c.substring(cookieName.length, c.length);
-      }
-    }
-    return '';
   }
 }
