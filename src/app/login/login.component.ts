@@ -1,8 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, NgZone, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginService } from '../shared/login.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import { Snackbaromponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +9,11 @@ import { Snackbaromponent } from '../snackbar/snackbar.component';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private loginService: LoginService, ngZone: NgZone,private _snackBar: MatSnackBar) {
+  constructor(
+    private loginService: LoginService,
+    ngZone: NgZone,
+    private _snackBar: MatSnackBar
+  ) {
     (window as any)['onSignIn'] = (user: any) =>
       ngZone.run(() => this.onSignIn(user));
   }
@@ -31,19 +34,28 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginService.login(this.user, this.password);
-    
   }
 
   registrieren() {
     this.loginService.registrieren(this.user, this.password);
-    setTimeout(()=>{
-      this.openSnackBar(this.loginService.registered + '', "test");
+    setTimeout(() => {
+      if (this.loginService.registered) {
+        this.openSnackBar(
+          'Erfolgreich registiert. Bestätige die EMail!',
+          'Ok!'
+        );
+      } else {
+        this.openSnackBar(
+          'Registierung fehlgeschlagen. Prüfe deine Eingaben.',
+          'Ok!'
+        );
+      }
     }, 1000);
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action)
-    
+    this._snackBar.open(message, action);
+
     // this._snackBar.openFromComponent(Snackbaromponent, {
     //   duration: 5* 1000,
     // });

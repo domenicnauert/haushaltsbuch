@@ -4,11 +4,13 @@
       registrieren
     </mat-slide-toggle>
   </div>
+</div>
 
-  <div class="col-xl-12">
+<div class="row">
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>User</mat-label>
-      <input matInput type="text" [(ngModel)]="user" />
+      <mat-label>EMail</mat-label>
+      <input matInput type="text" [(ngModel)]="user" autofocus />
       <button
         *ngIf="user"
         matSuffix
@@ -20,8 +22,10 @@
       </button>
     </mat-form-field>
   </div>
+</div>
 
-  <div class="col-xl-12">
+<div class="row">
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Passwort</mat-label>
       <input matInput type="password" [(ngModel)]="password" />
@@ -36,13 +40,16 @@
       </button>
     </mat-form-field>
   </div>
+</div>
 
-  <div class="col-xl-12">
+<div class="row">
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
     <button
       *ngIf="!flgRegistration"
       mat-button
       cdkFocusInitial
       (click)="login()"
+      class="btnWidth"
     >
       Login
     </button>
@@ -51,6 +58,7 @@
       mat-button
       cdkFocusInitial
       (click)="registrieren()"
+      class="btnWidth"
     >
       Registieren
     </button>
