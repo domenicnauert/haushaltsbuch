@@ -9,113 +9,12 @@ import { EnumMapper } from './../shared/enumMapper';
 import { Sender } from './../shared/sender';
 import { Zyklus } from './../shared/zyklus';
 
-const KATEGORIEN = [
-  {
-    value: undefined,
-    name: '--',
-  },
-  {
-    value: 'Abos',
-    name: 'Abos',
-  },
-  {
-    value: 'Fixkosten',
-    name: 'Fixkosten',
-  },
-  {
-    value: 'Konsum',
-    name: 'Konsum',
-  },
-  {
-    value: 'Kredit',
-    name: 'Kredit',
-  },
-  {
-    value: 'Sparen',
-    name: 'Sparen',
-  },
-  {
-    value: 'Versicherung',
-    name: 'Versicherung',
-  },
-  {
-    value: 'Verträge',
-    name: 'Verträge',
-  },
-];
-
-const ZYKLEN = [
-  {
-    value: 'm',
-  },
-  {
-    value: 'q',
-  },
-  {
-    value: 'j',
-  },
-];
-
-const SENDER = [
-  {
-    value: undefined,
-    name: '--',
-  },
-  {
-    value: 'Sparkasse',
-    name: 'Sparkasse',
-  },
-  {
-    value: 'N26',
-    name: 'N26',
-  },
-  {
-    value: 'Volksbank',
-    name: 'Volksbank',
-  },
-];
-
-const EMPFAENGER = [
-  {
-    value: undefined,
-    name: '--',
-  },
-  {
-    value: 'Sparkasse',
-    name: 'Sparkasse',
-  },
-  {
-    value: 'N26',
-    name: 'N26',
-  },
-  {
-    value: 'Volksbank',
-    name: 'Volksbank',
-  },
-  {
-    value: 'Bar',
-    name: 'Bar',
-  },
-  {
-    value: 'Depot',
-    name: 'Depot',
-  },
-  {
-    value: 'Extern',
-    name: 'Extern',
-  },
-];
-
 @Component({
   selector: 'app-create-ausgabe',
   templateUrl: './create-ausgabe.component.html',
   styleUrls: ['./create-ausgabe.component.scss'],
 })
 export class CreateAusgabeComponent {
-  public kategorien = KATEGORIEN;
-  public zyklen = ZYKLEN;
-  public sender = SENDER;
-  public empfaenger = EMPFAENGER;
   public ausgabe!: Ausgabe;
   public flgShowDelete: boolean = false;
   public faelligkeit = new FormControl(new Date());
