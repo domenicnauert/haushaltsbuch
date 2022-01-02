@@ -2,7 +2,12 @@ import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Ausgabe } from '../shared/ausgabe';
+import { Kategorie } from '../shared/kategorie';
 import { AusgabenService } from './../shared/ausgaben.service';
+import { Empfaenger } from './../shared/empfaenger';
+import { EnumMapper } from './../shared/enumMapper';
+import { Sender } from './../shared/sender';
+import { Zyklus } from './../shared/zyklus';
 
 const KATEGORIEN = [
   {
@@ -22,8 +27,8 @@ const KATEGORIEN = [
     name: 'Konsum',
   },
   {
-    value: 'Krdite',
-    name: 'Krdite',
+    value: 'Kredit',
+    name: 'Kredit',
   },
   {
     value: 'Sparen',
@@ -107,39 +112,44 @@ const EMPFAENGER = [
   styleUrls: ['./create-ausgabe.component.scss'],
 })
 export class CreateAusgabeComponent {
+  public kategorien = KATEGORIEN;
+  public zyklen = ZYKLEN;
+  public sender = SENDER;
+  public empfaenger = EMPFAENGER;
+  public ausgabe!: Ausgabe;
+  public flgShowDelete: boolean = false;
+  public faelligkeit = new FormControl(new Date());
+
+  public EnumMapper = EnumMapper;
+  public enumKategorie = Object.values(Kategorie);
+  public enumSender = Object.values(Sender);
+  public enumEmpfaenger = Object.values(Empfaenger);
+  public enumZyklus = Object.values(Zyklus);
+
   constructor(
     public dialogRef: MatDialogRef<CreateAusgabeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Ausgabe,
-    private ausgabenService: AusgabenService
+    private ausgabenService: AusgabenService,
+    @Inject(MAT_DIALOG_DATA) public data: Ausgabe
   ) {
     this.initAusgabe();
   }
-
-  faelligkeit = new FormControl(new Date());
-
-  kategorien = KATEGORIEN;
-  zyklen = ZYKLEN;
-  sender = SENDER;
-  empfaenger = EMPFAENGER;
-  ausgabe!: Ausgabe;
-  flgShowDelete: boolean = false;
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  getAusgabe(isChange: boolean): Ausgabe {
+  getAusgabe(): Ausgabe {
     this.ausgabe.faelligkeit = this.faelligkeit.value;
 
     let totalMonatlich = 0;
 
     if (this.ausgabe.betrag) {
-      if (this.ausgabe.zyklus === 'm') {
+      if (this.ausgabe.zyklus === Zyklus.M) {
         totalMonatlich = totalMonatlich + +this.ausgabe.betrag;
-      } else if (this.ausgabe.zyklus === 'q') {
+      } else if (this.ausgabe.zyklus === Zyklus.Q) {
         let q: number = +this.ausgabe.betrag / 3;
         totalMonatlich = totalMonatlich + +q;
-      } else if (this.ausgabe.zyklus === 'j') {
+      } else if (this.ausgabe.zyklus === Zyklus.J) {
         let j: number = +this.ausgabe.betrag / 12;
         totalMonatlich = totalMonatlich + +j;
       }
@@ -152,7 +162,7 @@ export class CreateAusgabeComponent {
     return this.ausgabe;
   }
 
-  initAusgabe() {
+  private initAusgabe() {
     if (this.data) {
       this.flgShowDelete = true;
       this.faelligkeit.setValue(new Date(this.data.faelligkeit));
@@ -162,10 +172,10 @@ export class CreateAusgabeComponent {
       this.ausgabe = {
         faelligkeit: new Date(),
         art: '',
-        sender: 'Sparkasse',
-        empfaenger: 'Extern',
-        kategorie: 'Sparen',
-        zyklus: 'm',
+        sender: Sender.SPARKASSE,
+        empfaenger: Empfaenger.EXTERN,
+        kategorie: Kategorie.SPAREN,
+        zyklus: Zyklus.M,
       };
     }
   }

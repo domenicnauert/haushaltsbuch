@@ -7,8 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Ausgabe } from '../shared/ausgabe';
+import { Empfaenger } from '../shared/empfaenger';
+import { EnumMapper } from '../shared/enumMapper';
+import { Kategorie } from '../shared/kategorie';
+import { Sender } from '../shared/sender';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { AusgabenService } from './../shared/ausgaben.service';
+import { Zyklus } from './../shared/zyklus';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -37,6 +42,12 @@ export class AusgabenComponent implements OnInit {
     'jaehrlich',
     'bearbeiten',
   ];
+
+  public EnumMapper = EnumMapper;
+  public enumKategorie = Object.values(Kategorie);
+  public enumSender = Object.values(Sender);
+  public enumEmpfaenger = Object.values(Empfaenger);
+  public enumZyklus = Object.values(Zyklus);
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -153,12 +164,12 @@ export class AusgabenComponent implements OnInit {
       let ausgabe = el as Ausgabe;
       if (ausgabe.betrag) {
         total = total + +ausgabe.betrag;
-        if (ausgabe.zyklus === 'm') {
+        if (ausgabe.zyklus === Zyklus.M) {
           totalMonatlich = totalMonatlich + +ausgabe.betrag;
-        } else if (ausgabe.zyklus === 'q') {
+        } else if (ausgabe.zyklus === Zyklus.Q) {
           let q: number = +ausgabe.betrag / 3;
           totalMonatlich = totalMonatlich + +q;
-        } else if (ausgabe.zyklus === 'j') {
+        } else if (ausgabe.zyklus === Zyklus.J) {
           let j: number = +ausgabe.betrag / 12;
           totalMonatlich = totalMonatlich + +j;
         } else {

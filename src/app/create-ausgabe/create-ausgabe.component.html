@@ -55,8 +55,8 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Sender</mat-label>
           <mat-select [(value)]="ausgabe.sender">
-            <mat-option *ngFor="let item of sender" [value]="item.value">
-              {{ item.name }}
+            <mat-option *ngFor="let item of enumSender" [value]="item">
+              {{ EnumMapper[item] }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -66,8 +66,8 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Empfänger</mat-label>
           <mat-select [(value)]="ausgabe.empfaenger">
-            <mat-option *ngFor="let item of empfaenger" [value]="item.value">
-              {{ item.name }}
+            <mat-option *ngFor="let item of enumEmpfaenger" [value]="item">
+              {{ EnumMapper[item] }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -77,8 +77,8 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Kategorie</mat-label>
           <mat-select [(value)]="ausgabe.kategorie">
-            <mat-option *ngFor="let item of kategorien" [value]="item.value">
-              {{ item.name }}
+            <mat-option *ngFor="let item of enumKategorie" [value]="item">
+              {{ EnumMapper[item] }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -92,11 +92,11 @@
             class="example-full-width"
           >
             <mat-button-toggle
-              *ngFor="let zyklus of zyklen"
-              [value]="zyklus.value"
+              *ngFor="let zyklus of enumZyklus"
+              [value]="zyklus"
               class="example-full-width"
               matTooltip="Betrag monatlich"
-              >{{ zyklus.value }}</mat-button-toggle
+              >{{ EnumMapper[zyklus] }}</mat-button-toggle
             >
           </mat-button-toggle-group>
         </section>
@@ -116,7 +116,7 @@
       class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       mat-button
       *ngIf="!flgShowDelete"
-      [mat-dialog-close]="getAusgabe(false)"
+      [mat-dialog-close]="getAusgabe()"
       cdkFocusInitial
     >
       Speichern
@@ -134,7 +134,7 @@
       class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       mat-button
       *ngIf="flgShowDelete"
-      [mat-dialog-close]="getAusgabe(true)"
+      [mat-dialog-close]="getAusgabe()"
       cdkFocusInitial
       (click)="onChangeClick()"
     >
