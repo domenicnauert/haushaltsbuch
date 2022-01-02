@@ -2,7 +2,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,7 +19,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './ausgaben.component.html',
   styleUrls: ['./ausgaben.component.scss'],
 })
-export class AusgabenComponent implements OnInit {
+export class AusgabenComponent {
   public loading = true;
   public innerWidth: any;
   public totalBetrag = 0;
@@ -49,25 +49,15 @@ export class AusgabenComponent implements OnInit {
     private ausgabenService: AusgabenService
   ) {
     this.ausgabenService.loadAll().then(() => {
+      this.loading = false;
       console.log('const');
       console.log(this.ausgabenService.ausgaben);
       this.dataSource = new MatTableDataSource(
         this.ausgabenService.ausgaben as Ausgabe[]
       );
-      this.getTotalCost();
-    });
-  }
-
-  ngOnInit() {
-    this.ausgabenService.loadAll();
-    this.innerWidth = window.innerWidth;
-    setTimeout(() => {
-      console.log('ng');
-      console.log(this.ausgabenService.ausgaben);
-      this.dataSource.data = this.ausgabenService.ausgaben;
       this.dataSource.sort = this.sort;
       this.getTotalCost();
-    }, 1000);
+    });
   }
 
   @HostListener('window:resize', ['$event'])

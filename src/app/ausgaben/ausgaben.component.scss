@@ -18,3 +18,26 @@ tr.mat-footer-row {
 .mat-table-sticky {
   border-top: 1px solid #e0e0e0;
 }
+
+.loadingScreen {
+  order: 1;
+  display: block;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9998;
+}
+
+.loadingSpinner {
+  z-index: 9999;
+  order: 1;
+  display: block;
+  width: 100%;
+  position: fixed;
+  left: 50%;
+  top: 30%;
+}
