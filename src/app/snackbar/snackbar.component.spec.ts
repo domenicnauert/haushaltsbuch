@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Snackbaromponent } from './snackbar.component';
 
 describe('DashboardComponent', () => {
@@ -8,9 +7,8 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ Snackbaromponent ]
-    })
-    .compileComponents();
+      declarations: [Snackbaromponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

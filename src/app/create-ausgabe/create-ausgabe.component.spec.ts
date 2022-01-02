@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateAusgabeComponent } from './create-ausgabe.component';
 
 describe('CreateAusgabeComponent', () => {
@@ -8,9 +7,8 @@ describe('CreateAusgabeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateAusgabeComponent ]
-    })
-    .compileComponents();
+      declarations: [CreateAusgabeComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

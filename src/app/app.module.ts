@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -30,7 +31,6 @@ import { AusgabenComponent } from './ausgaben/ausgaben.component';
 import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { Snackbaromponent } from './snackbar/snackbar.component';
 
 Backendless.initApp(
@@ -56,7 +56,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     AusgabenComponent,
     CreateAusgabeComponent,
     LoginComponent,
-    Snackbaromponent
+    Snackbaromponent,
   ],
   imports: [
     BrowserModule,
