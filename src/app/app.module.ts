@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -61,6 +62,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
   imports: [
     BrowserModule,
     MatSnackBarModule,
+    MatMenuModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,

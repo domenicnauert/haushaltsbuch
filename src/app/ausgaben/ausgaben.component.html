@@ -1,6 +1,18 @@
 <div *ngIf="loading" class="loadingScreen"></div>
 <br />
-<p>Ausgabenliste der aktuellen Periode</p>
+<div>
+  Ausgabenliste der aktuellen Periode
+
+  <span class="settings-text">
+    Tabellen-Einstellungen:
+    <mat-icon
+      class="settings-icon"
+      aria-hidden="false"
+      aria-label="Example home icon"
+      >settings</mat-icon
+    ></span
+  >
+</div>
 
 <mat-spinner *ngIf="loading" class="loadingSpinner"></mat-spinner>
 
