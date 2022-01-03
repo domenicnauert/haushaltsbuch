@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDateFormats,
   MatNativeDateModule,
@@ -61,6 +62,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
   ],
   imports: [
     BrowserModule,
+    MatCheckboxModule,
     MatSnackBarModule,
     MatMenuModule,
     AppRoutingModule,

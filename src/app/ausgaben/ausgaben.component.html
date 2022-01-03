@@ -5,13 +5,29 @@
 
   <span class="settings-text">
     Tabellen-Einstellungen:
-    <mat-icon
-      class="settings-icon"
-      aria-hidden="false"
-      aria-label="Example home icon"
-      >settings</mat-icon
-    ></span
-  >
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>settings</mat-icon>
+    </button>
+  </span>
+
+  <mat-menu #menu="matMenu">
+    <div
+      *ngFor="let item of columns"
+      [attr.cValue]="item"
+      class="mat-menu-item"
+      (click)="$event.stopPropagation()"
+    >
+      <mat-checkbox
+        [(ngModel)]="item.checked"
+        (change)="tabelChange(item.value)"
+        >{{ item.column }}</mat-checkbox
+      >
+    </div>
+  </mat-menu>
 </div>
 
 <mat-spinner *ngIf="loading" class="loadingSpinner"></mat-spinner>
