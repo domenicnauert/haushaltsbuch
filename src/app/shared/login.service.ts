@@ -40,7 +40,20 @@ export class LoginService {
   logout() {
     Backendless.UserService.logout().then((data) => {
       this.loggedIn = false;
+      localStorage.clear();
       this.router.navigate(['login']);
     });
+  }
+
+  reload() {
+    let token = localStorage.getItem('token');
+
+    if (token && token !== '') {
+      Backendless.UserService.currentUser = { ___class: 'Users' };
+      (Backendless.UserService.currentUser as any)['user-token'] = token;
+
+      return (this.loggedIn = true);
+    }
+    return false;
   }
 }

@@ -17,7 +17,9 @@ export class AusgabenService {
   public ausgaben: Ausgabe[] = [];
 
   async loadAll() {
-    this.setCurrentUser();
+    if (!this.setCurrentUser()) {
+      return;
+    }
 
     return AusgabenStore.find<Ausgabe>(queryBuilder).then(
       (ausgaben: Ausgabe[]) => {
@@ -28,7 +30,9 @@ export class AusgabenService {
   }
 
   add(newAusgabe: Ausgabe) {
-    this.setCurrentUser();
+    if (!this.setCurrentUser()) {
+      return;
+    }
 
     AusgabenStore.save(newAusgabe)
       .then((savedAusgabe) => {
@@ -42,7 +46,9 @@ export class AusgabenService {
   }
 
   delete(deleteAusgabe: Ausgabe) {
-    this.setCurrentUser();
+    if (!this.setCurrentUser()) {
+      return;
+    }
 
     AusgabenStore.remove(deleteAusgabe.objectId!).then(() => {
       this.ausgaben = this.ausgaben.filter(
@@ -70,8 +76,13 @@ export class AusgabenService {
   }
 
   private setCurrentUser() {
-    Backendless.UserService.currentUser = { ___class: 'Users' };
-    (Backendless.UserService.currentUser as any)['user-token'] =
-      localStorage.getItem('token');
+    let token = localStorage.getItem('token');
+    if (token && token !== '') {
+      Backendless.UserService.currentUser = { ___class: 'Users' };
+      (Backendless.UserService.currentUser as any)['user-token'] = token;
+
+      return true;
+    }
+    return false;
   }
 }
