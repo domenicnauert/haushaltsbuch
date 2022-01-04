@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Backendless from 'backendless';
-import { Ausgabe } from './ausgabe';
+import { Ausgabe } from '../model/ausgabe';
 import { LoginService } from './login.service';
 
 var queryBuilder = Backendless.DataQueryBuilder.create();

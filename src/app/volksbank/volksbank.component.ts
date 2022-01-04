@@ -2,9 +2,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Ausgabe } from '../shared/ausgabe';
+import { Ausgabe } from '../model/ausgabe';
+import { EnumMapper } from '../model/enumMapper';
 import { AusgabenService } from '../shared/ausgaben.service';
-import { EnumMapper } from '../shared/enumMapper';
 
 @Component({
   selector: 'app-volksbank',

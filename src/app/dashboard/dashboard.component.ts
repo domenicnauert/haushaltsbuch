@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
   public ausgabenTitel = 'Ausgabenliste';
+  public einnahmenTitel = 'Einnahmenliste';
   constructor() {}
 }

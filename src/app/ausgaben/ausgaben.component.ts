@@ -6,11 +6,11 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Ausgabe } from '../shared/ausgabe';
-import { EnumMapper } from '../shared/enumMapper';
+import { Ausgabe } from '../model/ausgabe';
+import { EnumMapper } from '../model/enumMapper';
+import { Zyklus } from '../model/zyklus';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 import { AusgabenService } from './../shared/ausgaben.service';
-import { Zyklus } from './../shared/zyklus';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -219,9 +219,9 @@ export class AusgabenComponent {
   }
 
   tabelChange(item: string) {
-    const indexToRemove = this.displayedColumns.indexOf(item);
+    const index = this.displayedColumns.indexOf(item);
 
-    if (indexToRemove === -1) {
+    if (index === -1) {
       // nicht im table => hinzufügen
       this.displayedColumns.splice(
         this.columns.findIndex((x) => x.value === item),
@@ -230,7 +230,7 @@ export class AusgabenComponent {
       );
     } else {
       this.displayedColumns = this.displayedColumns.filter(
-        (_, i) => i !== indexToRemove
+        (_, i) => i !== index
       );
     }
   }

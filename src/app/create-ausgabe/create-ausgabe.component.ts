@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Ausgabe } from '../shared/ausgabe';
-import { Kategorie } from '../shared/kategorie';
-import { AusgabenService } from './../shared/ausgaben.service';
-import { Empfaenger } from './../shared/empfaenger';
-import { EnumMapper } from './../shared/enumMapper';
-import { Sender } from './../shared/sender';
-import { Zyklus } from './../shared/zyklus';
+import { Ausgabe } from '../model/ausgabe';
+import { Empfaenger } from '../model/empfaenger';
+import { EnumMapper } from '../model/enumMapper';
+import { Kategorie } from '../model/kategorie';
+import { Sender } from '../model/sender';
+import { Zyklus } from '../model/zyklus';
+import { AusgabenService } from '../shared/ausgaben.service';
 
 @Component({
   selector: 'app-create-ausgabe',

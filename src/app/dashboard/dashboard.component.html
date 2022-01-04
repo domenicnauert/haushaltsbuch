@@ -1,5 +1,7 @@
 <mat-tab-group>
-  <mat-tab label="Sparkasse"><app-sparkasse></app-sparkasse> </mat-tab>
+  <mat-tab label="Sparkasse">
+    <app-einnahmen [title]="einnahmenTitel"></app-einnahmen>
+  </mat-tab>
   <mat-tab label="N26"> <app-n26></app-n26> </mat-tab>
   <mat-tab label="Volksbank"> <app-volksbank></app-volksbank> </mat-tab>
   <mat-tab label="Depots"> <app-depots></app-depots> </mat-tab>
