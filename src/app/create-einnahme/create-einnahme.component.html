@@ -1,1 +1,144 @@
-<p>create-einnahme works!</p>
+<div class="container">
+  <h1 mat-dialog-title>Erstelle Einnahme</h1>
+  <div mat-dialog-content>
+    <div class="row justify-content-around">
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Fälligkeit</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="faelligkeit"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Art</mat-label>
+          <input matInput type="text" [(ngModel)]="einnahme.art" />
+          <button
+            *ngIf="einnahme.art"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="einnahme.art = ''"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Betrag</mat-label>
+          <span matSuffix>€</span>
+          <input #betrag matInput type="number" [(ngModel)]="einnahme.betrag" />
+          <button
+            *ngIf="einnahme.betrag"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="einnahme.betrag = undefined"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Sender</mat-label>
+          <mat-select [(value)]="einnahme.sender">
+            <mat-option *ngFor="let item of enumSender" [value]="item">
+              {{ EnumMapper[item] }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Empfänger</mat-label>
+          <mat-select [(value)]="einnahme.empfaenger">
+            <mat-option *ngFor="let item of enumEmpfaenger" [value]="item">
+              {{ EnumMapper[item] }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Kategorie</mat-label>
+          <mat-select [(value)]="einnahme.kategorie">
+            <mat-option *ngFor="let item of enumKategorie" [value]="item">
+              {{ EnumMapper[item] }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+        <section>
+          <mat-button-toggle-group
+            [(ngModel)]="einnahme.zyklus"
+            aria-label="Zyklus"
+            class="example-full-width"
+          >
+            <mat-button-toggle
+              *ngFor="let zyklus of enumZyklus"
+              [value]="zyklus"
+              class="example-full-width"
+              matTooltip="Betrag monatlich"
+              >{{ EnumMapper[zyklus] }}</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="row justify-content-around">
+    <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
+      mat-button
+      (click)="onNoClick()"
+    >
+      Esc
+    </button>
+    <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
+      mat-button
+      *ngIf="!flgShowDelete"
+      [mat-dialog-close]="getAusgabe()"
+      cdkFocusInitial
+    >
+      Speichern
+    </button>
+    <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
+      *ngIf="flgShowDelete"
+      mat-button
+      [mat-dialog-close]="einnahme"
+      (click)="onDeleteClick()"
+    >
+      Löschen
+    </button>
+    <button
+      class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
+      mat-button
+      *ngIf="flgShowDelete"
+      [mat-dialog-close]="getAusgabe()"
+      cdkFocusInitial
+      (click)="onChangeClick()"
+    >
+      Ändern
+    </button>
+  </div>
+</div>

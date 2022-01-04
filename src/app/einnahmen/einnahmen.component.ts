@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
-import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
+import { CreateEinnahmeComponent } from './../create-einnahme/create-einnahme.component';
 import { Einnahme } from './../model/einnahme';
 import { Zyklus } from './../model/zyklus';
 import { EinnahmenService } from './../shared/einnahmen.service';
@@ -131,7 +131,7 @@ export class EinnahmenComponent {
     if (this.innerWidth < 1300) {
       width = '100%';
     }
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+    const dialogRef = this.dialog.open(CreateEinnahmeComponent, {
       width: width,
     });
 
@@ -161,7 +161,7 @@ export class EinnahmenComponent {
   }
 
   editAusgabe(ausgabe: Einnahme) {
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+    const dialogRef = this.dialog.open(CreateEinnahmeComponent, {
       width: '50%',
       data: ausgabe,
     });

@@ -36,8 +36,6 @@ export class AusgabenService {
 
     AusgabenStore.save(newAusgabe)
       .then((savedAusgabe) => {
-        console.log('new Contact instance has been saved');
-        console.log(savedAusgabe);
         this.ausgaben.push(savedAusgabe);
       })
       .catch(function (error) {
