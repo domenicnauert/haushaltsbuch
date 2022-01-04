@@ -34,6 +34,13 @@ import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { Snackbaromponent } from './snackbar/snackbar.component';
+import { VolksbankComponent } from './volksbank/volksbank.component';
+import { DepotsComponent } from './depots/depots.component';
+import { N26Component } from './n26/n26.component';
+import { SparkontenComponent } from './sparkonten/sparkonten.component';
+import { SparkasseComponent } from './sparkasse/sparkasse.component';
+import { EinnahmenComponent } from './einnahmen/einnahmen.component';
+import { CreateEinnahmeComponent } from './create-einnahme/create-einnahme.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -59,6 +66,13 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     CreateAusgabeComponent,
     LoginComponent,
     Snackbaromponent,
+    VolksbankComponent,
+    DepotsComponent,
+    N26Component,
+    SparkontenComponent,
+    SparkasseComponent,
+    EinnahmenComponent,
+    CreateEinnahmeComponent,
   ],
   imports: [
     BrowserModule,

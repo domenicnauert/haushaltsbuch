@@ -1,8 +1,11 @@
 <mat-tab-group>
-  <mat-tab label="Sparkasse"><app-ausgaben></app-ausgaben> </mat-tab>
-  <mat-tab label="N26"> Content 2 </mat-tab>
-  <mat-tab label="Volksbank"> Content 3 </mat-tab>
-  <mat-tab label="Depots"> Content 4 </mat-tab>
-  <mat-tab label="Sparkonten"> Content 5 </mat-tab>
-  <mat-tab label="Ausgabenliste"> <app-ausgaben></app-ausgaben> </mat-tab>
+  <mat-tab label="Sparkasse"><app-sparkasse></app-sparkasse> </mat-tab>
+  <mat-tab label="N26"> <app-n26></app-n26> </mat-tab>
+  <mat-tab label="Volksbank"> <app-volksbank></app-volksbank> </mat-tab>
+  <mat-tab label="Depots"> <app-depots></app-depots> </mat-tab>
+  <mat-tab label="Sparkonten"> <app-sparkonten></app-sparkonten> </mat-tab>
+  <mat-tab label="Einnahmenliste"> <app-einnahmen></app-einnahmen> </mat-tab>
+  <mat-tab label="Ausgabenliste">
+    <app-ausgaben [title]="ausgabenTitel"></app-ausgaben>
+  </mat-tab>
 </mat-tab-group>

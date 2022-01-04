@@ -2,7 +2,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,24 +26,6 @@ export class AusgabenComponent {
   public totalMonatlich = 0;
   public dataSource!: MatTableDataSource<Ausgabe>;
   public columns = [
-    {
-      column: 'No.',
-      value: 'id',
-      checked: true,
-      pos: 0,
-    },
-    {
-      column: 'Fälligkeit',
-      value: 'faelligkeit',
-      checked: true,
-      pos: 1,
-    },
-    {
-      column: 'Art',
-      value: 'art',
-      checked: true,
-      pos: 2,
-    },
     {
       column: 'Betrag',
       value: 'betrag',
@@ -75,12 +57,6 @@ export class AusgabenComponent {
       pos: 7,
     },
     {
-      column: 'm',
-      value: 'monatlich',
-      checked: true,
-      pos: 8,
-    },
-    {
       column: 'q',
       value: 'quartalsweise',
       checked: true,
@@ -110,6 +86,9 @@ export class AusgabenComponent {
 
   public EnumMapper = EnumMapper;
   public enumZyklus = Object.values(Zyklus);
+
+  @Input()
+  public title!: string;
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
