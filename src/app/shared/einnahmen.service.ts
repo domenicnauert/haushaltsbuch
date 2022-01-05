@@ -3,12 +3,14 @@ import { Einnahme } from './../model/einnahme';
 import { AusgabenService } from './ausgaben.service';
 import { LoginService } from './login.service';
 
-var queryBuilderAusgabenTable = Backendless.DataQueryBuilder.create().setWhereClause( "einnahmeBei is not null" );
+var queryBuilderAusgabenTable =
+  Backendless.DataQueryBuilder.create().setWhereClause(
+    'einnahmeBei is not null'
+  );
 queryBuilderAusgabenTable.setPageSize(100);
 
 var queryBuilderEinnahmenTable = Backendless.DataQueryBuilder.create();
 queryBuilderEinnahmenTable.setPageSize(100);
-
 
 const AusgabenStore = Backendless.Data.of('Ausgabe');
 const EinnahmenStore = Backendless.Data.of('Einnahme');
@@ -17,7 +19,10 @@ const EinnahmenStore = Backendless.Data.of('Einnahme');
   providedIn: 'root',
 })
 export class EinnahmenService {
-  constructor(public loginService: LoginService, public ausgabenService : AusgabenService) {}
+  constructor(
+    public loginService: LoginService,
+    public ausgabenService: AusgabenService
+  ) {}
 
   public einnahmen: Einnahme[] = [];
 
@@ -27,30 +32,14 @@ export class EinnahmenService {
     }
     this.einnahmen = [];
 
-    await this.ausgabenService.
-
-    return EinnahmenStore.find<Einnahme>(queryBuilderEinnahmenTable).then( (einnahmen:Einnahme[]) =>{
-      console.log("einnahmen")
-      console.log(einnahmen)
-      for(let i = 0; i < einnahmen.length; i++){
-        this.einnahmen.push(einnahmen[i])
-      }
-      console.log(this.einnahmen)
-      this.einnahmen = this.einnahmen.sort((a, b) => a.id! - b.id!);
-    })
-
-     return AusgabenStore.find<Einnahme>(queryBuilderAusgabenTable).then(
+    return EinnahmenStore.find<Einnahme>(queryBuilderEinnahmenTable).then(
       (einnahmen: Einnahme[]) => {
-        console.log("ausgaben1")
-      console.log(this.einnahmen)
-        for(let i = 0; i < einnahmen.length; i++){
-          this.einnahmen.push(einnahmen[i])
+        console.log('einnahmen');
+        console.log(einnahmen);
+        for (let i = 0; i < einnahmen.length; i++) {
+          this.einnahmen.push(einnahmen[i]);
         }
-        
-
-
-        console.log("ausgaben2")
-      console.log(this.einnahmen)
+        console.log(this.einnahmen);
         this.einnahmen = this.einnahmen.sort((a, b) => a.id! - b.id!);
       }
     );
