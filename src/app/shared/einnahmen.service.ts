@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Einnahme } from './../model/einnahme';
+import { AusgabenService } from './ausgaben.service';
 import { LoginService } from './login.service';
 
-var queryBuilder = Backendless.DataQueryBuilder.create();
-queryBuilder.setPageSize(100);
+var queryBuilderAusgabenTable = Backendless.DataQueryBuilder.create().setWhereClause( "einnahmeBei is not null" );
+queryBuilderAusgabenTable.setPageSize(100);
 
+var queryBuilderEinnahmenTable = Backendless.DataQueryBuilder.create();
+queryBuilderEinnahmenTable.setPageSize(100);
+
+
+const AusgabenStore = Backendless.Data.of('Ausgabe');
 const EinnahmenStore = Backendless.Data.of('Einnahme');
 
 @Injectable({
   providedIn: 'root',
 })
 export class EinnahmenService {
-  constructor(public loginService: LoginService) {}
+  constructor(public loginService: LoginService, public ausgabenService : AusgabenService) {}
 
   public einnahmen: Einnahme[] = [];
 
@@ -19,11 +25,33 @@ export class EinnahmenService {
     if (!this.setCurrentUser()) {
       return;
     }
+    this.einnahmen = [];
 
-    return EinnahmenStore.find<Einnahme>(queryBuilder).then(
+    await this.ausgabenService.
+
+    return EinnahmenStore.find<Einnahme>(queryBuilderEinnahmenTable).then( (einnahmen:Einnahme[]) =>{
+      console.log("einnahmen")
+      console.log(einnahmen)
+      for(let i = 0; i < einnahmen.length; i++){
+        this.einnahmen.push(einnahmen[i])
+      }
+      console.log(this.einnahmen)
+      this.einnahmen = this.einnahmen.sort((a, b) => a.id! - b.id!);
+    })
+
+     return AusgabenStore.find<Einnahme>(queryBuilderAusgabenTable).then(
       (einnahmen: Einnahme[]) => {
-        einnahmen = einnahmen.sort((a, b) => a.id! - b.id!);
-        this.einnahmen = einnahmen;
+        console.log("ausgaben1")
+      console.log(this.einnahmen)
+        for(let i = 0; i < einnahmen.length; i++){
+          this.einnahmen.push(einnahmen[i])
+        }
+        
+
+
+        console.log("ausgaben2")
+      console.log(this.einnahmen)
+        this.einnahmen = this.einnahmen.sort((a, b) => a.id! - b.id!);
       }
     );
   }
@@ -33,7 +61,7 @@ export class EinnahmenService {
       return;
     }
 
-    EinnahmenStore.save(newEinnahme)
+    AusgabenStore.save(newEinnahme)
       .then((savedEinnahme) => {
         this.einnahmen.push(savedEinnahme);
       })
@@ -47,7 +75,7 @@ export class EinnahmenService {
       return;
     }
 
-    EinnahmenStore.remove(deleteEinnahme.objectId!).then(() => {
+    AusgabenStore.remove(deleteEinnahme.objectId!).then(() => {
       this.einnahmen = this.einnahmen.filter(
         (_, i) => i !== this.einnahmen.indexOf(deleteEinnahme)
       );
@@ -59,7 +87,7 @@ export class EinnahmenService {
   update(updateEinnahme: Einnahme) {
     this.setCurrentUser();
 
-    EinnahmenStore.save<Einnahme>(updateEinnahme).then(
+    AusgabenStore.save<Einnahme>(updateEinnahme).then(
       (updatedEinnahme: Einnahme) => {
         this.einnahmen.map((einnahmen) => {
           let el = einnahmen as Einnahme;

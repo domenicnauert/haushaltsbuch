@@ -11,6 +11,7 @@ export interface Ausgabe {
   monatlich?: number;
   quartalsweise?: number;
   jaehrlich?: number;
+  einnahmeBei?: string;
   ownerId?: string;
   isDelete?: boolean;
   isChange?: boolean;
