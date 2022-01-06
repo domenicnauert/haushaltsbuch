@@ -24,3 +24,12 @@ $container-max-widths: (
 button {
   margin-left: 0px !important;
 }
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 20px;
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+}

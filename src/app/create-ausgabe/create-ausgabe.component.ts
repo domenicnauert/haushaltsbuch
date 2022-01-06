@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Ausgabe } from '../model/ausgabe';
 import { Empfaenger } from '../model/empfaenger';
 import { EnumMapper } from '../model/enumMapper';
 import { Kategorie } from '../model/kategorie';
+import { Position } from '../model/position';
 import { Sender } from '../model/sender';
 import { Zyklus } from '../model/zyklus';
-import { AusgabenService } from '../shared/ausgaben.service';
+import { PositionService } from '../shared/position.service';
 
 @Component({
   selector: 'app-create-ausgabe',
@@ -15,7 +15,10 @@ import { AusgabenService } from '../shared/ausgaben.service';
   styleUrls: ['./create-ausgabe.component.scss'],
 })
 export class CreateAusgabeComponent {
-  public ausgabe!: Ausgabe;
+  public position: any | undefined;
+  public ausgabe!: Position;
+  public isAusgabe!: boolean;
+  public isEdit!: boolean;
   public flgShowDelete: boolean = false;
   public faelligkeit = new FormControl(new Date());
 
@@ -27,9 +30,13 @@ export class CreateAusgabeComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CreateAusgabeComponent>,
-    private ausgabenService: AusgabenService,
-    @Inject(MAT_DIALOG_DATA) public data: Ausgabe
+    private ausgabenService: PositionService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.position = data.pos;
+    this.isEdit = data.isEdit;
+
+    this.isAusgabe = data.isAusgabe;
     this.initAusgabe();
   }
 
@@ -37,7 +44,7 @@ export class CreateAusgabeComponent {
     this.dialogRef.close();
   }
 
-  getAusgabe(): Ausgabe {
+  getAusgabe(): Position {
     this.ausgabe.faelligkeit = this.faelligkeit.value;
 
     let totalMonatlich = 0;
@@ -62,10 +69,13 @@ export class CreateAusgabeComponent {
   }
 
   private initAusgabe() {
-    if (this.data) {
+    if (this.position) {
       this.flgShowDelete = true;
-      this.faelligkeit.setValue(new Date(this.data.faelligkeit));
-      this.ausgabe = this.data;
+      this.faelligkeit.setValue(new Date(this.position.faelligkeit));
+      this.ausgabe = this.position;
+
+      console.log(this.position);
+      this.isAusgabe = this.position.isAusgabe;
     } else {
       this.flgShowDelete = false;
       this.ausgabe = {
@@ -75,6 +85,7 @@ export class CreateAusgabeComponent {
         empfaenger: Empfaenger.EXTERN,
         kategorie: Kategorie.SPAREN,
         zyklus: Zyklus.M,
+        isAusgabe: this.isAusgabe,
       };
     }
   }
@@ -83,8 +94,13 @@ export class CreateAusgabeComponent {
     this.ausgabe.isDelete = true;
     return this.ausgabenService.delete(this.ausgabe);
   }
+
   onChangeClick() {
     this.ausgabe.isChange = true;
     return this.ausgabenService.update(this.ausgabe);
+  }
+
+  flgChanged() {
+    this.ausgabe.isAusgabe = !this.ausgabe.isAusgabe;
   }
 }

@@ -6,11 +6,11 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Ausgabe } from '../model/ausgabe';
 import { EnumMapper } from '../model/enumMapper';
+import { Position } from '../model/position';
 import { Zyklus } from '../model/zyklus';
+import { PositionService } from '../shared/position.service';
 import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
-import { AusgabenService } from './../shared/ausgaben.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -24,7 +24,7 @@ export class AusgabenComponent {
   public innerWidth: any;
   public totalBetrag = 0;
   public totalMonatlich = 0;
-  public dataSource!: MatTableDataSource<Ausgabe>;
+  public dataSource!: MatTableDataSource<Position>;
   public columns = [
     {
       column: 'Betrag',
@@ -93,14 +93,14 @@ export class AusgabenComponent {
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     public dialog: MatDialog,
-    private ausgabenService: AusgabenService
+    private positionenService: PositionService
   ) {
-    this.ausgabenService.loadAll().then(() => {
+    this.positionenService.loadAllAusgeben().then(() => {
       this.loading = false;
       console.log('const');
-      console.log(this.ausgabenService.ausgaben);
+      console.log(this.positionenService.ausgaben);
       this.dataSource = new MatTableDataSource(
-        this.ausgabenService.ausgaben as Ausgabe[]
+        this.positionenService.ausgaben as Position[]
       );
       this.dataSource.sort = this.sort;
       this.getTotalCost();
@@ -130,24 +130,26 @@ export class AusgabenComponent {
     }
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: width,
+      data: { isAusgabe: true, isEdit: false },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
+      console.log(result);
 
       let ausgabeWithId = this.getAusgabeWithNextId(result);
-      this.ausgabenService.add(ausgabeWithId);
+      this.positionenService.add(ausgabeWithId);
 
       this.dataSource.data = [...this.dataSource.data, ausgabeWithId];
       this.getTotalCost();
     });
   }
 
-  private getAusgabeWithNextId(result: Ausgabe) {
+  private getAusgabeWithNextId(result: Position) {
     const id = Math.max(
-      ...this.dataSource.data.map((ausgabe) => (ausgabe as Ausgabe).id!)
+      ...this.dataSource.data.map((ausgabe) => (ausgabe as Position).id!)
     );
     if (id === -Infinity) {
       result.id = 1;
@@ -157,10 +159,10 @@ export class AusgabenComponent {
     return result;
   }
 
-  editAusgabe(ausgabe: Ausgabe) {
+  editAusgabe(ausgabe: Position) {
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: '50%',
-      data: ausgabe,
+      data: { pos: ausgabe, isAusgabe: true, isEdit: true },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -174,7 +176,7 @@ export class AusgabenComponent {
         );
       } else {
         this.dataSource.data.map((ausgabe) => {
-          let el = ausgabe as Ausgabe;
+          let el = ausgabe as Position;
           if (el.id == result.id) {
             return Object.assign({}, el, result);
           }
@@ -192,7 +194,7 @@ export class AusgabenComponent {
     let ausgaben = this.dataSource.data;
 
     ausgaben.forEach((el) => {
-      let ausgabe = el as Ausgabe;
+      let ausgabe = el as Position;
       if (ausgabe.betrag) {
         total = total + +ausgabe.betrag;
         if (ausgabe.zyklus === Zyklus.M) {
@@ -214,8 +216,8 @@ export class AusgabenComponent {
     return total;
   }
 
-  private get ausgaben(): Ausgabe[] {
-    return this.ausgabenService.ausgaben as Ausgabe[];
+  private get ausgaben(): Position[] {
+    return this.positionenService.ausgaben as Position[];
   }
 
   tabelChange(item: string) {

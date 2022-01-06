@@ -1,4 +1,4 @@
-export interface Ausgabe {
+export interface Position {
   objectId?: string;
   id?: number;
   faelligkeit: Date;
@@ -15,4 +15,5 @@ export interface Ausgabe {
   ownerId?: string;
   isDelete?: boolean;
   isChange?: boolean;
+  isAusgabe?: boolean;
 }

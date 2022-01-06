@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { AusgabenService } from './ausgaben.service';
+import { PositionService } from './position.service';
 
 describe('AusgabenService', () => {
-  let service: AusgabenService;
+  let service: PositionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AusgabenService);
+    service = TestBed.inject(PositionService);
   });
 
   it('should be created', () => {

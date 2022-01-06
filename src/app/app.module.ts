@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -32,15 +33,14 @@ import { AppComponent } from './app.component';
 import { AusgabenComponent } from './ausgaben/ausgaben.component';
 import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
-import { Snackbaromponent } from './snackbar/snackbar.component';
-import { VolksbankComponent } from './volksbank/volksbank.component';
 import { DepotsComponent } from './depots/depots.component';
-import { N26Component } from './n26/n26.component';
-import { SparkontenComponent } from './sparkonten/sparkonten.component';
-import { SparkasseComponent } from './sparkasse/sparkasse.component';
 import { EinnahmenComponent } from './einnahmen/einnahmen.component';
-import { CreateEinnahmeComponent } from './create-einnahme/create-einnahme.component';
+import { LoginComponent } from './login/login.component';
+import { N26Component } from './n26/n26.component';
+import { Snackbaromponent } from './snackbar/snackbar.component';
+import { SparkasseComponent } from './sparkasse/sparkasse.component';
+import { SparkontenComponent } from './sparkonten/sparkonten.component';
+import { VolksbankComponent } from './volksbank/volksbank.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -72,7 +72,6 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     SparkontenComponent,
     SparkasseComponent,
     EinnahmenComponent,
-    CreateEinnahmeComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +97,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     MatTooltipModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatRadioModule,
   ],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,5 +1,11 @@
 <div class="container">
-  <h1 mat-dialog-title>Erstelle Ausgabe</h1>
+  <h1 mat-dialog-title>
+    <span *ngIf="isEdit">Bearbeite </span>
+    <span *ngIf="!isEdit">Erstelle </span>
+    <span *ngIf="isAusgabe">Ausgabe</span>
+    <span *ngIf="!isAusgabe">Einnahme</span>
+  </h1>
+
   <div mat-dialog-content>
     <div class="row justify-content-around">
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
@@ -84,22 +90,32 @@
         </mat-form-field>
       </div>
 
-      <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-        <section>
-          <mat-button-toggle-group
-            [(ngModel)]="ausgabe.zyklus"
-            aria-label="Zyklus"
-            class="example-full-width"
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="example-full-width slider" appearance="fill">
+          <mat-slide-toggle (change)="flgChanged()" [(ngModel)]="isAusgabe"
+            >ist eine Ausgabe?</mat-slide-toggle
           >
-            <mat-button-toggle
-              *ngFor="let zyklus of enumZyklus"
-              [value]="zyklus"
+        </div>
+      </div>
+
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="example-full-width" appearance="fill">
+          <section>
+            <mat-button-toggle-group
+              [(ngModel)]="ausgabe.zyklus"
+              aria-label="Zyklus"
               class="example-full-width"
-              matTooltip="Betrag monatlich"
-              >{{ EnumMapper[zyklus] }}</mat-button-toggle
             >
-          </mat-button-toggle-group>
-        </section>
+              <mat-button-toggle
+                *ngFor="let zyklus of enumZyklus"
+                [value]="zyklus"
+                class="example-full-width"
+                matTooltip="Betrag monatlich"
+                >{{ EnumMapper[zyklus] }}</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+          </section>
+        </div>
       </div>
     </div>
   </div>

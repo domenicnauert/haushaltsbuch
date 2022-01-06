@@ -6,11 +6,11 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { CreateAusgabeComponent } from '../create-ausgabe/create-ausgabe.component';
 import { EnumMapper } from '../model/enumMapper';
-import { CreateEinnahmeComponent } from './../create-einnahme/create-einnahme.component';
 import { Einnahme } from './../model/einnahme';
 import { Zyklus } from './../model/zyklus';
-import { EinnahmenService } from './../shared/einnahmen.service';
+import { PositionService } from './../shared/position.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 @Component({
@@ -94,16 +94,16 @@ export class EinnahmenComponent {
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     public dialog: MatDialog,
-    private einnahmenService: EinnahmenService
+    private positionenServcie: PositionService
   ) {
     this.sizeColumnsInit = this.displayedColumns.length;
 
-    this.einnahmenService.loadAll().then(() => {
+    this.positionenServcie.loadAllEinnahmen().then(() => {
       this.loading = false;
       console.log('const');
-      console.log(this.einnahmenService.einnahmen);
+      console.log(this.positionenServcie.einnahmen);
       this.dataSource = new MatTableDataSource(
-        this.einnahmenService.einnahmen as Einnahme[]
+        this.positionenServcie.einnahmen as Einnahme[]
       );
       this.dataSource.sort = this.sort;
       this.getTotalCost();
@@ -131,8 +131,12 @@ export class EinnahmenComponent {
     if (this.innerWidth < 1300) {
       width = '100%';
     }
-    const dialogRef = this.dialog.open(CreateEinnahmeComponent, {
+    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: width,
+      data: {
+        isAusgabe: false,
+        isEdit: false,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -141,7 +145,7 @@ export class EinnahmenComponent {
       }
 
       let einnahmeWithId = this.getEinnahmeWithNextId(result);
-      this.einnahmenService.add(einnahmeWithId);
+      this.positionenServcie.add(einnahmeWithId);
 
       this.dataSource.data = [...this.dataSource.data, einnahmeWithId];
       this.getTotalCost();
@@ -161,9 +165,13 @@ export class EinnahmenComponent {
   }
 
   editAusgabe(ausgabe: Einnahme) {
-    const dialogRef = this.dialog.open(CreateEinnahmeComponent, {
+    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: '50%',
-      data: ausgabe,
+      data: {
+        pos: ausgabe,
+        isAusgabe: false,
+        isEdit: true,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -218,7 +226,7 @@ export class EinnahmenComponent {
   }
 
   private get einnahmen(): Einnahme[] {
-    return this.einnahmenService.einnahmen as Einnahme[];
+    return this.positionenServcie.einnahmen as Einnahme[];
   }
 
   tabelChange(item: string) {
