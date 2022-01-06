@@ -1,4 +1,7 @@
-<mat-tab-group>
+<mat-tab-group
+  [selectedIndex]="selected"
+  (selectedIndexChange)="selectedTabChanged($event)"
+>
   <mat-tab label="Sparkasse">
     <app-sparkasse></app-sparkasse>
   </mat-tab>

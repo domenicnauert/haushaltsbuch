@@ -8,5 +8,18 @@ import { Component } from '@angular/core';
 export class DashboardComponent {
   public ausgabenTitel = 'Ausgabenliste';
   public einnahmenTitel = 'Einnahmenliste';
-  constructor() {}
+  private key: string = 'HaushaltsbuchV1.Tab';
+  public selected = 0;
+
+  constructor() {
+    const tab = localStorage.getItem(this.key);
+    if (tab) {
+      this.selected = tab as unknown as number;
+    }
+  }
+
+  selectedTabChanged(event: number) {
+    localStorage.setItem(this.key, event.toString());
+    this.selected = event;
+  }
 }
