@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CreateAusgabeComponent } from '../create-ausgabe/create-ausgabe.component';
 import { EnumMapper } from '../model/enumMapper';
-import { Einnahme } from './../model/einnahme';
+import { Position } from './../model/position';
 import { Zyklus } from './../model/zyklus';
 import { PositionService } from './../shared/position.service';
 
@@ -23,7 +23,7 @@ export class EinnahmenComponent {
   public innerWidth: any;
   public totalBetrag = 0;
   public totalMonatlich = 0;
-  public dataSource!: MatTableDataSource<Einnahme>;
+  public dataSource!: MatTableDataSource<Position>;
   public sizeColumnsInit!: number;
   public columns = [
     {
@@ -101,7 +101,7 @@ export class EinnahmenComponent {
     this.positionenServcie.loadAllEinnahmen().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
-        this.positionenServcie.einnahmen as Einnahme[]
+        this.positionenServcie.einnahmen as Position[]
       );
       this.dataSource.sort = this.sort;
       this.getTotalCost();
@@ -150,9 +150,9 @@ export class EinnahmenComponent {
     });
   }
 
-  private getEinnahmeWithNextId(result: Einnahme) {
+  private getEinnahmeWithNextId(result: Position) {
     const id = Math.max(
-      ...this.dataSource.data.map((einnahme) => (einnahme as Einnahme).id!)
+      ...this.dataSource.data.map((einnahme) => (einnahme as Position).id!)
     );
     if (id === -Infinity) {
       result.id = 1;
@@ -162,7 +162,7 @@ export class EinnahmenComponent {
     return result;
   }
 
-  editAusgabe(ausgabe: Einnahme) {
+  editAusgabe(ausgabe: Position) {
     const dialogRef = this.dialog.open(CreateAusgabeComponent, {
       width: '50%',
       data: {
@@ -183,7 +183,7 @@ export class EinnahmenComponent {
         );
       } else {
         this.dataSource.data.map((einnahme) => {
-          let el = einnahme as Einnahme;
+          let el = einnahme as Position;
           if (el.id == result.id) {
             return Object.assign({}, el, result);
           }
@@ -201,7 +201,7 @@ export class EinnahmenComponent {
     let einnahmen = this.dataSource.data;
 
     einnahmen.forEach((el) => {
-      let einnahme = el as Einnahme;
+      let einnahme = el as Position;
       if (einnahme.betrag) {
         total = total + +einnahme.betrag;
         if (einnahme.zyklus === Zyklus.M) {
@@ -223,8 +223,8 @@ export class EinnahmenComponent {
     return total;
   }
 
-  private get einnahmen(): Einnahme[] {
-    return this.positionenServcie.einnahmen as Einnahme[];
+  private get einnahmen(): Position[] {
+    return this.positionenServcie.einnahmen as Position[];
   }
 
   tabelChange(item: string) {
