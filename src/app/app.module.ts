@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDateFormats,
   MatNativeDateModule,
+  MatRippleModule,
   MAT_DATE_FORMATS,
   MAT_NATIVE_DATE_FORMATS,
 } from '@angular/material/core';
@@ -75,6 +76,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
   imports: [
     BrowserModule,
     MatCheckboxModule,
+    MatRippleModule,
     MatSnackBarModule,
     MatMenuModule,
     AppRoutingModule,
