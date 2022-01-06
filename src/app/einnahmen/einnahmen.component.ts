@@ -27,47 +27,39 @@ export class EinnahmenComponent {
   public sizeColumnsInit!: number;
   public columns = [
     {
+      column: 'Betrag',
+      value: 'betrag',
+      checked: true,
+    },
+    {
       column: 'Sender',
       value: 'sender',
       checked: true,
-      pos: 4,
-      render: true,
     },
     {
       column: 'Empfänger',
       value: 'empfaenger',
       checked: true,
-      pos: 5,
-      render: true,
     },
     {
       column: 'Kategorie',
       value: 'kategorie',
       checked: true,
-      pos: 6,
-      render: true,
     },
     {
       column: 'Zyklus',
       value: 'zyklus',
       checked: true,
-      pos: 7,
-      render: true,
     },
-
     {
       column: 'q',
       value: 'quartalsweise',
       checked: true,
-      pos: 9,
-      render: true,
     },
     {
       column: 'j',
       value: 'jaehrlich',
       checked: true,
-      pos: 10,
-      render: true,
     },
   ];
   public displayedColumns: string[] = [
@@ -225,22 +217,5 @@ export class EinnahmenComponent {
 
   private get einnahmen(): Position[] {
     return this.positionenServcie.einnahmen as Position[];
-  }
-
-  tabelChange(item: string) {
-    const index = this.displayedColumns.indexOf(item);
-
-    if (index === -1) {
-      // nicht im table => hinzufügen
-      this.displayedColumns.splice(
-        this.columns.findIndex((x) => x.value === item),
-        0,
-        item
-      );
-    } else {
-      this.displayedColumns = this.displayedColumns.filter(
-        (_, i) => i !== index
-      );
-    }
   }
 }

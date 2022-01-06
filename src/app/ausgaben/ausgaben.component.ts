@@ -30,43 +30,36 @@ export class AusgabenComponent {
       column: 'Betrag',
       value: 'betrag',
       checked: true,
-      pos: 3,
     },
     {
       column: 'Sender',
       value: 'sender',
       checked: true,
-      pos: 4,
     },
     {
       column: 'Empfänger',
       value: 'empfaenger',
       checked: true,
-      pos: 5,
     },
     {
       column: 'Kategorie',
       value: 'kategorie',
       checked: true,
-      pos: 6,
     },
     {
       column: 'Zyklus',
       value: 'zyklus',
       checked: true,
-      pos: 7,
     },
     {
       column: 'q',
       value: 'quartalsweise',
       checked: true,
-      pos: 9,
     },
     {
       column: 'j',
       value: 'jaehrlich',
       checked: true,
-      pos: 10,
     },
   ];
   public displayedColumns: string[] = [
@@ -215,22 +208,5 @@ export class AusgabenComponent {
 
   private get ausgaben(): Position[] {
     return this.positionenService.ausgaben as Position[];
-  }
-
-  tabelChange(item: string) {
-    const index = this.displayedColumns.indexOf(item);
-
-    if (index === -1) {
-      // nicht im table => hinzufügen
-      this.displayedColumns.splice(
-        this.columns.findIndex((x) => x.value === item),
-        0,
-        item
-      );
-    } else {
-      this.displayedColumns = this.displayedColumns.filter(
-        (_, i) => i !== index
-      );
-    }
   }
 }
