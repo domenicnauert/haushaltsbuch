@@ -73,8 +73,6 @@ export class CreateAusgabeComponent {
       this.flgShowDelete = true;
       this.faelligkeit.setValue(new Date(this.position.faelligkeit));
       this.ausgabe = this.position;
-
-      console.log(this.position);
       this.isAusgabe = this.position.isAusgabe;
     } else {
       this.flgShowDelete = false;

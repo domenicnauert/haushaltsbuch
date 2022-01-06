@@ -97,8 +97,6 @@ export class AusgabenComponent {
   ) {
     this.positionenService.loadAllAusgeben().then(() => {
       this.loading = false;
-      console.log('const');
-      console.log(this.positionenService.ausgaben);
       this.dataSource = new MatTableDataSource(
         this.positionenService.ausgaben as Position[]
       );
@@ -137,7 +135,6 @@ export class AusgabenComponent {
       if (!result) {
         return;
       }
-      console.log(result);
 
       let ausgabeWithId = this.getAusgabeWithNextId(result);
       this.positionenService.add(ausgabeWithId);

@@ -100,8 +100,6 @@ export class EinnahmenComponent {
 
     this.positionenServcie.loadAllEinnahmen().then(() => {
       this.loading = false;
-      console.log('const');
-      console.log(this.positionenServcie.einnahmen);
       this.dataSource = new MatTableDataSource(
         this.positionenServcie.einnahmen as Einnahme[]
       );

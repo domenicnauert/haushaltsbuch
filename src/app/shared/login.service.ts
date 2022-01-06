@@ -30,7 +30,6 @@ export class LoginService {
     Backendless.UserService.register(user)
       .then((registeredUser) => {
         this.registered = true;
-        console.log(registeredUser);
       })
       .catch((error) => {
         this.registered = false;
