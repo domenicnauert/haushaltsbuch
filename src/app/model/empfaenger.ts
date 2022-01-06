@@ -6,4 +6,5 @@ export enum Empfaenger {
   BAR = 'BAR',
   DEPOT = 'DEPOT',
   EXTERN = 'EXTERN',
+  SPARKONTO = 'SPARKONTO',
 }
