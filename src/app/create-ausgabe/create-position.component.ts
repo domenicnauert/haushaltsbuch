@@ -10,11 +10,11 @@ import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
 
 @Component({
-  selector: 'app-create-ausgabe',
-  templateUrl: './create-ausgabe.component.html',
-  styleUrls: ['./create-ausgabe.component.scss'],
+  selector: 'app-create-position',
+  templateUrl: './create-position.component.html',
+  styleUrls: ['./create-position.component.scss'],
 })
-export class CreateAusgabeComponent {
+export class CreatePositionComponent {
   public position: any | undefined;
   public ausgabe!: Position;
   public isAusgabe!: boolean;
@@ -29,7 +29,7 @@ export class CreateAusgabeComponent {
   public enumZyklus = Object.values(Zyklus);
 
   constructor(
-    public dialogRef: MatDialogRef<CreateAusgabeComponent>,
+    public dialogRef: MatDialogRef<CreatePositionComponent>,
     private ausgabenService: PositionService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {

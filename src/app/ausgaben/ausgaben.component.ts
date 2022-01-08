@@ -6,11 +6,11 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { CreatePositionComponent } from '../create-ausgabe/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from '../model/position';
 import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
-import { CreateAusgabeComponent } from './../create-ausgabe/create-ausgabe.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -119,7 +119,7 @@ export class AusgabenComponent {
     if (this.innerWidth < 1300) {
       width = '100%';
     }
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+    const dialogRef = this.dialog.open(CreatePositionComponent, {
       width: width,
       data: { isAusgabe: true, isEdit: false },
     });
@@ -150,7 +150,7 @@ export class AusgabenComponent {
   }
 
   editAusgabe(ausgabe: Position) {
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+    const dialogRef = this.dialog.open(CreatePositionComponent, {
       width: '50%',
       data: { pos: ausgabe, isAusgabe: true, isEdit: true },
     });

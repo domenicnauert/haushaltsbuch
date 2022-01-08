@@ -31,7 +31,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AusgabenComponent } from './ausgaben/ausgaben.component';
-import { CreateAusgabeComponent } from './create-ausgabe/create-ausgabe.component';
+import { CreatePositionComponent } from './create-ausgabe/create-position.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DepotsComponent } from './depots/depots.component';
 import { EinnahmenComponent } from './einnahmen/einnahmen.component';
@@ -63,7 +63,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     AppComponent,
     DashboardComponent,
     AusgabenComponent,
-    CreateAusgabeComponent,
+    CreatePositionComponent,
     LoginComponent,
     Snackbaromponent,
     VolksbankComponent,

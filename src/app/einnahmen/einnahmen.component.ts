@@ -6,7 +6,7 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CreateAusgabeComponent } from '../create-ausgabe/create-ausgabe.component';
+import { CreatePositionComponent } from '../create-ausgabe/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from './../model/position';
 import { Zyklus } from './../model/zyklus';
@@ -121,7 +121,7 @@ export class EinnahmenComponent {
     if (this.innerWidth < 1300) {
       width = '100%';
     }
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+    const dialogRef = this.dialog.open(CreatePositionComponent, {
       width: width,
       data: {
         isAusgabe: false,
@@ -155,7 +155,7 @@ export class EinnahmenComponent {
   }
 
   editAusgabe(ausgabe: Position) {
-    const dialogRef = this.dialog.open(CreateAusgabeComponent, {
+    const dialogRef = this.dialog.open(CreatePositionComponent, {
       width: '50%',
       data: {
         pos: ausgabe,
