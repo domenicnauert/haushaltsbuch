@@ -15,8 +15,8 @@ import { PositionService } from '../shared/position.service';
   styleUrls: ['./create-position.component.scss'],
 })
 export class CreatePositionComponent {
-  public position: any | undefined;
-  public ausgabe!: Position;
+  public positionenInput: any | undefined;
+  public position!: Position;
   public isAusgabe!: boolean;
   public isEdit!: boolean;
   public flgShowDelete: boolean = false;
@@ -33,7 +33,7 @@ export class CreatePositionComponent {
     private ausgabenService: PositionService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.position = data.pos;
+    this.positionenInput = data.pos;
     this.isEdit = data.isEdit;
 
     this.isAusgabe = data.isAusgabe;
@@ -45,38 +45,38 @@ export class CreatePositionComponent {
   }
 
   getAusgabe(): Position {
-    this.ausgabe.faelligkeit = this.faelligkeit.value;
+    this.position.faelligkeit = this.faelligkeit.value;
 
     let totalMonatlich = 0;
 
-    if (this.ausgabe.betrag) {
-      if (this.ausgabe.zyklus === Zyklus.M) {
-        totalMonatlich = totalMonatlich + +this.ausgabe.betrag;
-      } else if (this.ausgabe.zyklus === Zyklus.Q) {
-        let q: number = +this.ausgabe.betrag / 3;
+    if (this.position.betrag) {
+      if (this.position.zyklus === Zyklus.M) {
+        totalMonatlich = totalMonatlich + +this.position.betrag;
+      } else if (this.position.zyklus === Zyklus.Q) {
+        let q: number = +this.position.betrag / 3;
         totalMonatlich = totalMonatlich + +q;
-      } else if (this.ausgabe.zyklus === Zyklus.J) {
-        let j: number = +this.ausgabe.betrag / 12;
+      } else if (this.position.zyklus === Zyklus.J) {
+        let j: number = +this.position.betrag / 12;
         totalMonatlich = totalMonatlich + +j;
       }
     }
 
-    this.ausgabe.monatlich = totalMonatlich;
-    this.ausgabe.quartalsweise = totalMonatlich * 3;
-    this.ausgabe.jaehrlich = totalMonatlich * 12;
+    this.position.monatlich = totalMonatlich;
+    this.position.quartalsweise = totalMonatlich * 3;
+    this.position.jaehrlich = totalMonatlich * 12;
 
-    return this.ausgabe;
+    return this.position;
   }
 
   private initAusgabe() {
-    if (this.position) {
+    if (this.positionenInput) {
       this.flgShowDelete = true;
-      this.faelligkeit.setValue(new Date(this.position.faelligkeit));
-      this.ausgabe = this.position;
-      this.isAusgabe = this.position.isAusgabe;
+      this.faelligkeit.setValue(new Date(this.positionenInput.faelligkeit));
+      this.position = this.positionenInput;
+      this.isAusgabe = this.positionenInput.isAusgabe;
     } else {
       this.flgShowDelete = false;
-      this.ausgabe = {
+      this.position = {
         faelligkeit: new Date(),
         art: '',
         sender: Sender.SPARKASSE,
@@ -89,16 +89,16 @@ export class CreatePositionComponent {
   }
 
   onDeleteClick() {
-    this.ausgabe.isDelete = true;
-    return this.ausgabenService.delete(this.ausgabe);
+    this.position.isDelete = true;
+    return this.ausgabenService.delete(this.position);
   }
 
   onChangeClick() {
-    this.ausgabe.isChange = true;
-    return this.ausgabenService.update(this.ausgabe);
+    this.position.isChange = true;
+    return this.ausgabenService.update(this.position);
   }
 
   flgChanged() {
-    this.ausgabe.isAusgabe = !this.ausgabe.isAusgabe;
+    this.position.isAusgabe = !this.position.isAusgabe;
   }
 }

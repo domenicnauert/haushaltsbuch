@@ -27,13 +27,13 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Art</mat-label>
-          <input matInput type="text" [(ngModel)]="ausgabe.art" />
+          <input matInput type="text" [(ngModel)]="position.art" />
           <button
-            *ngIf="ausgabe.art"
+            *ngIf="position.art"
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="ausgabe.art = ''"
+            (click)="position.art = ''"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -44,13 +44,13 @@
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Betrag</mat-label>
           <span matSuffix>€</span>
-          <input #betrag matInput type="number" [(ngModel)]="ausgabe.betrag" />
+          <input #betrag matInput type="number" [(ngModel)]="position.betrag" />
           <button
-            *ngIf="ausgabe.betrag"
+            *ngIf="position.betrag"
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="ausgabe.betrag = undefined"
+            (click)="position.betrag = undefined"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -60,7 +60,7 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Sender</mat-label>
-          <mat-select [(value)]="ausgabe.sender">
+          <mat-select [(value)]="position.sender">
             <mat-option *ngFor="let item of enumSender" [value]="item">
               {{ EnumMapper[item] }}
             </mat-option>
@@ -71,7 +71,7 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Empfänger</mat-label>
-          <mat-select [(value)]="ausgabe.empfaenger">
+          <mat-select [(value)]="position.empfaenger">
             <mat-option *ngFor="let item of enumEmpfaenger" [value]="item">
               {{ EnumMapper[item] }}
             </mat-option>
@@ -82,7 +82,7 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Kategorie</mat-label>
-          <mat-select [(value)]="ausgabe.kategorie">
+          <mat-select [(value)]="position.kategorie">
             <mat-option *ngFor="let item of enumKategorie" [value]="item">
               {{ EnumMapper[item] }}
             </mat-option>
@@ -102,7 +102,7 @@
         <div class="example-full-width" appearance="fill">
           <section>
             <mat-button-toggle-group
-              [(ngModel)]="ausgabe.zyklus"
+              [(ngModel)]="position.zyklus"
               aria-label="Zyklus"
               class="example-full-width"
             >
@@ -141,7 +141,7 @@
       class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       *ngIf="flgShowDelete"
       mat-button
-      [mat-dialog-close]="ausgabe"
+      [mat-dialog-close]="position"
       (click)="onDeleteClick()"
     >
       Löschen
