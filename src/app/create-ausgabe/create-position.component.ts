@@ -37,14 +37,14 @@ export class CreatePositionComponent {
     this.isEdit = data.isEdit;
 
     this.isAusgabe = data.isAusgabe;
-    this.initAusgabe();
+    this.initPosition();
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  getAusgabe(): Position {
+  getPosition(): Position {
     this.position.faelligkeit = this.faelligkeit.value;
 
     let totalMonatlich = 0;
@@ -68,7 +68,7 @@ export class CreatePositionComponent {
     return this.position;
   }
 
-  private initAusgabe() {
+  private initPosition() {
     if (this.positionenInput) {
       this.flgShowDelete = true;
       this.faelligkeit.setValue(new Date(this.positionenInput.faelligkeit));

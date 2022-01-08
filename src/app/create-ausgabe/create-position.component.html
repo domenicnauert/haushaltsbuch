@@ -132,7 +132,7 @@
       class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       mat-button
       *ngIf="!flgShowDelete"
-      [mat-dialog-close]="getAusgabe()"
+      [mat-dialog-close]="getPosition()"
       cdkFocusInitial
     >
       Speichern
@@ -150,7 +150,7 @@
       class="col-xl-4 col-lg-6 col-md-12 col-sm-12"
       mat-button
       *ngIf="flgShowDelete"
-      [mat-dialog-close]="getAusgabe()"
+      [mat-dialog-close]="getPosition()"
       cdkFocusInitial
       (click)="onChangeClick()"
     >
