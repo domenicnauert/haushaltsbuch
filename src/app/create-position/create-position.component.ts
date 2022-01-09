@@ -3,11 +3,11 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from '../model/position';
-import { Sender } from '../model/sender';
 import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
 import { Empfaenger } from './../model/empfaenger';
 import { Kategorie } from './../model/kategorie';
+import { Sender } from './../model/sender';
 
 @Component({
   selector: 'app-create-position',
@@ -117,7 +117,7 @@ export class CreatePositionComponent {
   flgKontostandChanged() {
     if (this.isKontostand) {
       this.position.isKontostand = !this.position.isKontostand;
-      this.position.empfaenger = Empfaenger.LEER;
+      this.position.sender = Sender.LEER;
       this.position.kategorie = Kategorie.KONTOSTAND;
       this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
     } else {

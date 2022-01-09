@@ -21,7 +21,7 @@ export class VolksbankAusgabenComponent implements OnInit {
   public totalBetrag: number = 0;
   public displayedColumns: string[] = [
     'checkbox',
-    'id',
+    // 'id',
     'faelligkeit',
     'art',
     'monatlich',

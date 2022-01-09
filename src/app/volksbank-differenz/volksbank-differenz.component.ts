@@ -6,92 +6,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from '../model/position';
-import { PositionService } from '../shared/position.service';
+import { VolksbankService } from './../shared/volksbank.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-
-const ELEMENT_DATA: Position[] = [
-  {
-    id: 1,
-    art: 'Hydrogen',
-    betrag: 1.0079,
-    zyklus: 'H',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 2,
-    art: 'Helium',
-    betrag: 4.0026,
-    zyklus: 'He',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 3,
-    art: 'Lithium',
-    betrag: 6.941,
-    zyklus: 'Li',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 4,
-    art: 'Beryllium',
-    betrag: 9.0122,
-    zyklus: 'Be',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 5,
-    art: 'Boron',
-    betrag: 10.811,
-    zyklus: 'B',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 6,
-    art: 'Carbon',
-    betrag: 12.0107,
-    zyklus: 'C',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 7,
-    art: 'Nitrogen',
-    betrag: 14.0067,
-    zyklus: 'N',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 8,
-    art: 'Oxygen',
-    betrag: 15.9994,
-    zyklus: 'O',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 9,
-    art: 'Fluorine',
-    betrag: 18.9984,
-    zyklus: 'F',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 10,
-    art: 'Neon',
-    betrag: 20.1797,
-    zyklus: 'Ne',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-];
 
 @Component({
   selector: 'app-volksbank-differenz',
@@ -104,15 +21,15 @@ export class VolksbankDifferenzComponent implements OnInit {
   public totalBetrag: number = 0;
   public displayedColumns: string[] = [
     'checkbox',
-    'id',
+    // 'id',
     'faelligkeit',
     'art',
     'monatlich',
   ];
-  dataSource = new MatTableDataSource<Position>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
 
-  constructor(private ausgabenService: PositionService) {}
+  constructor(private volksbankService: VolksbankService) {}
 
   ngOnInit(): void {}
 
