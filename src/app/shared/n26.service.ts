@@ -9,7 +9,7 @@ const PositionStore = Backendless.Data.of('Position');
 @Injectable({
   providedIn: 'root',
 })
-export class VolksbankService {
+export class N26Service {
   constructor(public loginService: LoginService) {}
 
   public positionen: Position[] = [];
@@ -20,8 +20,7 @@ export class VolksbankService {
     if (!this.setCurrentUser()) {
       return;
     }
-    const where =
-      "sender = '" + Empfaenger.VOLKSBANK + "'  OR isTemporaer = true";
+    const where = "sender = '" + Empfaenger.N26 + "'";
 
     var queryBuilder =
       Backendless.DataQueryBuilder.create().setWhereClause(where);
@@ -44,8 +43,7 @@ export class VolksbankService {
       return;
     }
 
-    const where =
-      "empfaenger = '" + Empfaenger.VOLKSBANK + "' OR isTemporaer = true";
+    const where = "empfaenger = '" + Empfaenger.N26 + "'";
 
     var queryBuilder =
       Backendless.DataQueryBuilder.create().setWhereClause(where);
