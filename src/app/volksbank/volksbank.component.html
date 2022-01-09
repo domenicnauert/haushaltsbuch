@@ -1,19 +1,20 @@
-<div *ngIf="loading" class="loadingScreen"></div>
-<br />
-<div>Volksbank Table with const daten</div>
-
-<mat-spinner *ngIf="loading" class="loadingSpinner"></mat-spinner>
-
 <div class="row">
   <div Class="col-md-4">
-    <app-volksbank-einnahmen></app-volksbank-einnahmen>
+    <app-volksbank-einnahmen
+      (changeEinnahmen)="handleEinnahmenChanged($event)"
+    ></app-volksbank-einnahmen>
   </div>
 
   <div Class="col-md-4">
-    <app-volksbank-ausgaben></app-volksbank-ausgaben>
+    <app-volksbank-ausgaben
+      (changeAusgabe)="handleAusgabeChanged($event)"
+    ></app-volksbank-ausgaben>
   </div>
 
   <div Class="col-md-4">
-    <app-volksbank-differenz></app-volksbank-differenz>
+    <app-volksbank-differenz
+      [ausgabenGesamt]="ausgabenObj"
+      [einnahmenGesamt]="einnahmenObj"
+    ></app-volksbank-differenz>
   </div>
 </div>

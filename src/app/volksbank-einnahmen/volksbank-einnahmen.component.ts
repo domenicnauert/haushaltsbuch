@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from '../model/position';
@@ -29,6 +29,9 @@ export class VolksbankEinnahmenComponent implements OnInit {
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
 
+  @Output()
+  changeEinnahmen = new EventEmitter();
+
   constructor(private volksbankService: VolksbankService) {
     this.volksbankService.loadAllEinnahmen().then(() => {
       this.loading = false;
@@ -52,6 +55,8 @@ export class VolksbankEinnahmenComponent implements OnInit {
     calc.forEach((el) => {
       total = total + el.monatlich!;
     });
+
+    this.changeEinnahmen.emit(total);
 
     return total;
   }

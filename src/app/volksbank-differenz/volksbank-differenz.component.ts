@@ -2,11 +2,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { VolksbankService } from './../shared/volksbank.service';
+import { Position } from './../model/position';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -15,7 +14,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './volksbank-differenz.component.html',
   styleUrls: ['./volksbank-differenz.component.scss'],
 })
-export class VolksbankDifferenzComponent implements OnInit {
+export class VolksbankDifferenzComponent implements OnChanges {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -29,15 +28,25 @@ export class VolksbankDifferenzComponent implements OnInit {
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
 
-  constructor(private volksbankService: VolksbankService) {}
+  @Input()
+  einnahmenGesamt: any;
+  @Input()
+  ausgabenGesamt: any;
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    const data = [
+      this.einnahmenGesamt as Position,
+      this.ausgabenGesamt as Position,
+    ];
+
+    this.dataSource.data = data;
+  }
 
   getTotalCost() {
     let total: number = 0;
-    let einnahmen = this.dataSource.data;
+    let positionen = this.dataSource.data;
 
-    const calc = einnahmen.filter(
+    const calc = positionen.filter(
       (item) => !this.selection.selected.includes(item)
     );
     calc.forEach((el) => {
@@ -69,10 +78,5 @@ export class VolksbankDifferenzComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id! + 1
     }`;
-  }
-
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
   }
 }
