@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Empfaenger } from '../model/empfaenger';
 import { EnumMapper } from '../model/enumMapper';
-import { Kategorie } from '../model/kategorie';
 import { Position } from '../model/position';
 import { Sender } from '../model/sender';
 import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
+import { Empfaenger } from './../model/empfaenger';
+import { Kategorie } from './../model/kategorie';
 
 @Component({
   selector: 'app-create-position',
@@ -19,6 +19,8 @@ export class CreatePositionComponent {
   public position!: Position;
   public isAusgabe!: boolean;
   public isEdit!: boolean;
+  public isKontostand!: boolean;
+  public isTemporaer!: boolean;
   public flgShowDelete: boolean = false;
   public faelligkeit = new FormControl(new Date());
 
@@ -74,8 +76,11 @@ export class CreatePositionComponent {
       this.faelligkeit.setValue(new Date(this.positionenInput.faelligkeit));
       this.position = this.positionenInput;
       this.isAusgabe = this.positionenInput.isAusgabe;
+      this.isKontostand = this.positionenInput.isKontostand;
+      this.isTemporaer = this.positionenInput.isTemporaer;
     } else {
       this.flgShowDelete = false;
+      this.faelligkeit.setValue(new Date());
       this.position = {
         faelligkeit: new Date(),
         art: '',
@@ -84,6 +89,8 @@ export class CreatePositionComponent {
         kategorie: Kategorie.SPAREN,
         zyklus: Zyklus.M,
         isAusgabe: this.isAusgabe,
+        isKontostand: this.isKontostand,
+        isTemporaer: this.isTemporaer,
       };
     }
   }
@@ -98,7 +105,28 @@ export class CreatePositionComponent {
     return this.ausgabenService.update(this.position);
   }
 
-  flgChanged() {
+  flgAusgabeChanged() {
     this.position.isAusgabe = !this.position.isAusgabe;
+
+    this.isKontostand = false;
+    this.isTemporaer = false;
+
+    this.flgKontostandChanged();
+  }
+
+  flgKontostandChanged() {
+    if (this.isKontostand) {
+      this.position.isKontostand = !this.position.isKontostand;
+      this.position.empfaenger = Empfaenger.LEER;
+      this.position.kategorie = Kategorie.KONTOSTAND;
+      this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
+    } else {
+      console.log('init');
+      this.initPosition();
+    }
+  }
+
+  flgTemporaerChanged() {
+    this.position.isTemporaer = !this.position.isTemporaer;
   }
 }

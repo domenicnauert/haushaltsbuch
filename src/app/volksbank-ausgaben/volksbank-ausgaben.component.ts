@@ -1,4 +1,3 @@
-
 import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -6,93 +5,10 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
-import { PositionService } from '../shared/position.service';
 import { Position } from '../model/position';
+import { VolksbankService } from './../shared/volksbank.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-
-const ELEMENT_DATA: Position[] = [
-  {
-    id: 1,
-    art: 'Hydrogen',
-    betrag: 1.0079,
-    zyklus: 'H',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 2,
-    art: 'Helium',
-    betrag: 4.0026,
-    zyklus: 'He',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 3,
-    art: 'Lithium',
-    betrag: 6.941,
-    zyklus: 'Li',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 4,
-    art: 'Beryllium',
-    betrag: 9.0122,
-    zyklus: 'Be',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 5,
-    art: 'Boron',
-    betrag: 10.811,
-    zyklus: 'B',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 6,
-    art: 'Carbon',
-    betrag: 12.0107,
-    zyklus: 'C',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 7,
-    art: 'Nitrogen',
-    betrag: 14.0067,
-    zyklus: 'N',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 8,
-    art: 'Oxygen',
-    betrag: 15.9994,
-    zyklus: 'O',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 9,
-    art: 'Fluorine',
-    betrag: 18.9984,
-    zyklus: 'F',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-  {
-    id: 10,
-    art: 'Neon',
-    betrag: 20.1797,
-    zyklus: 'Ne',
-    monatlich: 1.0079,
-    faelligkeit: new Date(),
-  },
-];
 
 @Component({
   selector: 'app-volksbank-ausgaben',
@@ -100,7 +16,6 @@ const ELEMENT_DATA: Position[] = [
   styleUrls: ['./volksbank-ausgaben.component.scss'],
 })
 export class VolksbankAusgabenComponent implements OnInit {
-
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -111,19 +26,16 @@ export class VolksbankAusgabenComponent implements OnInit {
     'art',
     'monatlich',
   ];
-  dataSource = new MatTableDataSource<Position>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
 
-  constructor(
-    
-    private positionenService: PositionService
-  ) {
+  constructor(private positionenService: VolksbankService) {
     this.positionenService.loadAllAusgeben().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
         this.positionenService.ausgaben as Position[]
       );
-    
+
       this.getTotalCost();
     });
   }

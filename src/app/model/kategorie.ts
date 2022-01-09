@@ -7,4 +7,5 @@ export enum Kategorie {
   SPAREN = 'SPAREN',
   VERSICHERUNG = 'VERSICHERUNG',
   VERTRAG = 'VERTRAG',
+  KONTOSTAND = 'KONTOSTAND',
 }

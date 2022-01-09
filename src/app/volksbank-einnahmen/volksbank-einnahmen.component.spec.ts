@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { VolksbankEinnahmenComponent } from './volksbank-einnahmen.component';
 
 describe('VolksbankComponent', () => {
@@ -8,9 +7,8 @@ describe('VolksbankComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VolksbankEinnahmenComponent ]
-    })
-    .compileComponents();
+      declarations: [VolksbankEinnahmenComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

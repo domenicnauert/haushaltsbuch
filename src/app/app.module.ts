@@ -31,7 +31,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AusgabenComponent } from './ausgaben/ausgaben.component';
-import { CreatePositionComponent } from './create-ausgabe/create-position.component';
+import { CreatePositionComponent } from './create-position/create-position.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DepotsComponent } from './depots/depots.component';
 import { EinnahmenComponent } from './einnahmen/einnahmen.component';
@@ -77,7 +77,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     EinnahmenComponent,
     VolksbankEinnahmenComponent,
     VolksbankAusgabenComponent,
-    VolksbankDifferenzComponent
+    VolksbankDifferenzComponent,
   ],
   imports: [
     BrowserModule,

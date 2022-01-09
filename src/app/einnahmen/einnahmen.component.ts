@@ -6,7 +6,7 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CreatePositionComponent } from '../create-ausgabe/create-position.component';
+import { CreatePositionComponent } from '../create-position/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from './../model/position';
 import { Zyklus } from './../model/zyklus';

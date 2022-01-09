@@ -1,4 +1,3 @@
-
 import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -6,8 +5,8 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
-import { PositionService } from '../shared/position.service';
 import { Position } from '../model/position';
+import { PositionService } from '../shared/position.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -100,7 +99,6 @@ const ELEMENT_DATA: Position[] = [
   styleUrls: ['./volksbank-differenz.component.scss'],
 })
 export class VolksbankDifferenzComponent implements OnInit {
-
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -114,10 +112,7 @@ export class VolksbankDifferenzComponent implements OnInit {
   dataSource = new MatTableDataSource<Position>(ELEMENT_DATA);
   selection = new SelectionModel<Position>(true, []);
 
-  constructor(
-    
-    private ausgabenService: PositionService
-  ) {}
+  constructor(private ausgabenService: PositionService) {}
 
   ngOnInit(): void {}
 
