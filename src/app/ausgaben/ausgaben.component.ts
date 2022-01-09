@@ -2,15 +2,22 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, HostListener, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CreatePositionComponent } from '../create-position/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
 import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
+import { Position } from './../model/position';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -83,11 +90,22 @@ export class AusgabenComponent {
   @Input()
   public title!: string;
 
+  @Output()
+  public update = new EventEmitter();
+
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     public dialog: MatDialog,
     private positionenService: PositionService
   ) {
+    this.positionenService.updateAllToNextMonth().then(() => {
+      let toUpdate = this.positionenService.toUpdate;
+      const anz = this.updateMonth(toUpdate);
+      if (anz > 0) {
+        this.update.emit(anz);
+      }
+    });
+
     this.positionenService.loadAllAusgeben().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
@@ -96,6 +114,27 @@ export class AusgabenComponent {
       this.dataSource.sort = this.sort;
       this.getTotalCost();
     });
+  }
+
+  updateMonth(toUpdate: Position[]) {
+    const date = new Date();
+
+    toUpdate = toUpdate.filter(
+      (a, i) => new Date(a.faelligkeit!).getTime() < date.getTime()
+    );
+    const updated: number = toUpdate.length;
+
+    if (toUpdate.length > 0) {
+      for (let i = 0; i < toUpdate.length; i++) {
+        const newDate = new Date(toUpdate[i].faelligkeit!).setMonth(
+          new Date(toUpdate[i].faelligkeit!).getMonth() + 1
+        );
+        toUpdate[i].faelligkeit = new Date(newDate);
+      }
+
+      this.positionenService.update(toUpdate[0]);
+    }
+    return updated;
   }
 
   @HostListener('window:resize', ['$event'])

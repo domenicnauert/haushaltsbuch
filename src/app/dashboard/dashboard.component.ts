@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +10,9 @@ export class DashboardComponent {
   public einnahmenTitel = 'Einnahmenliste';
   private key: string = 'HaushaltsbuchV1.Tab';
   public selected = 0;
+
+  @Output()
+  updated = new EventEmitter();
 
   constructor() {
     const tab = localStorage.getItem(this.key);
@@ -23,5 +26,9 @@ export class DashboardComponent {
     console.log('event ' + event);
     localStorage.setItem(this.key, event.toString());
     this.selected = event;
+  }
+
+  handleDBUpdate(event: number) {
+    this.updated.emit(event);
   }
 }

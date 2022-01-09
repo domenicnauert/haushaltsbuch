@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -81,6 +82,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
   ],
   imports: [
     BrowserModule,
+    MatBadgeModule,
     MatCheckboxModule,
     MatRippleModule,
     MatSnackBarModule,

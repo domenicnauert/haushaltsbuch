@@ -13,11 +13,20 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 })
 export class AppComponent {
   title = 'Haushaltsbuch';
+  updated = 0;
 
   constructor(public loginService: LoginService) {}
 
   logout() {
     this.loginService.logout();
     this.loginService.loggedIn;
+  }
+
+  handleDBUpdate(event: number) {
+    this.updated = event;
+  }
+
+  reload() {
+    window.location.reload();
   }
 }
