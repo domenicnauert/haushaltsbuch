@@ -116,8 +116,17 @@ export class VolksbankAusgabenComponent implements OnInit {
 
   constructor(
     
-    private ausgabenService: PositionService
-  ) {}
+    private positionenService: PositionService
+  ) {
+    this.positionenService.loadAllAusgeben().then(() => {
+      this.loading = false;
+      this.dataSource = new MatTableDataSource(
+        this.positionenService.ausgaben as Position[]
+      );
+    
+      this.getTotalCost();
+    });
+  }
 
   ngOnInit(): void {}
 
