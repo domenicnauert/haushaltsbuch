@@ -40,6 +40,9 @@ import { N26Component } from './n26/n26.component';
 import { Snackbaromponent } from './snackbar/snackbar.component';
 import { SparkasseComponent } from './sparkasse/sparkasse.component';
 import { SparkontenComponent } from './sparkonten/sparkonten.component';
+import { VolksbankAusgabenComponent } from './volksbank-ausgaben/volksbank-ausgaben.component';
+import { VolksbankDifferenzComponent } from './volksbank-differenz/volksbank-differenz.component';
+import { VolksbankEinnahmenComponent } from './volksbank-einnahmen/volksbank-einnahmen.component';
 import { VolksbankComponent } from './volksbank/volksbank.component';
 
 Backendless.initApp(
@@ -72,6 +75,9 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     SparkontenComponent,
     SparkasseComponent,
     EinnahmenComponent,
+    VolksbankEinnahmenComponent,
+    VolksbankAusgabenComponent,
+    VolksbankDifferenzComponent
   ],
   imports: [
     BrowserModule,

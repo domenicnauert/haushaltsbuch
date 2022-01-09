@@ -1,14 +1,13 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+
 import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnumMapper } from '../model/enumMapper';
 import { PositionService } from '../shared/position.service';
-import { Position } from './../model/position';
+import { Position } from '../model/position';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -96,13 +95,12 @@ const ELEMENT_DATA: Position[] = [
 ];
 
 @Component({
-  selector: 'app-volksbank',
-  templateUrl: './volksbank.component.html',
-  styleUrls: ['./volksbank.component.scss'],
+  selector: 'app-volksbank-ausgaben',
+  templateUrl: './volksbank-ausgaben.component.html',
+  styleUrls: ['./volksbank-ausgaben.component.scss'],
 })
-export class VolksbankComponent implements OnInit {
-  // public selection = new SelectionModel<Position>(true, []);
-  // public dataSource = new MatTableDataSource<Position>(ELEMENT_DATA);
+export class VolksbankAusgabenComponent implements OnInit {
+
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -122,8 +120,6 @@ export class VolksbankComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-
- 
 
   getTotalCost() {
     let total: number = 0;
