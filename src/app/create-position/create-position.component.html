@@ -138,6 +138,7 @@
               [(ngModel)]="position.zyklus"
               aria-label="Zyklus"
               class="example-full-width"
+              [disabled]="isKontostand"
             >
               <mat-button-toggle
                 *ngFor="let zyklus of enumZyklus"

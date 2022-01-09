@@ -52,12 +52,7 @@ export class VolksbankDifferenzComponent implements OnChanges {
     let total: number = 0;
     let positionen = this.dataSource.data;
 
-    const calc = positionen.filter(
-      (item) => !this.selection.selected.includes(item)
-    );
-    calc.forEach((el) => {
-      total = total + el.monatlich!;
-    });
+    total = positionen[0].monatlich! - positionen[1].monatlich!;
 
     return total;
   }

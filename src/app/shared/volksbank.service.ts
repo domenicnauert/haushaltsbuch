@@ -19,7 +19,8 @@ export class VolksbankService {
     if (!this.setCurrentUser()) {
       return;
     }
-    const where = "sender = '" + Empfaenger.VOLKSBANK + "'";
+    const where =
+      "sender = '" + Empfaenger.VOLKSBANK + "'  OR isTemporaer = true";
 
     var queryBuilder =
       Backendless.DataQueryBuilder.create().setWhereClause(where);
@@ -42,7 +43,8 @@ export class VolksbankService {
       return;
     }
 
-    const where = "empfaenger = '" + Empfaenger.VOLKSBANK + "'";
+    const where =
+      "empfaenger = '" + Empfaenger.VOLKSBANK + "' OR isTemporaer = true";
 
     var queryBuilder =
       Backendless.DataQueryBuilder.create().setWhereClause(where);

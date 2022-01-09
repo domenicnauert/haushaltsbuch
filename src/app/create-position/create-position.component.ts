@@ -119,14 +119,22 @@ export class CreatePositionComponent {
       this.position.isKontostand = !this.position.isKontostand;
       this.position.sender = Sender.LEER;
       this.position.kategorie = Kategorie.KONTOSTAND;
+      this.position.zyklus = Zyklus.M;
       this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
     } else {
-      console.log('init');
       this.initPosition();
     }
   }
 
   flgTemporaerChanged() {
-    this.position.isTemporaer = !this.position.isTemporaer;
+    if (this.isKontostand) {
+      this.position.isTemporaer = !this.position.isTemporaer;
+      this.position.sender = Sender.LEER;
+      this.position.kategorie = Kategorie.KONTOSTAND;
+      this.position.zyklus = Zyklus.M;
+      this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
+    } else {
+      this.initPosition();
+    }
   }
 }
