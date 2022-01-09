@@ -19,7 +19,7 @@ export class VolksbankDifferenzComponent implements OnChanges {
   public loading: boolean = false;
   public totalBetrag: number = 0;
   public displayedColumns: string[] = [
-    'checkbox',
+    // 'checkbox',
     // 'id',
     'faelligkeit',
     'art',
@@ -27,6 +27,13 @@ export class VolksbankDifferenzComponent implements OnChanges {
   ];
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
+
+  constructor() {
+    this.dataSource = new MatTableDataSource([
+      this.einnahmenGesamt,
+      this.ausgabenGesamt,
+    ] as Position[]);
+  }
 
   @Input()
   einnahmenGesamt: any;
@@ -38,8 +45,7 @@ export class VolksbankDifferenzComponent implements OnChanges {
       this.einnahmenGesamt as Position,
       this.ausgabenGesamt as Position,
     ];
-
-    this.dataSource.data = data;
+    this.dataSource = new MatTableDataSource(data as Position[]);
   }
 
   getTotalCost() {
