@@ -39,6 +39,8 @@ export class N26AusgabenComponent implements OnInit {
         this.n26Service.ausgaben as Position[]
       );
 
+      console.log('test');
+
       this.getTotalCost();
     });
   }
