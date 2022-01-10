@@ -24,8 +24,11 @@
       </button>
     </div>
   </div>
-
-  <app-dashboard (updated)="handleDBUpdate($event)"></app-dashboard>
+  <router-outlet></router-outlet>
+  <app-dashboard
+    *ngIf="false"
+    (updated)="handleDBUpdate($event)"
+  ></app-dashboard>
 
   <br />
   <footer><small>&copy; Copyright 2022, Domenic Nauert</small></footer>
