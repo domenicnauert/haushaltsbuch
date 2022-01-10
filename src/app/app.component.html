@@ -2,16 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-9 col-sm-10">
-      <h1 *ngIf="updated > 0" [matBadge]="updated" matBadgeOverlap="true">
-        {{ title
-        }}<mat-icon
-          (click)="reload()"
-          style="float: right"
-          matTooltip="Die Fällgikeit wurde angepasst. Reloade die Seite."
-          >replay</mat-icon
-        >
-      </h1>
-      <h1 *ngIf="updated <= 0">{{ title }}</h1>
+      <h1>{{ title }}</h1>
     </div>
     <div class="col-3 col-sm-2">
       <button
@@ -25,10 +16,6 @@
     </div>
   </div>
   <router-outlet></router-outlet>
-  <app-dashboard
-    *ngIf="false"
-    (updated)="handleDBUpdate($event)"
-  ></app-dashboard>
 
   <br />
   <footer><small>&copy; Copyright 2022, Domenic Nauert</small></footer>

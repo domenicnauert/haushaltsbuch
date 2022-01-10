@@ -1,3 +1,19 @@
+<div class="row" *ngIf="updated > 0">
+  <div class="col-sm-10"></div>
+  <div class="col-sm-2">
+    Reload erforderlich!
+    <mat-icon
+      class="myIcon"
+      (click)="reload()"
+      style="float: right"
+      matTooltip="Die Fällgikeit wurde angepasst. Reloade die Seite."
+      >replay</mat-icon
+    >
+  </div>
+</div>
+
+<br />
+
 <mat-tab-group
   [selectedIndex]="selected"
   (selectedIndexChange)="selectedTabChanged($event)"

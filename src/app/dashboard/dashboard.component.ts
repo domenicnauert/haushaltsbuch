@@ -1,18 +1,20 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AusgabenComponent } from './../ausgaben/ausgaben.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnChanges {
   public ausgabenTitel = 'Ausgabenliste';
   public einnahmenTitel = 'Einnahmenliste';
   private key: string = 'HaushaltsbuchV1.Tab';
   public selected = 0;
+  public updated = 0;
 
-  @Output()
-  updated = new EventEmitter();
+  @ViewChild(AusgabenComponent)
+  ausgabenComponent!: AusgabenComponent;
 
   constructor() {
     const tab = localStorage.getItem(this.key);
@@ -21,6 +23,9 @@ export class DashboardComponent {
       this.selected = tab as unknown as number;
     }
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
 
   selectedTabChanged(event: number) {
     localStorage.setItem(this.key, event.toString());
@@ -28,6 +33,10 @@ export class DashboardComponent {
   }
 
   handleDBUpdate(event: number) {
-    this.updated.emit(event);
+    this.updated = event;
+  }
+
+  reload() {
+    window.location.reload();
   }
 }
