@@ -1,13 +1,17 @@
 <div class="row">
   <div Class="col-md-4">
-    <app-n26-einnahmen></app-n26-einnahmen>
+    <app-n26-einnahmen
+    (changeEinnahmen)="handleEinnahmenChanged($event)"></app-n26-einnahmen>
   </div>
 
   <div Class="col-md-4">
-    <app-n26-ausgaben></app-n26-ausgaben>
+    <app-n26-ausgaben
+    (changeAusgabe)="handleAusgabeChanged($event)"></app-n26-ausgaben>
   </div>
 
   <div Class="col-md-4">
-    <!--app-n26-differenz></!--app-n26-differenz-->
+    <app-n26-differenz
+    [ausgabenGesamt]="ausgabenObj"
+      [einnahmenGesamt]="einnahmenObj"></app-n26-differenz>
   </div>
 </div>
