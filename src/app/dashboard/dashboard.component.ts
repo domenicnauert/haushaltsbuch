@@ -1,5 +1,7 @@
 import { Component, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import * as multisort from 'multisort';
 import { AusgabenComponent } from './../ausgaben/ausgaben.component';
+// var multisort = require('multisort');
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +24,7 @@ export class DashboardComponent implements OnChanges {
     if (tab) {
       this.selected = tab as unknown as number;
     }
+    this.sort();
   }
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
@@ -38,5 +41,18 @@ export class DashboardComponent implements OnChanges {
 
   reload() {
     window.location.reload();
+  }
+
+  test = [
+    { id: 1, name: 'aaa', desc: 'zzz' },
+    { id: 2, name: 'bbb', desc: 'zzz' },
+    { id: 3, name: 'bbb', desc: 'xxx' },
+    { id: 4, name: 'bbb', desc: 'aaa' },
+  ];
+
+  sort() {
+    var criteria = ['desc', 'name'];
+
+    multisort(this.test, criteria);
   }
 }

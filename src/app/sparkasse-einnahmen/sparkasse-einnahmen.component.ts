@@ -4,9 +4,10 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import * as multisort from 'multisort';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from '../model/position';
-import { N26Service } from '../shared/n26.service';
+import { SparkasseService } from './../shared/sparkasse.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -32,12 +33,18 @@ export class SparkasseEinnahmenComponent implements OnInit {
   @Output()
   changeEinnahmen = new EventEmitter();
 
-  constructor(private n26Service: N26Service) {
-    this.n26Service.loadAllEinnahmen().then(() => {
+  constructor(private sparkasseService: SparkasseService) {
+    this.sparkasseService.loadAllEinnahmen().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
-        this.n26Service.einnahmen as Position[]
+        this.sparkasseService.einnahmen as Position[]
       );
+
+      multisort(this.sparkasseService.einnahmen, [
+        'faelligkeit',
+        'art',
+        'betrag',
+      ]);
 
       this.getTotalCost();
     });

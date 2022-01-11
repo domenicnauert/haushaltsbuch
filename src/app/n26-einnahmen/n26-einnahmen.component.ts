@@ -4,6 +4,7 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import * as multisort from 'multisort';
 import { EnumMapper } from '../model/enumMapper';
 import { Position } from '../model/position';
 import { N26Service } from './../shared/n26.service';
@@ -38,6 +39,8 @@ export class N26EinnahmenComponent implements OnInit {
       this.dataSource = new MatTableDataSource(
         this.n26Service.einnahmen as Position[]
       );
+
+      multisort(this.n26Service.einnahmen, ['faelligkeit', 'art', 'betrag']);
 
       this.getTotalCost();
     });
