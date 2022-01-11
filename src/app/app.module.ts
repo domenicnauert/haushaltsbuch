@@ -42,6 +42,9 @@ import { N26DifferenzComponent } from './n26-differenz/n26-differenz.component';
 import { N26EinnahmenComponent } from './n26-einnahmen/n26-einnahmen.component';
 import { N26Component } from './n26/n26.component';
 import { Snackbaromponent } from './snackbar/snackbar.component';
+import { SparkasseAusgabenComponent } from './sparkasse-ausgaben/sparkasse-ausgaben.component';
+import { SparkasseDifferenzComponent } from './sparkasse-differenz/sparkasse-differenz.component';
+import { SparkasseEinnahmenComponent } from './sparkasse-einnahmen/sparkasse-einnahmen.component';
 import { SparkasseComponent } from './sparkasse/sparkasse.component';
 import { SparkontenComponent } from './sparkonten/sparkonten.component';
 import { VolksbankAusgabenComponent } from './volksbank-ausgaben/volksbank-ausgaben.component';
@@ -85,6 +88,9 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     N26AusgabenComponent,
     N26EinnahmenComponent,
     N26DifferenzComponent,
+    SparkasseEinnahmenComponent,
+    SparkasseAusgabenComponent,
+    SparkasseDifferenzComponent
   ],
   imports: [
     BrowserModule,
