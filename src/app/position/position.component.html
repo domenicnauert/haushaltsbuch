@@ -31,33 +31,36 @@
 <table
   mat-table
   [dataSource]="dataSource"
-  matSort
-  (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8"
   (change)="getTotalCost()"
   *ngIf="!loading"
 >
   <ng-container matColumnDef="id">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by id"
-    >
-      <div (click)="handleSort('id')">No.</div>
+    <th mat-header-cell *matHeaderCellDef>
+      <div (click)="handleSort('id')">
+        No.
+        <span *ngIf="sortArray.includes('id')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~id')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.id }}</td>
     <td mat-footer-cell *matFooterCellDef>Total</td>
   </ng-container>
 
   <ng-container matColumnDef="faelligkeit">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by faelligkeit"
-    >
-      <div (click)="handleSort('faelligkeit')">Fälligkeit</div>
+    <th mat-header-cell *matHeaderCellDef>
+      <div (click)="handleSort('faelligkeit')">
+        Fälligkeit<span *ngIf="sortArray.includes('faelligkeit')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~faelligkeit')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element.faelligkeit | date: "dd.MM." }}
@@ -66,13 +69,15 @@
   </ng-container>
 
   <ng-container matColumnDef="art">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by art"
-    >
-      <div (click)="handleSort('art')">Art</div>
+    <th mat-header-cell *matHeaderCellDef>
+      <div (click)="handleSort('art')">
+        Art<span *ngIf="sortArray.includes('art')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~art')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element.art }}
@@ -81,13 +86,15 @@
   </ng-container>
 
   <ng-container matColumnDef="betrag">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by betrag"
-    >
-      <div (click)="handleSort('betrag')">Betrag</div>
+    <th mat-header-cell *matHeaderCellDef>
+      <div (click)="handleSort('betrag')">
+        Betrag<span *ngIf="sortArray.includes('betrag')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~betrag')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[0].checked">
       {{ element.betrag | currency: "EUR":"€" }}
@@ -98,14 +105,15 @@
   </ng-container>
 
   <ng-container matColumnDef="isAusgabe">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by isAusgabe"
-      [hidden]="!columns[0].checked"
-    >
-      <div (click)="handleSort('isAusgabe')">Ausgabe?</div>
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[0].checked">
+      <div (click)="handleSort('isAusgabe')">
+        Ausgabe?<span *ngIf="sortArray.includes('isAusgabe')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~isAusgabe')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[0].checked">
       <mat-checkbox disabled="true" [(ngModel)]="element.isAusgabe">
@@ -115,14 +123,15 @@
   </ng-container>
 
   <ng-container matColumnDef="sender">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by sender"
-      [hidden]="!columns[1].checked"
-    >
-      <div (click)="handleSort('sender')">Sender</div>
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[1].checked">
+      <div (click)="handleSort('sender')">
+        Sender<span *ngIf="sortArray.includes('sender')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~sender')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[1].checked">
       {{ EnumMapper[element.sender] }}
@@ -131,14 +140,15 @@
   </ng-container>
 
   <ng-container matColumnDef="empfaenger">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by empfaenger"
-      [hidden]="!columns[2].checked"
-    >
-      <div (click)="handleSort('empfaenger')">Empfänger</div>
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[2].checked">
+      <div (click)="handleSort('empfaenger')">
+        Empfänger<span *ngIf="sortArray.includes('empfaenger')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~empfaenger')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[2].checked">
       {{ EnumMapper[element.empfaenger] }}
@@ -147,14 +157,15 @@
   </ng-container>
 
   <ng-container matColumnDef="kategorie">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by kategorie"
-      [hidden]="!columns[3].checked"
-    >
-      <div (click)="handleSort('kategorie')">Kategorie</div>
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[3].checked">
+      <div (click)="handleSort('kategorie')">
+        Kategorie<span *ngIf="sortArray.includes('kategorie')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~kategorie')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[3].checked">
       {{ EnumMapper[element.kategorie] }}
@@ -163,13 +174,16 @@
   </ng-container>
 
   <ng-container matColumnDef="zyklus">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by zyklus"
-      [hidden]="!columns[4].checked"
-    ></th>
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[4].checked">
+      <div (click)="handleSort('zyklus')">
+        Zyklus<span *ngIf="sortArray.includes('zyklus')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~zyklus')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
+      </div>
+    </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[4].checked">
       {{ EnumMapper[element.zyklus] }}
     </td>
@@ -177,14 +191,15 @@
   </ng-container>
 
   <ng-container matColumnDef="monatlich">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by monatlich"
-    >
+    <th mat-header-cell *matHeaderCellDef>
       <div (click)="handleSort('monatlich')">
-        {{ EnumMapper[enumZyklus[0]] }}
+        {{ EnumMapper[enumZyklus[0]]
+        }}<span *ngIf="sortArray.includes('monatlich')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~monatlich')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
       </div>
     </th>
     <td mat-cell *matCellDef="let element">
@@ -196,15 +211,15 @@
   </ng-container>
 
   <ng-container matColumnDef="quartalsweise">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by quartalsweise"
-      [hidden]="!columns[5].checked"
-    >
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[5].checked">
       <div (click)="handleSort('quartalsweise')">
-        {{ EnumMapper[enumZyklus[1]] }}
+        {{ EnumMapper[enumZyklus[1]]
+        }}<span *ngIf="sortArray.includes('quartalsweise')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~quartalsweise')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
       </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[5].checked">
@@ -216,15 +231,15 @@
   </ng-container>
 
   <ng-container matColumnDef="jaehrlich">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by jaehrlich"
-      [hidden]="!columns[6].checked"
-    >
+    <th mat-header-cell *matHeaderCellDef [hidden]="!columns[6].checked">
       <div (click)="handleSort('jaehrlich')">
-        {{ EnumMapper[enumZyklus[2]] }}
+        {{ EnumMapper[enumZyklus[2]]
+        }}<span *ngIf="sortArray.includes('jaehrlich')"
+          ><mat-icon class="sortIcon">arrow_upward</mat-icon></span
+        >
+        <span *ngIf="sortArray.includes('~jaehrlich')"
+          ><mat-icon class="sortIcon">arrow_downward</mat-icon></span
+        >
       </div>
     </th>
     <td mat-cell *matCellDef="let element" [hidden]="!columns[6].checked">
