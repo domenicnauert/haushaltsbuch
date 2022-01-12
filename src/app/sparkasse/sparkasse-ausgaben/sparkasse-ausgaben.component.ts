@@ -32,6 +32,8 @@ export class SparkasseAusgabenComponent implements OnInit {
 
   @Output()
   changeAusgabe = new EventEmitter();
+  @Output()
+  changeDifferenz = new EventEmitter();
 
   constructor(private sparkasseService: SparkasseService) {
     this.sparkasseService.loadAllAusgeben().then(() => {
@@ -52,6 +54,20 @@ export class SparkasseAusgabenComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  changeDiff() {
+    let total: number = 0;
+    let ausgaben = this.dataSource.data;
+
+    const calc = ausgaben.filter((item) =>
+      this.selection.selected.includes(item)
+    );
+    calc.forEach((el) => {
+      total = total + el.monatlich!;
+    });
+
+    this.changeDifferenz.emit(total);
+  }
 
   getTotalCost() {
     let total: number = 0;

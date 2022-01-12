@@ -20,6 +20,7 @@ export class SparkasseEinnahmenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
+  public differenzTotal: number = 0;
   public displayedColumns: string[] = [
     'checkbox',
     // 'id',
@@ -63,6 +64,8 @@ export class SparkasseEinnahmenComponent implements OnInit {
       total = total + el.monatlich!;
     });
 
+    total = total - this.differenzTotal;
+
     this.changeEinnahmen.emit(total);
 
     return total;
@@ -92,8 +95,7 @@ export class SparkasseEinnahmenComponent implements OnInit {
     }`;
   }
 
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
+  handleDifferenz(total: number) {
+    this.differenzTotal = total;
   }
 }

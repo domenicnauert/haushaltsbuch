@@ -1,9 +1,8 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SparkasseEinnahmenComponent } from './sparkasse-einnahmen/sparkasse-einnahmen.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -19,9 +18,10 @@ export class SparkasseComponent implements OnInit {
   public einnahmenGesamt: number = 0;
   public einnahmenObj = {};
 
-  constructor(
-   
-  ) {
+  @ViewChild(SparkasseEinnahmenComponent)
+  einnahmenComp!: SparkasseEinnahmenComponent;
+
+  constructor() {
     this.ausgabenObj = {
       faelligkeit: '--',
       art: 'Ausgaben',
@@ -52,5 +52,9 @@ export class SparkasseComponent implements OnInit {
       art: 'Einnahmen',
       monatlich: event,
     };
+  }
+
+  handleDifferenzChanged(event: number) {
+    this.einnahmenComp.handleDifferenz(event);
   }
 }

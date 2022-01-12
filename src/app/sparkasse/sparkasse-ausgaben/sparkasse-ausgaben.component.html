@@ -6,7 +6,7 @@
   <ng-container matColumnDef="checkbox">
     <th mat-header-cell *matHeaderCellDef>
       <mat-checkbox
-        (change)="$event ? masterToggle() : null"
+        (change)="$event ? masterToggle() : null; changeDiff()"
         [checked]="selection.hasValue() && isAllSelected()"
         [indeterminate]="selection.hasValue() && !isAllSelected()"
         [aria-label]="checkboxLabel()"
@@ -16,7 +16,7 @@
     <td mat-cell *matCellDef="let row">
       <mat-checkbox
         (click)="$event.stopPropagation()"
-        (change)="$event ? selection.toggle(row) : null"
+        (change)="$event ? selection.toggle(row) : null; changeDiff()"
         [checked]="selection.isSelected(row)"
         [aria-label]="checkboxLabel(row)"
       >
