@@ -1,9 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { registerLocaleData } from '@angular/common';
+import { formatNumber, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { EBADF } from 'constants';
 import * as multisort from 'multisort';
 import { EnumMapper } from '../../model/enumMapper';
 import { Position } from '../../model/position';
@@ -21,7 +22,7 @@ export class N26EinnahmenComponent implements OnInit {
   public loading: boolean = false;
   public totalBetrag: number = 0;
   public displayedColumns: string[] = [
-    'checkbox',
+    //'checkbox',
     // 'id',
     'faelligkeit',
     'art',
@@ -89,8 +90,13 @@ export class N26EinnahmenComponent implements OnInit {
     }`;
   }
 
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
+  handleEinnahmeChanged(el : Position) {
+    el.betrag = el.monatlich
+    el.quartalsweise = el.monatlich!*3;
+    el.jaehrlich = el.monatlich!*12
+
+    this.n26Service.update(el);
   }
+
+   
 }
