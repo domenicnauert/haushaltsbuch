@@ -4,18 +4,19 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { VolksbankService } from './../shared/volksbank.service';
+import * as multisort from 'multisort';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
+import { SparkasseService } from '../../shared/sparkasse.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @Component({
-  selector: 'app-volksbank-einnahmen',
-  templateUrl: './volksbank-einnahmen.component.html',
-  styleUrls: ['./volksbank-einnahmen.component.scss'],
+  selector: 'app-sparkasse-ausgaben',
+  templateUrl: './sparkasse-ausgaben.component.html',
+  styleUrls: ['./sparkasse-ausgaben.component.scss'],
 })
-export class VolksbankEinnahmenComponent implements OnInit {
+export class SparkasseAusgabenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -30,14 +31,21 @@ export class VolksbankEinnahmenComponent implements OnInit {
   selection = new SelectionModel<Position>(true, []);
 
   @Output()
-  changeEinnahmen = new EventEmitter();
+  changeAusgabe = new EventEmitter();
 
-  constructor(private volksbankService: VolksbankService) {
-    this.volksbankService.loadAllEinnahmen().then(() => {
+  constructor(private sparkasseService: SparkasseService) {
+    this.sparkasseService.loadAllAusgeben().then(() => {
       this.loading = false;
+
       this.dataSource = new MatTableDataSource(
-        this.volksbankService.einnahmen as Position[]
+        this.sparkasseService.ausgaben as Position[]
       );
+
+      multisort(this.sparkasseService.ausgaben, [
+        'faelligkeit',
+        'art',
+        'betrag',
+      ]);
 
       this.getTotalCost();
     });
@@ -56,7 +64,7 @@ export class VolksbankEinnahmenComponent implements OnInit {
       total = total + el.monatlich!;
     });
 
-    this.changeEinnahmen.emit(total);
+    this.changeAusgabe.emit(total);
 
     return total;
   }

@@ -2,26 +2,24 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import * as multisort from 'multisort';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { N26Service } from './../shared/n26.service';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @Component({
-  selector: 'app-n26-ausgaben',
-  templateUrl: './n26-ausgaben.component.html',
-  styleUrls: ['./n26-ausgaben.component.scss'],
+  selector: 'app-sparkasse-differenz',
+  templateUrl: './sparkasse-differenz.component.html',
+  styleUrls: ['./sparkasse-differenz.component.scss'],
 })
-export class N26AusgabenComponent implements OnInit {
+export class SparkasseDifferenzComponent implements OnChanges {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
   public displayedColumns: string[] = [
-    'checkbox',
+    // 'checkbox',
     // 'id',
     'faelligkeit',
     'art',
@@ -30,36 +28,31 @@ export class N26AusgabenComponent implements OnInit {
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
 
-  @Output()
-  changeAusgabe = new EventEmitter();
-
-  constructor(private n26Service: N26Service) {
-    this.n26Service.loadAllAusgeben().then(() => {
-      this.loading = false;
-      this.dataSource = new MatTableDataSource(
-        this.n26Service.ausgaben as Position[]
-      );
-
-      multisort(this.n26Service.ausgaben, ['faelligkeit', 'art', 'betrag']);
-
-      this.getTotalCost();
-    });
+  constructor() {
+    this.dataSource = new MatTableDataSource([
+      this.einnahmenGesamt,
+      this.ausgabenGesamt,
+    ] as Position[]);
   }
 
-  ngOnInit(): void {}
+  @Input()
+  einnahmenGesamt: any;
+  @Input()
+  ausgabenGesamt: any;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const data = [
+      this.einnahmenGesamt as Position,
+      this.ausgabenGesamt as Position,
+    ];
+    this.dataSource = new MatTableDataSource(data as Position[]);
+  }
 
   getTotalCost() {
     let total: number = 0;
-    let einnahmen = this.dataSource.data;
+    let positionen = this.dataSource.data;
 
-    const calc = einnahmen.filter(
-      (item) => !this.selection.selected.includes(item)
-    );
-    calc.forEach((el) => {
-      total = total + el.monatlich!;
-    });
-
-    this.changeAusgabe.emit(total);
+    total = positionen[0].monatlich! - positionen[1].monatlich!;
 
     return total;
   }
@@ -86,10 +79,5 @@ export class N26AusgabenComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id! + 1
     }`;
-  }
-
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
   }
 }

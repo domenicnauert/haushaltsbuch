@@ -2,24 +2,26 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from './../model/position';
+import * as multisort from 'multisort';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
+import { N26Service } from '../../shared/n26.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @Component({
-  selector: 'app-volksbank-differenz',
-  templateUrl: './volksbank-differenz.component.html',
-  styleUrls: ['./volksbank-differenz.component.scss'],
+  selector: 'app-n26-ausgaben',
+  templateUrl: './n26-ausgaben.component.html',
+  styleUrls: ['./n26-ausgaben.component.scss'],
 })
-export class VolksbankDifferenzComponent implements OnChanges {
+export class N26AusgabenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
   public displayedColumns: string[] = [
-    // 'checkbox',
+    'checkbox',
     // 'id',
     'faelligkeit',
     'art',
@@ -28,31 +30,36 @@ export class VolksbankDifferenzComponent implements OnChanges {
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
 
-  constructor() {
-    this.dataSource = new MatTableDataSource([
-      this.einnahmenGesamt,
-      this.ausgabenGesamt,
-    ] as Position[]);
+  @Output()
+  changeAusgabe = new EventEmitter();
+
+  constructor(private n26Service: N26Service) {
+    this.n26Service.loadAllAusgeben().then(() => {
+      this.loading = false;
+      this.dataSource = new MatTableDataSource(
+        this.n26Service.ausgaben as Position[]
+      );
+
+      multisort(this.n26Service.ausgaben, ['faelligkeit', 'art', 'betrag']);
+
+      this.getTotalCost();
+    });
   }
 
-  @Input()
-  einnahmenGesamt: any;
-  @Input()
-  ausgabenGesamt: any;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const data = [
-      this.einnahmenGesamt as Position,
-      this.ausgabenGesamt as Position,
-    ];
-    this.dataSource = new MatTableDataSource(data as Position[]);
-  }
+  ngOnInit(): void {}
 
   getTotalCost() {
     let total: number = 0;
-    let positionen = this.dataSource.data;
+    let einnahmen = this.dataSource.data;
 
-    total = positionen[0].monatlich! - positionen[1].monatlich!;
+    const calc = einnahmen.filter(
+      (item) => !this.selection.selected.includes(item)
+    );
+    calc.forEach((el) => {
+      total = total + el.monatlich!;
+    });
+
+    this.changeAusgabe.emit(total);
 
     return total;
   }
@@ -79,5 +86,10 @@ export class VolksbankDifferenzComponent implements OnChanges {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id! + 1
     }`;
+  }
+
+  handleTableChange(row: any) {
+    // console.log(row);
+    // console.log(this.selection.selected);
   }
 }

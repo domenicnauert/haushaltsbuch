@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { N26EinnahmenComponent } from './volksbank-einnahmen.component';
+import { N26EinnahmenComponent } from './n26-einnahmen.component';
 
 describe('VolksbankComponent', () => {
   let component: N26EinnahmenComponent;

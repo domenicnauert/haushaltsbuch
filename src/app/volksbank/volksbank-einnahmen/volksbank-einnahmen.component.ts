@@ -4,19 +4,18 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import * as multisort from 'multisort';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { N26Service } from './../shared/n26.service';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
+import { VolksbankService } from '../../shared/volksbank.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @Component({
-  selector: 'app-n26-einnahmen',
-  templateUrl: './n26-einnahmen.component.html',
-  styleUrls: ['./n26-einnahmen.component.scss'],
+  selector: 'app-volksbank-einnahmen',
+  templateUrl: './volksbank-einnahmen.component.html',
+  styleUrls: ['./volksbank-einnahmen.component.scss'],
 })
-export class N26EinnahmenComponent implements OnInit {
+export class VolksbankEinnahmenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -33,14 +32,12 @@ export class N26EinnahmenComponent implements OnInit {
   @Output()
   changeEinnahmen = new EventEmitter();
 
-  constructor(private n26Service: N26Service) {
-    this.n26Service.loadAllEinnahmen().then(() => {
+  constructor(private volksbankService: VolksbankService) {
+    this.volksbankService.loadAllEinnahmen().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
-        this.n26Service.einnahmen as Position[]
+        this.volksbankService.einnahmen as Position[]
       );
-
-      multisort(this.n26Service.einnahmen, ['faelligkeit', 'art', 'betrag']);
 
       this.getTotalCost();
     });

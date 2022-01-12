@@ -37,19 +37,19 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DepotsComponent } from './depots/depots.component';
 import { EinnahmenComponent } from './einnahmen/einnahmen.component';
 import { LoginComponent } from './login/login.component';
-import { N26AusgabenComponent } from './n26-ausgaben/n26-ausgaben.component';
-import { N26DifferenzComponent } from './n26-differenz/n26-differenz.component';
-import { N26EinnahmenComponent } from './n26-einnahmen/n26-einnahmen.component';
+import { N26AusgabenComponent } from './n26/n26-ausgaben/n26-ausgaben.component';
+import { N26DifferenzComponent } from './n26/n26-differenz/n26-differenz.component';
+import { N26EinnahmenComponent } from './n26/n26-einnahmen/n26-einnahmen.component';
 import { N26Component } from './n26/n26.component';
 import { Snackbaromponent } from './snackbar/snackbar.component';
-import { SparkasseAusgabenComponent } from './sparkasse-ausgaben/sparkasse-ausgaben.component';
-import { SparkasseDifferenzComponent } from './sparkasse-differenz/sparkasse-differenz.component';
-import { SparkasseEinnahmenComponent } from './sparkasse-einnahmen/sparkasse-einnahmen.component';
+import { SparkasseAusgabenComponent } from './sparkasse/sparkasse-ausgaben/sparkasse-ausgaben.component';
+import { SparkasseDifferenzComponent } from './sparkasse/sparkasse-differenz/sparkasse-differenz.component';
+import { SparkasseEinnahmenComponent } from './sparkasse/sparkasse-einnahmen/sparkasse-einnahmen.component';
 import { SparkasseComponent } from './sparkasse/sparkasse.component';
 import { SparkontenComponent } from './sparkonten/sparkonten.component';
 import { VolksbankAusgabenComponent } from './volksbank-ausgaben/volksbank-ausgaben.component';
-import { VolksbankDifferenzComponent } from './volksbank-differenz/volksbank-differenz.component';
-import { VolksbankEinnahmenComponent } from './volksbank-einnahmen/volksbank-einnahmen.component';
+import { VolksbankDifferenzComponent } from './volksbank/volksbank-differenz/volksbank-differenz.component';
+import { VolksbankEinnahmenComponent } from './volksbank/volksbank-einnahmen/volksbank-einnahmen.component';
 import { VolksbankComponent } from './volksbank/volksbank.component';
 
 Backendless.initApp(

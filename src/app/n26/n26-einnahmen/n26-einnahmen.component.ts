@@ -5,18 +5,18 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { SparkasseService } from './../shared/sparkasse.service';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
+import { N26Service } from '../../shared/n26.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @Component({
-  selector: 'app-sparkasse-ausgaben',
-  templateUrl: './sparkasse-ausgaben.component.html',
-  styleUrls: ['./sparkasse-ausgaben.component.scss'],
+  selector: 'app-n26-einnahmen',
+  templateUrl: './n26-einnahmen.component.html',
+  styleUrls: ['./n26-einnahmen.component.scss'],
 })
-export class SparkasseAusgabenComponent implements OnInit {
+export class N26EinnahmenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
@@ -31,21 +31,16 @@ export class SparkasseAusgabenComponent implements OnInit {
   selection = new SelectionModel<Position>(true, []);
 
   @Output()
-  changeAusgabe = new EventEmitter();
+  changeEinnahmen = new EventEmitter();
 
-  constructor(private sparkasseService: SparkasseService) {
-    this.sparkasseService.loadAllAusgeben().then(() => {
+  constructor(private n26Service: N26Service) {
+    this.n26Service.loadAllEinnahmen().then(() => {
       this.loading = false;
-
       this.dataSource = new MatTableDataSource(
-        this.sparkasseService.ausgaben as Position[]
+        this.n26Service.einnahmen as Position[]
       );
 
-      multisort(this.sparkasseService.ausgaben, [
-        'faelligkeit',
-        'art',
-        'betrag',
-      ]);
+      multisort(this.n26Service.einnahmen, ['faelligkeit', 'art', 'betrag']);
 
       this.getTotalCost();
     });
@@ -64,7 +59,7 @@ export class SparkasseAusgabenComponent implements OnInit {
       total = total + el.monatlich!;
     });
 
-    this.changeAusgabe.emit(total);
+    this.changeEinnahmen.emit(total);
 
     return total;
   }

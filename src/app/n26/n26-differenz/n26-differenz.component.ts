@@ -4,17 +4,17 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @Component({
-  selector: 'app-sparkasse-differenz',
-  templateUrl: './sparkasse-differenz.component.html',
-  styleUrls: ['./sparkasse-differenz.component.scss'],
+  selector: 'app-n26-differenz',
+  templateUrl: './n26-differenz.component.html',
+  styleUrls: ['./n26-differenz.component.scss'],
 })
-export class SparkasseDifferenzComponent implements OnChanges {
+export class N26DifferenzComponent implements OnChanges {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;

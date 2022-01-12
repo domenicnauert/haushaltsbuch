@@ -1,18 +1,20 @@
 <div class="row">
   <div Class="col-md-4">
-    <app-sparkasse-einnahmen 
-    (changeEinnahmen)="handleEinnahmenChanged($event)"></app-sparkasse-einnahmen>
+    <app-sparkasse-einnahmen
+      (changeEinnahmen)="handleEinnahmenChanged($event)"
+    ></app-sparkasse-einnahmen>
   </div>
 
   <div Class="col-md-4">
     <app-sparkasse-ausgaben
-    (changeAusgabe)="handleAusgabeChanged($event)"></app-sparkasse-ausgaben>
+      (changeAusgabe)="handleAusgabeChanged($event)"
+    ></app-sparkasse-ausgaben>
   </div>
 
   <div Class="col-md-4">
     <app-sparkasse-differenz
-    [ausgabenGesamt]="ausgabenObj"
-      [einnahmenGesamt]="einnahmenObj"></app-sparkasse-differenz>
+      [ausgabenGesamt]="ausgabenObj"
+      [einnahmenGesamt]="einnahmenObj"
+    ></app-sparkasse-differenz>
   </div>
 </div>
- 

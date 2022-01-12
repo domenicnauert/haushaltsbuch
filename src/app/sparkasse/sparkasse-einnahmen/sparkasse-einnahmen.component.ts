@@ -5,9 +5,9 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { SparkasseService } from './../shared/sparkasse.service';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
+import { SparkasseService } from '../../shared/sparkasse.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
