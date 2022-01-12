@@ -11,6 +11,7 @@ import { AusgabenComponent } from './../ausgaben/ausgaben.component';
 export class DashboardComponent implements OnChanges {
   public ausgabenTitel = 'Ausgabenliste';
   public einnahmenTitel = 'Einnahmenliste';
+  public positionenTitel = 'Positionenliste';
   private key: string = 'HaushaltsbuchV1.Tab';
   public selected = 0;
   public updated = 0;

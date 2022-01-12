@@ -41,7 +41,6 @@ import { N26AusgabenComponent } from './n26/n26-ausgaben/n26-ausgaben.component'
 import { N26DifferenzComponent } from './n26/n26-differenz/n26-differenz.component';
 import { N26EinnahmenComponent } from './n26/n26-einnahmen/n26-einnahmen.component';
 import { N26Component } from './n26/n26.component';
-import { Snackbaromponent } from './snackbar/snackbar.component';
 import { SparkasseAusgabenComponent } from './sparkasse/sparkasse-ausgaben/sparkasse-ausgaben.component';
 import { SparkasseDifferenzComponent } from './sparkasse/sparkasse-differenz/sparkasse-differenz.component';
 import { SparkasseEinnahmenComponent } from './sparkasse/sparkasse-einnahmen/sparkasse-einnahmen.component';
@@ -51,6 +50,7 @@ import { VolksbankAusgabenComponent } from './volksbank-ausgaben/volksbank-ausga
 import { VolksbankDifferenzComponent } from './volksbank/volksbank-differenz/volksbank-differenz.component';
 import { VolksbankEinnahmenComponent } from './volksbank/volksbank-einnahmen/volksbank-einnahmen.component';
 import { VolksbankComponent } from './volksbank/volksbank.component';
+import { PositionComponent } from './position/position.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -75,7 +75,6 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     AusgabenComponent,
     CreatePositionComponent,
     LoginComponent,
-    Snackbaromponent,
     VolksbankComponent,
     DepotsComponent,
     N26Component,
@@ -90,7 +89,8 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     N26DifferenzComponent,
     SparkasseEinnahmenComponent,
     SparkasseAusgabenComponent,
-    SparkasseDifferenzComponent
+    SparkasseDifferenzComponent,
+    PositionComponent,
   ],
   imports: [
     BrowserModule,
