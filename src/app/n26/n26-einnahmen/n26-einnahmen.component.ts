@@ -29,6 +29,7 @@ export class N26EinnahmenComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
+  value: any;
 
   @Output()
   changeEinnahmen = new EventEmitter();

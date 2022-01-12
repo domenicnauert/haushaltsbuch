@@ -51,6 +51,16 @@
     <th mat-header-cell *matHeaderCellDef>Monatlich</th>
     <td mat-cell *matCellDef="let element">
       {{ element.monatlich | currency: "EUR":"€" }}
+      <mat-form-field class="inputBetrag" appearance="legacy">
+        <input
+          matInput
+          type="number"
+          data-type="currency"
+          [value]="element.monatlich"
+          [(ngModel)]="element.monatlich"
+        />
+        <span matSuffix>€</span>
+      </mat-form-field>
     </td>
     <td mat-footer-cell *matFooterCellDef>
       {{ getTotalCost() | currency: "EUR":"€" }}
