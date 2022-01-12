@@ -32,10 +32,11 @@ export class PositionComponent {
   public totalBetrag = 0;
   public totalMonatlich = 0;
   public dataSource!: MatTableDataSource<Position>;
+  sortArray: string[] = [];
   public columns = [
     {
-      column: 'Betrag',
-      value: 'betrag',
+      column: 'Ausgabe?',
+      value: 'isAusgabe',
       checked: true,
     },
     {
@@ -74,6 +75,7 @@ export class PositionComponent {
     'faelligkeit',
     'art',
     'betrag',
+    'isAusgabe',
     'sender',
     'empfaenger',
     'kategorie',
@@ -249,5 +251,20 @@ export class PositionComponent {
     this.totalMonatlich = totalMonatlich;
 
     return total;
+  }
+
+  handleSort(c: string) {
+    const desc = '~' + c;
+
+    if (this.sortArray.includes(c)) {
+      this.sortArray[this.sortArray.indexOf(c)] = desc;
+    } else if (this.sortArray.includes(desc)) {
+      this.sortArray = this.sortArray.filter((a, i) => a != desc);
+    } else {
+      this.sortArray.push(c);
+    }
+
+    const sorted = multisort(this.positionenService.positionen, this.sortArray);
+    this.dataSource.data = sorted;
   }
 }
