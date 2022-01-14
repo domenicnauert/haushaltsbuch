@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
 import { EnumMapper } from '../../model/enumMapper';
 import { Position } from '../../model/position';
-import { SparkasseService } from '../../shared/sparkasse.service';
+import { RuecklagenService } from './../../shared/ruecklagen.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 @Component({
@@ -35,16 +35,16 @@ export class RuecklagenGesamtComponent implements OnInit {
   @Output()
   changeEinnahmen = new EventEmitter();
 
-  constructor(private sparkasseService: SparkasseService) {
-    this.sparkasseService.loadAllEinnahmen().then(() => {
+  constructor(private ruecklagenService: RuecklagenService) {
+    this.ruecklagenService.loadAllEinnahmen().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
-        this.sparkasseService.einnahmen as Position[]
+        this.ruecklagenService.einnahmen as Position[]
       );
 
-      this.anzEinnahmen = this.sparkasseService.einnahmen.length;
+      this.anzEinnahmen = this.ruecklagenService.einnahmen.length;
 
-      multisort(this.sparkasseService.einnahmen, [
+      multisort(this.ruecklagenService.einnahmen, [
         'faelligkeit',
         'art',
         'betrag',
