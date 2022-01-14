@@ -13,6 +13,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as multisort from 'multisort';
 import { CreatePositionComponent } from '../create-position/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
 import { Zyklus } from '../model/zyklus';
@@ -20,22 +21,23 @@ import { PositionService } from '../shared/position.service';
 import { Position } from './../model/position';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-
 @Component({
-  selector: 'app-ausgaben',
-  templateUrl: './ausgaben.component.html',
-  styleUrls: ['./ausgaben.component.scss'],
+  selector: 'app-ruecklagen',
+  templateUrl: './ruecklagen.component.html',
+  styleUrls: ['./ruecklagen.component.scss'],
 })
-export class AusgabenComponent {
+export class RuecklagenComponent {
   public loading = true;
   public innerWidth: any;
   public totalBetrag = 0;
   public totalMonatlich = 0;
   public dataSource!: MatTableDataSource<Position>;
+  public sortArray: string[] = [];
+  public fallback = false;
   public columns = [
     {
-      column: 'Betrag',
-      value: 'betrag',
+      column: 'Ausgabe?',
+      value: 'isAusgabe',
       checked: true,
     },
     {
@@ -74,6 +76,7 @@ export class AusgabenComponent {
     'faelligkeit',
     'art',
     'betrag',
+    'isAusgabe',
     'sender',
     'empfaenger',
     'kategorie',
@@ -106,10 +109,16 @@ export class AusgabenComponent {
       }
     });
 
-    this.positionenService.loadAllAusgeben().then(() => {
+    this.positionenService.loadAll().then(() => {
       this.loading = false;
+
+      multisort(this.positionenService.positionen, [
+        'id',
+        'faelligkeit',
+        'betrag',
+      ]);
       this.dataSource = new MatTableDataSource(
-        this.positionenService.ausgaben as Position[]
+        this.positionenService.positionen as Position[]
       );
       this.dataSource.sort = this.sort;
       this.getTotalCost();
@@ -168,7 +177,7 @@ export class AusgabenComponent {
         return;
       }
 
-      let ausgabeWithId = this.getAusgabeWithNextId(result);
+      let ausgabeWithId = this.getPositionWithNextId(result);
       this.positionenService.add(ausgabeWithId);
 
       this.dataSource.data = [...this.dataSource.data, ausgabeWithId];
@@ -176,7 +185,7 @@ export class AusgabenComponent {
     });
   }
 
-  private getAusgabeWithNextId(result: Position) {
+  private getPositionWithNextId(result: Position) {
     const id = Math.max(
       ...this.dataSource.data.map((ausgabe) => (ausgabe as Position).id!)
     );
@@ -188,10 +197,10 @@ export class AusgabenComponent {
     return result;
   }
 
-  editAusgabe(ausgabe: Position) {
+  editPosition(position: Position) {
     const dialogRef = this.dialog.open(CreatePositionComponent, {
       width: '50%',
-      data: { pos: ausgabe, isAusgabe: true, isEdit: true },
+      data: { pos: position, isAusgabe: true, isEdit: true },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -204,8 +213,8 @@ export class AusgabenComponent {
           (_, i) => i !== this.dataSource.data.indexOf(result)
         );
       } else {
-        this.dataSource.data.map((ausgabe) => {
-          let el = ausgabe as Position;
+        this.dataSource.data.map((position) => {
+          let el = position as Position;
           if (el.id == result.id) {
             return Object.assign({}, el, result);
           }
@@ -220,19 +229,19 @@ export class AusgabenComponent {
   getTotalCost() {
     let total: number = 0;
     let totalMonatlich = 0;
-    let ausgaben = this.dataSource.data;
+    let position = this.dataSource.data;
 
-    ausgaben.forEach((el) => {
-      let ausgabe = el as Position;
-      if (ausgabe.betrag) {
-        total = total + +ausgabe.betrag;
-        if (ausgabe.zyklus === Zyklus.M) {
-          totalMonatlich = totalMonatlich + +ausgabe.betrag;
-        } else if (ausgabe.zyklus === Zyklus.Q) {
-          let q: number = +ausgabe.betrag / 3;
+    position.forEach((el) => {
+      let position = el as Position;
+      if (position.betrag) {
+        total = total + +position.betrag;
+        if (position.zyklus === Zyklus.M) {
+          totalMonatlich = totalMonatlich + +position.betrag;
+        } else if (position.zyklus === Zyklus.Q) {
+          let q: number = +position.betrag / 3;
           totalMonatlich = totalMonatlich + +q;
-        } else if (ausgabe.zyklus === Zyklus.J) {
-          let j: number = +ausgabe.betrag / 12;
+        } else if (position.zyklus === Zyklus.J) {
+          let j: number = +position.betrag / 12;
           totalMonatlich = totalMonatlich + +j;
         } else {
         }
@@ -245,7 +254,31 @@ export class AusgabenComponent {
     return total;
   }
 
-  private get ausgaben(): Position[] {
-    return this.positionenService.ausgaben as Position[];
+  handleSort(c: string) {
+    const desc = '~' + c;
+
+    if (
+      this.fallback &&
+      this.sortArray.length == 1 &&
+      this.sortArray.includes('id')
+    ) {
+      this.sortArray = this.sortArray.filter((a, i) => a != 'id');
+      this.fallback = false;
+    }
+    if (this.sortArray.includes(c)) {
+      this.sortArray[this.sortArray.indexOf(c)] = desc;
+    } else if (this.sortArray.includes(desc)) {
+      this.sortArray = this.sortArray.filter((a, i) => a != desc);
+    } else {
+      this.sortArray.push(c);
+    }
+
+    if (this.sortArray.length == 0) {
+      this.fallback = true;
+      this.sortArray.push('id');
+    }
+
+    const sorted = multisort(this.positionenService.positionen, this.sortArray);
+    this.dataSource.data = sorted;
   }
 }

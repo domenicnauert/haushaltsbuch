@@ -1,17 +1,10 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
-import { EnumMapper } from '../model/enumMapper';
-import { PositionService } from '../shared/position.service';
-import { Position } from './../model/position';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { N26EinnahmenComponent } from './n26-einnahmen/n26-einnahmen.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-
 
 @Component({
   selector: 'app-n26',
@@ -25,9 +18,10 @@ export class N26Component implements OnInit {
   public einnahmenGesamt: number = 0;
   public einnahmenObj = {};
 
-  constructor(
-    
-  ) {
+  @ViewChild(N26EinnahmenComponent)
+  einnahmenComp!: N26EinnahmenComponent;
+
+  constructor() {
     this.ausgabenObj = {
       faelligkeit: '--',
       art: 'Ausgaben',
@@ -58,5 +52,9 @@ export class N26Component implements OnInit {
       art: 'Einnahmen',
       monatlich: event,
     };
+  }
+
+  handleDifferenzChanged(event: number) {
+    this.einnahmenComp.handleDifferenz(event);
   }
 }

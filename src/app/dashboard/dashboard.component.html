@@ -25,19 +25,11 @@
   <mat-tab label="Volksbank"> <app-volksbank></app-volksbank> </mat-tab>
   <mat-tab label="Depots"> <app-depots></app-depots> </mat-tab>
   <mat-tab label="Sparkonten"> <app-sparkonten></app-sparkonten> </mat-tab>
-  <!--mat-tab label="Einnahmenliste">
-    <app-einnahmen [title]="einnahmenTitel"></app-einnahmen>
-  </!--mat-tab>
-  <mat-tab-- label="Ausgabenliste">
-    <app-ausgaben
-      [title]="ausgabenTitel"
-      (update)="handleDBUpdate($event)"
-    ></app-ausgaben>
-  </mat-tab-->
   <mat-tab label="Positionenliste">
     <app-position
       [title]="positionenTitel"
       (update)="handleDBUpdate($event)"
     ></app-position>
   </mat-tab>
+  <mat-tab label="Rücklagen"><app-ruecklagen></app-ruecklagen></mat-tab>
 </mat-tab-group>

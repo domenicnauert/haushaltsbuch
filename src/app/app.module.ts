@@ -31,16 +31,15 @@ import Backendless from 'backendless';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AusgabenComponent } from './ausgaben/ausgaben.component';
 import { CreatePositionComponent } from './create-position/create-position.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DepotsComponent } from './depots/depots.component';
-import { EinnahmenComponent } from './einnahmen/einnahmen.component';
 import { LoginComponent } from './login/login.component';
 import { N26AusgabenComponent } from './n26/n26-ausgaben/n26-ausgaben.component';
 import { N26DifferenzComponent } from './n26/n26-differenz/n26-differenz.component';
 import { N26EinnahmenComponent } from './n26/n26-einnahmen/n26-einnahmen.component';
 import { N26Component } from './n26/n26.component';
+import { PositionComponent } from './position/position.component';
 import { SparkasseAusgabenComponent } from './sparkasse/sparkasse-ausgaben/sparkasse-ausgaben.component';
 import { SparkasseDifferenzComponent } from './sparkasse/sparkasse-differenz/sparkasse-differenz.component';
 import { SparkasseEinnahmenComponent } from './sparkasse/sparkasse-einnahmen/sparkasse-einnahmen.component';
@@ -50,7 +49,7 @@ import { VolksbankAusgabenComponent } from './volksbank-ausgaben/volksbank-ausga
 import { VolksbankDifferenzComponent } from './volksbank/volksbank-differenz/volksbank-differenz.component';
 import { VolksbankEinnahmenComponent } from './volksbank/volksbank-einnahmen/volksbank-einnahmen.component';
 import { VolksbankComponent } from './volksbank/volksbank.component';
-import { PositionComponent } from './position/position.component';
+import { RuecklagenComponent } from './ruecklagen/ruecklagen.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -72,7 +71,6 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
   declarations: [
     AppComponent,
     DashboardComponent,
-    AusgabenComponent,
     CreatePositionComponent,
     LoginComponent,
     VolksbankComponent,
@@ -80,7 +78,6 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     N26Component,
     SparkontenComponent,
     SparkasseComponent,
-    EinnahmenComponent,
     VolksbankEinnahmenComponent,
     VolksbankAusgabenComponent,
     VolksbankDifferenzComponent,
@@ -91,6 +88,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     SparkasseAusgabenComponent,
     SparkasseDifferenzComponent,
     PositionComponent,
+    RuecklagenComponent,
   ],
   imports: [
     BrowserModule,

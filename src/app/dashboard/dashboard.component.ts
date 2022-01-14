@@ -1,6 +1,5 @@
-import { Component, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import * as multisort from 'multisort';
-import { AusgabenComponent } from './../ausgaben/ausgaben.component';
 // var multisort = require('multisort');
 
 @Component({
@@ -15,9 +14,6 @@ export class DashboardComponent implements OnChanges {
   private key: string = 'HaushaltsbuchV1.Tab';
   public selected = 0;
   public updated = 0;
-
-  @ViewChild(AusgabenComponent)
-  ausgabenComponent!: AusgabenComponent;
 
   constructor() {
     const tab = localStorage.getItem(this.key);

@@ -1,10 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { formatNumber, registerLocaleData } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EBADF } from 'constants';
 import * as multisort from 'multisort';
 import { EnumMapper } from '../../model/enumMapper';
 import { Position } from '../../model/position';
@@ -21,6 +20,7 @@ export class N26EinnahmenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
+  public differenzTotal: number = 0;
   public displayedColumns: string[] = [
     //'checkbox',
     // 'id',
@@ -30,7 +30,8 @@ export class N26EinnahmenComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
-  value: any;
+  anzEinnahmen = 0;
+  inside = false;
 
   @Output()
   changeEinnahmen = new EventEmitter();
@@ -66,6 +67,21 @@ export class N26EinnahmenComponent implements OnInit {
     return total;
   }
 
+  insertDifferenz() {
+    this.dataSource.data = this.dataSource.data.filter(
+      (a) => a.art != 'Erledigt'
+    );
+    if (this.differenzTotal == 0) {
+      return;
+    }
+    const obj = {
+      art: 'Erledigt',
+      zyklus: 'M',
+      monatlich: -this.differenzTotal,
+    };
+    this.dataSource.data = [...this.dataSource.data, obj];
+  }
+
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -90,13 +106,16 @@ export class N26EinnahmenComponent implements OnInit {
     }`;
   }
 
-  handleEinnahmeChanged(el : Position) {
-    el.betrag = el.monatlich
-    el.quartalsweise = el.monatlich!*3;
-    el.jaehrlich = el.monatlich!*12
+  handleEinnahmeChanged(el: Position) {
+    el.betrag = el.monatlich;
+    el.quartalsweise = el.monatlich! * 3;
+    el.jaehrlich = el.monatlich! * 12;
 
     this.n26Service.update(el);
   }
 
-   
+  handleDifferenz(total: number) {
+    this.differenzTotal = total;
+    this.insertDifferenz();
+  }
 }

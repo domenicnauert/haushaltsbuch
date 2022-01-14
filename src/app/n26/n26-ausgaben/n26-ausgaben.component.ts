@@ -32,6 +32,8 @@ export class N26AusgabenComponent implements OnInit {
 
   @Output()
   changeAusgabe = new EventEmitter();
+  @Output()
+  changeDifferenz = new EventEmitter();
 
   constructor(private n26Service: N26Service) {
     this.n26Service.loadAllAusgeben().then(() => {
@@ -42,11 +44,45 @@ export class N26AusgabenComponent implements OnInit {
 
       multisort(this.n26Service.ausgaben, ['faelligkeit', 'art', 'betrag']);
 
+      this.n26Service.ausgaben.forEach((item) =>
+        item.isChecked ? this.selection.select(item) : null
+      );
+
+      if (this.selection.selected.length > 0) {
+        this.changeDiff(undefined);
+      }
+
       this.getTotalCost();
     });
   }
 
   ngOnInit(): void {}
+
+  changeDiffAll() {
+    this.changeDiff(undefined);
+  }
+
+  changeDiff(row: Position | undefined) {
+    let total: number = 0;
+    let ausgaben = this.dataSource.data;
+
+    const calc = ausgaben.filter((item) =>
+      this.selection.selected.includes(item)
+    );
+    calc.forEach((el) => {
+      total = total + el.monatlich!;
+    });
+    if (row) {
+      if (row && this.selection.selected.includes(row)) {
+        row.isChecked = true;
+      } else {
+        row.isChecked = false;
+      }
+      this.n26Service.update(row);
+    }
+
+    this.changeDifferenz.emit(total);
+  }
 
   getTotalCost() {
     let total: number = 0;

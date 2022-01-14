@@ -48,15 +48,21 @@ export class SparkasseAusgabenComponent implements OnInit {
         'art',
         'betrag',
       ]);
-      this.sparkasseService.ausgaben.forEach((item) => item.isChecked ? this.selection.select(item): null)
-      
+      this.sparkasseService.ausgaben.forEach((item) =>
+        item.isChecked ? this.selection.select(item) : null
+      );
+
+      if (this.selection.selected.length > 0) {
+        this.changeDiff(undefined);
+      }
+
       this.getTotalCost();
     });
   }
 
   ngOnInit(): void {}
 
-  changeDiffAll(){
+  changeDiffAll() {
     this.changeDiff(undefined);
   }
 
@@ -70,18 +76,14 @@ export class SparkasseAusgabenComponent implements OnInit {
     calc.forEach((el) => {
       total = total + el.monatlich!;
     });
-if(row){
-
-  if(row && this.selection.selected.includes(row)){
-    row.isChecked =true;
-  }
-  else {
-    row.isChecked = false;
-  }
-  this.sparkasseService.update(row)
-}
-
-    console.log(row)
+    if (row) {
+      if (row && this.selection.selected.includes(row)) {
+        row.isChecked = true;
+      } else {
+        row.isChecked = false;
+      }
+      this.sparkasseService.update(row);
+    }
 
     this.changeDifferenz.emit(total);
   }
