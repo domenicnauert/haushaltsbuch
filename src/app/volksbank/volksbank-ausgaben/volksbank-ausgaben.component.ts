@@ -4,9 +4,9 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { VolksbankService } from './../shared/volksbank.service';
+import { EnumMapper } from 'src/app/model/enumMapper';
+import { Position } from 'src/app/model/position';
+import { VolksbankService } from 'src/app/shared/volksbank.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 

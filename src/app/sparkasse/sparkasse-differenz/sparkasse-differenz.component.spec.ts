@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {  SparkasseDifferenzComponent } from './sparkasse-differenz.component';
+import { SparkasseDifferenzComponent } from './sparkasse-differenz.component';
 
 describe('SparkasseDifferenzComponent', () => {
   let component: SparkasseDifferenzComponent;

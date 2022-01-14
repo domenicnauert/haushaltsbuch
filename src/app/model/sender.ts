@@ -7,4 +7,5 @@ export enum Sender {
   DEPOT = 'DEPOT',
   EXTERN = 'EXTERN',
   SPARKONTO = 'SPARKONTO',
+  RUECKLAGEN = 'RUECKLAGEN',
 }

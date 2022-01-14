@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VolksbankDifferenzComponent } from './volksbank-differenz.component';
+import { RuecklagenGesamtComponent } from './ruecklagen-gesamt.component';
 
-describe('VolksbankComponent', () => {
-  let component: VolksbankDifferenzComponent;
-  let fixture: ComponentFixture<VolksbankDifferenzComponent>;
+describe('RuecklagenGesamtComponent', () => {
+  let component: RuecklagenGesamtComponent;
+  let fixture: ComponentFixture<RuecklagenGesamtComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VolksbankDifferenzComponent],
+      declarations: [RuecklagenGesamtComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VolksbankDifferenzComponent);
+    fixture = TestBed.createComponent(RuecklagenGesamtComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

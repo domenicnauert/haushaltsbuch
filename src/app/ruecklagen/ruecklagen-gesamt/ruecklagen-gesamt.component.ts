@@ -4,23 +4,24 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { VolksbankService } from './../shared/volksbank.service';
+import * as multisort from 'multisort';
+import { EnumMapper } from '../../model/enumMapper';
+import { Position } from '../../model/position';
+import { SparkasseService } from '../../shared/sparkasse.service';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
-
 @Component({
-  selector: 'app-volksbank-einnahmen',
-  templateUrl: './volksbank-einnahmen.component.html',
-  styleUrls: ['./volksbank-einnahmen.component.scss'],
+  selector: 'app-ruecklagen-gesamt',
+  templateUrl: './ruecklagen-gesamt.component.html',
+  styleUrls: ['./ruecklagen-gesamt.component.scss'],
 })
-export class VolksbankEinnahmenComponent implements OnInit {
+export class RuecklagenGesamtComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
+  public differenzTotal: number = 0;
   public displayedColumns: string[] = [
-    'checkbox',
+    //'checkbox',
     // 'id',
     'faelligkeit',
     'art',
@@ -28,16 +29,26 @@ export class VolksbankEinnahmenComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Position>();
   selection = new SelectionModel<Position>(true, []);
+  anzEinnahmen = 0;
+  inside = false;
 
   @Output()
   changeEinnahmen = new EventEmitter();
 
-  constructor(private volksbankService: VolksbankService) {
-    this.volksbankService.loadAllEinnahmen().then(() => {
+  constructor(private sparkasseService: SparkasseService) {
+    this.sparkasseService.loadAllEinnahmen().then(() => {
       this.loading = false;
       this.dataSource = new MatTableDataSource(
-        this.volksbankService.einnahmen as Position[]
+        this.sparkasseService.einnahmen as Position[]
       );
+
+      this.anzEinnahmen = this.sparkasseService.einnahmen.length;
+
+      multisort(this.sparkasseService.einnahmen, [
+        'faelligkeit',
+        'art',
+        'betrag',
+      ]);
 
       this.getTotalCost();
     });
@@ -59,6 +70,21 @@ export class VolksbankEinnahmenComponent implements OnInit {
     this.changeEinnahmen.emit(total);
 
     return total;
+  }
+
+  insertDifferenz() {
+    this.dataSource.data = this.dataSource.data.filter(
+      (a) => a.art != 'Erledigt'
+    );
+    if (this.differenzTotal == 0) {
+      return;
+    }
+    const obj = {
+      art: 'Erledigt',
+      zyklus: 'M',
+      monatlich: -this.differenzTotal,
+    };
+    this.dataSource.data = [...this.dataSource.data, obj];
   }
 
   isAllSelected() {
@@ -85,8 +111,8 @@ export class VolksbankEinnahmenComponent implements OnInit {
     }`;
   }
 
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
+  handleDifferenz(total: number) {
+    this.differenzTotal = total;
+    this.insertDifferenz();
   }
 }

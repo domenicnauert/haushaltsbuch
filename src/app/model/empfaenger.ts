@@ -7,4 +7,5 @@ export enum Empfaenger {
   DEPOT = 'DEPOT',
   EXTERN = 'EXTERN',
   SPARKONTO = 'SPARKONTO',
+  RUECKLAGEN = 'RUECKLAGEN',
 }
