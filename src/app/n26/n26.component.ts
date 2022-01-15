@@ -1,7 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { N26EinnahmenComponent } from './n26-einnahmen/n26-einnahmen.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -11,7 +11,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './n26.component.html',
   styleUrls: ['./n26.component.scss'],
 })
-export class N26Component implements OnInit {
+export class N26Component {
   public ausgabenGesamt: number = 0;
   public ausgabenObj = {};
 
@@ -33,8 +33,6 @@ export class N26Component implements OnInit {
       monatlich: this.einnahmenGesamt,
     };
   }
-
-  ngOnInit(): void {}
 
   handleAusgabeChanged(event: number) {
     this.ausgabenGesamt = event;

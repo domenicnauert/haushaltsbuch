@@ -2,10 +2,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { EnumMapper } from '../../model/enumMapper';
 import { Position } from '../../model/position';
 import { N26Service } from '../../shared/n26.service';
 
@@ -16,19 +15,15 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './n26-ausgaben.component.html',
   styleUrls: ['./n26-ausgaben.component.scss'],
 })
-export class N26AusgabenComponent implements OnInit {
-  public EnumMapper = EnumMapper;
-  public loading: boolean = false;
-  public totalBetrag: number = 0;
+export class N26AusgabenComponent {
+  public dataSource = new MatTableDataSource<Position>();
+  public selection = new SelectionModel<Position>(true, []);
   public displayedColumns: string[] = [
     'checkbox',
-    // 'id',
     'faelligkeit',
     'art',
     'monatlich',
   ];
-  dataSource = new MatTableDataSource<Position>();
-  selection = new SelectionModel<Position>(true, []);
 
   @Output()
   changeAusgabe = new EventEmitter();
@@ -37,7 +32,6 @@ export class N26AusgabenComponent implements OnInit {
 
   constructor(private n26Service: N26Service) {
     this.n26Service.loadAllAusgeben().then(() => {
-      this.loading = false;
       this.dataSource = new MatTableDataSource(
         this.n26Service.ausgaben as Position[]
       );
@@ -56,21 +50,19 @@ export class N26AusgabenComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   changeDiffAll() {
     this.changeDiff(undefined);
   }
 
   changeDiff(row: Position | undefined) {
-    let total: number = 0;
+    let totalMonatlich: number = 0;
     let ausgaben = this.dataSource.data;
 
     const calc = ausgaben.filter((item) =>
       this.selection.selected.includes(item)
     );
-    calc.forEach((el) => {
-      total = total + el.monatlich!;
+    calc.forEach((element) => {
+      totalMonatlich = totalMonatlich + element.monatlich!;
     });
     if (row) {
       if (row && this.selection.selected.includes(row)) {
@@ -81,7 +73,7 @@ export class N26AusgabenComponent implements OnInit {
       this.n26Service.update(row);
     }
 
-    this.changeDifferenz.emit(total);
+    this.changeDifferenz.emit(totalMonatlich);
   }
 
   getTotalCost() {

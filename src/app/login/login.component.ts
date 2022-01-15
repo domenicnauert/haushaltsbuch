@@ -41,10 +41,5 @@ export class LoginComponent {
 
   private openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
-
-    //custom Snackbar
-    // this._snackBar.openFromComponent(Snackbaromponent, {
-    //   duration: 5* 1000,
-    // });
   }
 }
