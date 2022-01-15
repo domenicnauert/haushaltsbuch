@@ -51,6 +51,7 @@ import { VolksbankDifferenzComponent } from './volksbank/volksbank-differenz/vol
 import { VolksbankEinnahmenComponent } from './volksbank/volksbank-einnahmen/volksbank-einnahmen.component';
 import { VolksbankComponent } from './volksbank/volksbank.component';
 import { RuecklagenGesamtComponent } from './ruecklagen/ruecklagen-gesamt/ruecklagen-gesamt.component';
+import { RuecklagenEinzelnComponent } from './ruecklagen/ruecklagen-einzeln/ruecklagen-einzeln.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -91,6 +92,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     PositionComponent,
     RuecklagenComponent,
     RuecklagenGesamtComponent,
+    RuecklagenEinzelnComponent,
   ],
   imports: [
     BrowserModule,

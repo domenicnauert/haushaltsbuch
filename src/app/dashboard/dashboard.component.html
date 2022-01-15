@@ -12,6 +12,20 @@
   </div>
 </div>
 
+<div class="row" *ngIf="updatedRuecklagen > 0">
+  <div class="col-sm-10"></div>
+  <div class="col-sm-2">
+    Reload erforderlich!
+    <mat-icon
+      class="myIcon"
+      (click)="reload()"
+      style="float: right"
+      matTooltip="Die Rücklagen haben sich geändert. Reloade die Seite."
+      >replay</mat-icon
+    >
+  </div>
+</div>
+
 <br />
 
 <mat-tab-group
@@ -31,5 +45,9 @@
       (update)="handleDBUpdate($event)"
     ></app-position>
   </mat-tab>
-  <mat-tab label="Rücklagen"><app-ruecklagen></app-ruecklagen></mat-tab>
+  <mat-tab label="Rücklagen"
+    ><app-ruecklagen
+      (ruecklagenUpdated)="handleRuecklagenUpdated()"
+    ></app-ruecklagen
+  ></mat-tab>
 </mat-tab-group>

@@ -17,9 +17,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 })
 export class RuecklagenGesamtComponent implements OnInit {
   public EnumMapper = EnumMapper;
-  public loading: boolean = false;
   public totalBetrag: number = 0;
-  public differenzTotal: number = 0;
   public displayedColumns: string[] = [
     //'checkbox',
     // 'id',
@@ -33,11 +31,10 @@ export class RuecklagenGesamtComponent implements OnInit {
   inside = false;
 
   @Output()
-  changeEinnahmen = new EventEmitter();
+  changedRuecklagen = new EventEmitter();
 
   constructor(private ruecklagenService: RuecklagenService) {
     this.ruecklagenService.loadAllEinnahmen().then(() => {
-      this.loading = false;
       this.dataSource = new MatTableDataSource(
         this.ruecklagenService.einnahmen as Position[]
       );
@@ -67,52 +64,22 @@ export class RuecklagenGesamtComponent implements OnInit {
       total = total + el.monatlich!;
     });
 
-    this.changeEinnahmen.emit(total);
-
     return total;
   }
 
-  insertDifferenz() {
-    this.dataSource.data = this.dataSource.data.filter(
-      (a) => a.art != 'Erledigt'
-    );
-    if (this.differenzTotal == 0) {
-      return;
+  handleRuecklageChanged(total: number) {
+    if (
+      total &&
+      this.dataSource.data[0] &&
+      total != this.dataSource.data[0].monatlich
+    ) {
+      this.dataSource.data[0].monatlich = total;
+      this.dataSource.data[0].betrag = total;
+      this.dataSource.data[0].quartalsweise = total * 3;
+      this.dataSource.data[0].jaehrlich = total * 12;
+
+      this.ruecklagenService.update(this.dataSource.data[0]);
+      this.changedRuecklagen.emit();
     }
-    const obj = {
-      art: 'Erledigt',
-      zyklus: 'M',
-      monatlich: -this.differenzTotal,
-    };
-    this.dataSource.data = [...this.dataSource.data, obj];
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  checkboxLabel(row?: Position): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id! + 1
-    }`;
-  }
-
-  handleDifferenz(total: number) {
-    this.differenzTotal = total;
-    this.insertDifferenz();
   }
 }

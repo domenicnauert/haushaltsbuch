@@ -1,7 +1,13 @@
 <div class="row">
-  <div Class="col-md-6">
-    <app-ruecklagen-gesamt></app-ruecklagen-gesamt>
+  <div Class="col-md-5">
+    <app-ruecklagen-gesamt
+      (changedRuecklagen)="handleRuecklagenUpdated()"
+    ></app-ruecklagen-gesamt>
   </div>
 
-  <div Class="col-md-6"></div>
+  <div Class="col-md-7">
+    <app-ruecklagen-einzeln
+      (changeRuecklage)="handleRuecklageChanged($event)"
+    ></app-ruecklagen-einzeln>
+  </div>
 </div>
