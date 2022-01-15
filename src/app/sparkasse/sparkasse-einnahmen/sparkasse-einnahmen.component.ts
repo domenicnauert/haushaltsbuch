@@ -52,6 +52,10 @@ export class SparkasseEinnahmenComponent implements OnInit {
       ]);
 
       this.getTotalCost();
+      console.log('const');
+      if (this.differenzTotal > 0) {
+        this.insertDifferenz();
+      }
     });
   }
 
@@ -74,6 +78,7 @@ export class SparkasseEinnahmenComponent implements OnInit {
   }
 
   insertDifferenz() {
+    console.log('instert');
     this.dataSource.data = this.dataSource.data.filter(
       (a) => a.art != 'Erledigt'
     );
@@ -113,6 +118,7 @@ export class SparkasseEinnahmenComponent implements OnInit {
   }
 
   handleDifferenz(total: number) {
+    console.log('handle');
     this.differenzTotal = total;
     this.insertDifferenz();
   }

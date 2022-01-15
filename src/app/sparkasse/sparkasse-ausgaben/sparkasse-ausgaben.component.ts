@@ -53,6 +53,7 @@ export class SparkasseAusgabenComponent implements OnInit {
       );
 
       if (this.selection.selected.length > 0) {
+        console.log('diff detected');
         this.changeDiff(undefined);
       }
 
@@ -85,6 +86,7 @@ export class SparkasseAusgabenComponent implements OnInit {
       this.sparkasseService.update(row);
     }
 
+    console.log(total);
     this.changeDifferenz.emit(total);
   }
 
