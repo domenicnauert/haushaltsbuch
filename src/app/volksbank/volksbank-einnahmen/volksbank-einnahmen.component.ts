@@ -19,8 +19,9 @@ export class VolksbankEinnahmenComponent implements OnInit {
   public EnumMapper = EnumMapper;
   public loading: boolean = false;
   public totalBetrag: number = 0;
+  public differenzTotal: number = 0;
   public displayedColumns: string[] = [
-    'checkbox',
+    // 'checkbox',
     // 'id',
     'faelligkeit',
     'art',
@@ -40,6 +41,10 @@ export class VolksbankEinnahmenComponent implements OnInit {
       );
 
       this.getTotalCost();
+
+      if (this.differenzTotal > 0) {
+        this.insertDifferenz();
+      }
     });
   }
 
@@ -83,5 +88,25 @@ export class VolksbankEinnahmenComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id! + 1
     }`;
+  }
+
+  insertDifferenz() {
+    this.dataSource.data = this.dataSource.data.filter(
+      (a) => a.art != 'Erledigt'
+    );
+    if (this.differenzTotal == 0) {
+      return;
+    }
+    const obj = {
+      art: 'Erledigt',
+      zyklus: 'M',
+      monatlich: -this.differenzTotal,
+    };
+    this.dataSource.data = [...this.dataSource.data, obj];
+  }
+
+  handleDifferenz(total: number) {
+    this.differenzTotal = total;
+    this.insertDifferenz();
   }
 }

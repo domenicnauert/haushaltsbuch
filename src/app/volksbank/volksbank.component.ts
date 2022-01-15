@@ -1,7 +1,8 @@
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { VolksbankEinnahmenComponent } from './volksbank-einnahmen/volksbank-einnahmen.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
@@ -16,6 +17,9 @@ export class VolksbankComponent implements OnInit {
 
   public einnahmenGesamt: number = 0;
   public einnahmenObj = {};
+
+  @ViewChild(VolksbankEinnahmenComponent)
+  einnahmenComp!: VolksbankEinnahmenComponent;
 
   constructor() {
     this.ausgabenObj = {
@@ -48,5 +52,9 @@ export class VolksbankComponent implements OnInit {
       art: 'Einnahmen',
       monatlich: event,
     };
+  }
+
+  handleDifferenzChanged(event: number) {
+    this.einnahmenComp.handleDifferenz(event);
   }
 }

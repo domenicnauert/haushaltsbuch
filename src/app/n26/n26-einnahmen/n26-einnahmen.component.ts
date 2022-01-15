@@ -46,6 +46,10 @@ export class N26EinnahmenComponent implements OnInit {
       multisort(this.n26Service.einnahmen, ['faelligkeit', 'art', 'betrag']);
 
       this.getTotalCost();
+
+      if (this.differenzTotal > 0) {
+        this.insertDifferenz();
+      }
     });
   }
 

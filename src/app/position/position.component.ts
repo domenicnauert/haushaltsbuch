@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { CreatePositionComponent } from './create-position/create-position.component';
+import { CreatePositionComponent } from '../ruecklagen/create-position/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
 import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
