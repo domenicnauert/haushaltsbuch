@@ -63,7 +63,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr
     mat-row
-    (click)="selection.toggle(row); handleTableChange(row)"
+    (click)="selection.toggle(row)"
     *matRowDef="let row; columns: displayedColumns"
   ></tr>
   <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>

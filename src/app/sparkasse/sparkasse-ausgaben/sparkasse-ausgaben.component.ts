@@ -53,7 +53,6 @@ export class SparkasseAusgabenComponent implements OnInit {
       );
 
       if (this.selection.selected.length > 0) {
-        console.log('diff detected');
         this.changeDiff(undefined);
       }
 
@@ -85,8 +84,6 @@ export class SparkasseAusgabenComponent implements OnInit {
       }
       this.sparkasseService.update(row);
     }
-
-    console.log(total);
     this.changeDifferenz.emit(total);
   }
 
@@ -128,10 +125,5 @@ export class SparkasseAusgabenComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id! + 1
     }`;
-  }
-
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
   }
 }

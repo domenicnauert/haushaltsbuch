@@ -168,9 +168,4 @@ export class SparkontenComponent implements OnInit {
       row.id! + 1
     }`;
   }
-
-  handleTableChange(row: any) {
-    // console.log(row);
-    // console.log(this.selection.selected);
-  }
 }

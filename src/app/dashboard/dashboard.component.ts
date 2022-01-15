@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 // var multisort = require('multisort');
 
 @Component({
@@ -6,7 +6,7 @@ import { Component, OnChanges, SimpleChanges } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnChanges {
+export class DashboardComponent {
   public ausgabenTitel = 'Ausgabenliste';
   public einnahmenTitel = 'Einnahmenliste';
   public positionenTitel = 'Positionenliste';
@@ -21,9 +21,6 @@ export class DashboardComponent implements OnChanges {
     if (tab) {
       this.selected = tab as unknown as number;
     }
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
   }
 
   selectedTabChanged(event: number) {
