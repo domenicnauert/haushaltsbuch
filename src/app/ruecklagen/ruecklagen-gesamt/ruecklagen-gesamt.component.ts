@@ -2,10 +2,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { EnumMapper } from '../../model/enumMapper';
 import { Position } from '../../model/position';
 import { RuecklagenService } from './../../shared/ruecklagen.service';
 
@@ -15,20 +14,10 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './ruecklagen-gesamt.component.html',
   styleUrls: ['./ruecklagen-gesamt.component.scss'],
 })
-export class RuecklagenGesamtComponent implements OnInit {
-  public EnumMapper = EnumMapper;
-  public totalBetrag: number = 0;
-  public displayedColumns: string[] = [
-    //'checkbox',
-    // 'id',
-    'faelligkeit',
-    'art',
-    'monatlich',
-  ];
-  dataSource = new MatTableDataSource<Position>();
-  selection = new SelectionModel<Position>(true, []);
-  anzEinnahmen = 0;
-  inside = false;
+export class RuecklagenGesamtComponent {
+  public dataSource = new MatTableDataSource<Position>();
+  public selection = new SelectionModel<Position>(true, []);
+  public displayedColumns: string[] = ['faelligkeit', 'art', 'monatlich'];
 
   @Output()
   changedRuecklagen = new EventEmitter();
@@ -39,8 +28,6 @@ export class RuecklagenGesamtComponent implements OnInit {
         this.ruecklagenService.einnahmen as Position[]
       );
 
-      this.anzEinnahmen = this.ruecklagenService.einnahmen.length;
-
       multisort(this.ruecklagenService.einnahmen, [
         'faelligkeit',
         'art',
@@ -50,8 +37,6 @@ export class RuecklagenGesamtComponent implements OnInit {
       this.getTotalCost();
     });
   }
-
-  ngOnInit(): void {}
 
   getTotalCost() {
     let total: number = 0;

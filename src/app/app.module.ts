@@ -38,7 +38,7 @@ import { N26AusgabenComponent } from './n26/n26-ausgaben/n26-ausgaben.component'
 import { N26DifferenzComponent } from './n26/n26-differenz/n26-differenz.component';
 import { N26EinnahmenComponent } from './n26/n26-einnahmen/n26-einnahmen.component';
 import { N26Component } from './n26/n26.component';
-import { CreatePositionComponent } from './ruecklagen/create-position/create-position.component';
+import { CreatePositionComponent } from './position/create-position/create-position.component';
 import { PositionComponent } from './position/position.component';
 import { RuecklagenEinzelnComponent } from './ruecklagen/ruecklagen-einzeln/ruecklagen-einzeln.component';
 import { RuecklagenGesamtComponent } from './ruecklagen/ruecklagen-gesamt/ruecklagen-gesamt.component';

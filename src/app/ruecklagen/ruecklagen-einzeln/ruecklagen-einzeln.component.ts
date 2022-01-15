@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
 import { Zyklus } from 'src/app/model/zyklus';
@@ -16,13 +16,13 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './ruecklagen-einzeln.component.html',
   styleUrls: ['./ruecklagen-einzeln.component.scss'],
 })
-export class RuecklagenEinzelnComponent implements OnInit {
+export class RuecklagenEinzelnComponent {
   public EnumMapper = EnumMapper;
-  public loading: boolean = false;
-  public totalBetrag = 0;
   public totalMonatlich = 0;
   public differenzTotal: number = 0;
   public enumZyklus = Object.values(Zyklus);
+  public dataSource = new MatTableDataSource<Position>();
+  public selection = new SelectionModel<Position>(true, []);
   public displayedColumns: string[] = [
     'faelligkeit',
     'art',
@@ -31,22 +31,15 @@ export class RuecklagenEinzelnComponent implements OnInit {
     'quartalsweise',
     'jaehrlich',
   ];
-  dataSource = new MatTableDataSource<Position>();
-  selection = new SelectionModel<Position>(true, []);
-  anzEinnahmen = 0;
-  inside = false;
 
   @Output()
   changeRuecklage = new EventEmitter();
 
   constructor(private ruecklagenService: RuecklagenService) {
     this.ruecklagenService.loadAllAusgeben().then(() => {
-      this.loading = false;
       this.dataSource = new MatTableDataSource(
         this.ruecklagenService.ausgaben as Position[]
       );
-
-      this.anzEinnahmen = this.ruecklagenService.ausgaben.length;
 
       multisort(this.ruecklagenService.ausgaben, [
         'faelligkeit',
@@ -57,8 +50,6 @@ export class RuecklagenEinzelnComponent implements OnInit {
       this.getTotalCost();
     });
   }
-
-  ngOnInit(): void {}
 
   getTotalCost() {
     let total: number = 0;
@@ -83,56 +74,10 @@ export class RuecklagenEinzelnComponent implements OnInit {
         }
       }
     });
-
-    this.totalBetrag = total;
     this.totalMonatlich = totalMonatlich;
 
     this.changeRuecklage.emit(total);
 
     return total;
-  }
-
-  insertDifferenz() {
-    this.dataSource.data = this.dataSource.data.filter(
-      (a) => a.art != 'Erledigt'
-    );
-    if (this.differenzTotal == 0) {
-      return;
-    }
-    const obj = {
-      art: 'Erledigt',
-      zyklus: 'M',
-      monatlich: -this.differenzTotal,
-    };
-    this.dataSource.data = [...this.dataSource.data, obj];
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  checkboxLabel(row?: Position): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id! + 1
-    }`;
-  }
-
-  handleDifferenz(total: number) {
-    this.differenzTotal = total;
-    this.insertDifferenz();
   }
 }

@@ -2,10 +2,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { EnumMapper } from '../../model/enumMapper';
 import { Position } from '../../model/position';
 import { SparkasseService } from '../../shared/sparkasse.service';
 
@@ -16,19 +15,15 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
   templateUrl: './sparkasse-ausgaben.component.html',
   styleUrls: ['./sparkasse-ausgaben.component.scss'],
 })
-export class SparkasseAusgabenComponent implements OnInit {
-  public EnumMapper = EnumMapper;
-  public loading: boolean = false;
-  public totalBetrag: number = 0;
+export class SparkasseAusgabenComponent {
+  public dataSource = new MatTableDataSource<Position>();
+  public selection = new SelectionModel<Position>(true, []);
   public displayedColumns: string[] = [
     'checkbox',
-    // 'id',
     'faelligkeit',
     'art',
     'monatlich',
   ];
-  dataSource = new MatTableDataSource<Position>();
-  selection = new SelectionModel<Position>(true, []);
 
   @Output()
   changeAusgabe = new EventEmitter();
@@ -37,8 +32,6 @@ export class SparkasseAusgabenComponent implements OnInit {
 
   constructor(private sparkasseService: SparkasseService) {
     this.sparkasseService.loadAllAusgeben().then(() => {
-      this.loading = false;
-
       this.dataSource = new MatTableDataSource(
         this.sparkasseService.ausgaben as Position[]
       );
@@ -59,8 +52,6 @@ export class SparkasseAusgabenComponent implements OnInit {
       this.getTotalCost();
     });
   }
-
-  ngOnInit(): void {}
 
   changeDiffAll() {
     this.changeDiff(undefined);

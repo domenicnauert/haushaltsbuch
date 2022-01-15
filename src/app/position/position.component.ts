@@ -8,15 +8,13 @@ import {
   HostListener,
   Input,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
-import { CreatePositionComponent } from '../ruecklagen/create-position/create-position.component';
 import { EnumMapper } from '../model/enumMapper';
 import { Zyklus } from '../model/zyklus';
+import { CreatePositionComponent } from './create-position/create-position.component';
 import { PositionService } from '../shared/position.service';
 import { Position } from './../model/position';
 
@@ -34,6 +32,8 @@ export class PositionComponent {
   public dataSource!: MatTableDataSource<Position>;
   public sortArray: string[] = [];
   public fallback = false;
+  public EnumMapper = EnumMapper;
+  public enumZyklus = Object.values(Zyklus);
   public columns = [
     {
       column: 'Ausgabe?',
@@ -87,12 +87,8 @@ export class PositionComponent {
     'bearbeiten',
   ];
 
-  public EnumMapper = EnumMapper;
-  public enumZyklus = Object.values(Zyklus);
-
   @Input()
   public title!: string;
-
   @Output()
   public update = new EventEmitter();
 
@@ -103,9 +99,9 @@ export class PositionComponent {
   ) {
     this.positionenService.updateAllToNextMonth().then(() => {
       let toUpdate = this.positionenService.toUpdate;
-      const anz = this.updateMonth(toUpdate);
-      if (anz > 0) {
-        this.update.emit(anz);
+      const toUpdateAnzahl = this.updateMonth(toUpdate);
+      if (toUpdateAnzahl > 0) {
+        this.update.emit(toUpdateAnzahl);
       }
     });
 
@@ -120,16 +116,16 @@ export class PositionComponent {
       this.dataSource = new MatTableDataSource(
         this.positionenService.positionen as Position[]
       );
-      this.dataSource.sort = this.sort;
+
       this.getTotalCost();
     });
   }
 
   updateMonth(toUpdate: Position[]) {
-    const date = new Date();
+    const currentDate = new Date();
 
     toUpdate = toUpdate.filter(
-      (a, i) => new Date(a.faelligkeit!).getTime() < date.getTime()
+      (a, i) => new Date(a.faelligkeit!).getTime() < currentDate.getTime()
     );
     const updated: number = toUpdate.length;
 
@@ -149,17 +145,6 @@ export class PositionComponent {
   @HostListener('window:resize', ['$event'])
   onResize(_event: any) {
     this.innerWidth = window.innerWidth;
-  }
-
-  @ViewChild(MatSort)
-  sort!: MatSort;
-
-  announceSortChange(sortState: any) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
   }
 
   createAusgabe(): void {
