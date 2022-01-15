@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EnumMapper } from '../model/enumMapper';
-import { Position } from '../model/position';
-import { Zyklus } from '../model/zyklus';
-import { PositionService } from '../shared/position.service';
-import { Empfaenger } from './../model/empfaenger';
-import { Kategorie } from './../model/kategorie';
-import { Sender } from './../model/sender';
+import { Empfaenger } from '../../model/empfaenger';
+import { EnumMapper } from '../../model/enumMapper';
+import { Kategorie } from '../../model/kategorie';
+import { Position } from '../../model/position';
+import { Sender } from '../../model/sender';
+import { Zyklus } from '../../model/zyklus';
+import { PositionService } from '../../shared/position.service';
 
 @Component({
   selector: 'app-create-position',
