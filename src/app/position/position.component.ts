@@ -13,8 +13,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
 import { EnumMapper } from '../model/enumMapper';
+import { Sender } from '../model/sender';
 import { Zyklus } from '../model/zyklus';
 import { PositionService } from '../shared/position.service';
+import { Empfaenger } from './../model/empfaenger';
+import { Kategorie } from './../model/kategorie';
 import { Position } from './../model/position';
 import { CreatePositionComponent } from './create-position/create-position.component';
 
@@ -161,10 +164,39 @@ export class PositionComponent {
         return;
       }
 
-      let ausgabeWithId = this.getPositionWithNextId(result);
-      this.positionenService.add(ausgabeWithId);
+      let positionWithId = this.getPositionWithNextId(result);
+      if (
+        positionWithId.kategorie == Kategorie.KREDIT &&
+        positionWithId.empfaenger == Empfaenger.KREDITE
+      ) {
+        this.positionenService.loadAllAbzahlung().then(() => {
+          if (this.positionenService.abzahlung.length == 0) {
+            console.log('lege an ');
+            const abgezahlt = {
+              faelligkeit: positionWithId.faelligkeit,
+              art: 'abgezahlt',
+              betrag: 0,
+              monatlich: 0,
+              quartalsweise: 0,
+              jaehrlich: 0,
+              sender: Sender.LEER,
+              empfaenger: Empfaenger.LEER,
+              kategorie: Kategorie.KREDIT,
+              zyklus: Zyklus.M,
+              isAusgabe: true,
+              isKontostand: false,
+              isTemporaer: true,
+            };
+            this.positionenService.add(this.getPositionWithNextId(abgezahlt));
+            this.dataSource.data = [...this.dataSource.data, abgezahlt];
+          } else {
+            console.log('exists');
+          }
+        });
+      }
+      this.positionenService.add(positionWithId);
 
-      this.dataSource.data = [...this.dataSource.data, ausgabeWithId];
+      this.dataSource.data = [...this.dataSource.data, positionWithId];
       this.getTotalCost();
     });
   }

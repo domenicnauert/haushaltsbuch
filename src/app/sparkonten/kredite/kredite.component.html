@@ -16,7 +16,7 @@
         {{ element.faelligkeit | date: "dd.MM." }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        {{ kreditAbzahlung | currency: "EUR":"€" }}
+        {{ kreditrate.monatlich | currency: "EUR":"€" }}
       </td>
     </ng-container>
 
@@ -38,7 +38,7 @@
         {{ element.monatlich | currency: "EUR":"€" }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        <div [matTooltip]="getTooltip()">
+        <div>
           {{ totalMonatlich | currency: "EUR":"€" }}
         </div>
       </td>

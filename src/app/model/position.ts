@@ -18,5 +18,6 @@ export interface Position {
   isAusgabe?: boolean;
   isKontostand?: boolean;
   isTemporaer?: boolean;
+  isKredit?: boolean;
   isChecked?: boolean;
 }

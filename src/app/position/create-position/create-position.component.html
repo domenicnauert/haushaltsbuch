@@ -15,7 +15,9 @@
             matInput
             [matDatepicker]="picker"
             [formControl]="faelligkeit"
-            [disabled]="position.isKontostand! || position.isTemporaer!"
+            [disabled]="
+              position.isKontostand! || position.isTemporaer! || isKredit!
+            "
           />
           <mat-datepicker-toggle
             matSuffix
@@ -63,7 +65,9 @@
           <mat-label>Sender</mat-label>
           <mat-select
             [(value)]="position.sender"
-            [disabled]="position.isKontostand || position.isTemporaer!"
+            [disabled]="
+              position.isKontostand || position.isTemporaer! || isKredit!
+            "
           >
             <mat-option *ngFor="let item of enumSender" [value]="item">
               {{ EnumMapper[item] }}
@@ -75,7 +79,7 @@
       <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Empfänger</mat-label>
-          <mat-select [(value)]="position.empfaenger">
+          <mat-select [(value)]="position.empfaenger" [disabled]="isKredit">
             <mat-option *ngFor="let item of enumEmpfaenger" [value]="item">
               {{ EnumMapper[item] }}
             </mat-option>
@@ -88,7 +92,7 @@
           <mat-label>Kategorie</mat-label>
           <mat-select
             [(value)]="position.kategorie"
-            [disabled]="position.isKontostand"
+            [disabled]="position.isKontostand || isKredit"
           >
             <mat-option *ngFor="let item of enumKategorie" [value]="item">
               {{ EnumMapper[item] }}
@@ -103,6 +107,19 @@
             (change)="flgAusgabeChanged()"
             [(ngModel)]="isAusgabe"
             >ist eine Ausgabe?</mat-slide-toggle
+          >
+        </div>
+
+        <div
+          *ngIf="isAusgabe"
+          class="example-full-width slider"
+          appearance="fill"
+        >
+          <mat-slide-toggle
+            (change)="flgKreditChanged()"
+            [(ngModel)]="isKredit"
+            matTooltip="Hier sollte nur der Kredit und nicht die monatlich Tilgung festegelegt werden. Die monatliche Tilgung sollte mit der Kategorie Kredit erfasst werden."
+            >ist ein Kredit?</mat-slide-toggle
           >
         </div>
 
@@ -140,7 +157,7 @@
               [(ngModel)]="position.zyklus"
               aria-label="Zyklus"
               class="example-full-width"
-              [disabled]="isKontostand"
+              [disabled]="isKontostand || isKredit"
             >
               <mat-button-toggle
                 *ngFor="let zyklus of enumZyklus"

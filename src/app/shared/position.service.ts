@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Backendless from 'backendless';
+import { Kategorie } from '../model/kategorie';
 import { Position } from './../model/position';
 import { LoginService } from './login.service';
 
@@ -15,6 +16,7 @@ export class PositionService {
   public ausgaben: Position[] = [];
   public einnahmen: Position[] = [];
   public toUpdate: Position[] = [];
+  public abzahlung: Position[] = [];
 
   async loadAll() {
     if (!this.setCurrentUser()) {
@@ -45,6 +47,26 @@ export class PositionService {
       (positionen: Position[]) => {
         positionen = positionen.sort((a, b) => a.id! - b.id!);
         this.ausgaben = positionen;
+      }
+    );
+  }
+
+  async loadAllAbzahlung() {
+    if (!this.setCurrentUser()) {
+      return;
+    }
+
+    const where =
+      "kategorie = '" + Kategorie.KREDIT + "' AND isTemporaer = true";
+
+    var queryBuilder =
+      Backendless.DataQueryBuilder.create().setWhereClause(where);
+    queryBuilder.setPageSize(100);
+
+    return PositionStore.find<Position>(queryBuilder).then(
+      (positionen: Position[]) => {
+        positionen = positionen.sort((a, b) => a.id! - b.id!);
+        this.abzahlung = positionen;
       }
     );
   }

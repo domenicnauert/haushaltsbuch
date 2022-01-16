@@ -17,7 +17,8 @@ export class SparkontenService {
   public einnahmen: Position[] = [];
   public gehalt: Position[] = [];
   public kredite: Position[] = [];
-  public krediteAbzahlung: Position[] = [];
+  public kreditrate: Position[] = [];
+  public abzahlung: Position[] = [];
 
   async loadAllSparen() {
     if (!this.setCurrentUser()) {
@@ -33,6 +34,26 @@ export class SparkontenService {
     return PositionStore.find<Position>(queryBuilder).then(
       (positionen: Position[]) => {
         this.positionen = positionen;
+      }
+    );
+  }
+
+  async loadAllAbzahlung() {
+    if (!this.setCurrentUser()) {
+      return;
+    }
+
+    const where =
+      "kategorie = '" + Kategorie.KREDIT + "' AND isTemporaer = true";
+
+    var queryBuilder =
+      Backendless.DataQueryBuilder.create().setWhereClause(where);
+    queryBuilder.setPageSize(100);
+
+    return PositionStore.find<Position>(queryBuilder).then(
+      (positionen: Position[]) => {
+        positionen = positionen.sort((a, b) => a.id! - b.id!);
+        this.abzahlung = positionen;
       }
     );
   }
@@ -80,7 +101,7 @@ export class SparkontenService {
 
     return PositionStore.find<Position>(queryBuilder).then(
       (krediteAbzahlung: Position[]) => {
-        this.krediteAbzahlung = krediteAbzahlung;
+        this.kreditrate = krediteAbzahlung;
       }
     );
   }

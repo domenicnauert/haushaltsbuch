@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Empfaenger } from '../../model/empfaenger';
 import { EnumMapper } from '../../model/enumMapper';
-import { Kategorie } from '../../model/kategorie';
 import { Position } from '../../model/position';
 import { Sender } from '../../model/sender';
 import { Zyklus } from '../../model/zyklus';
 import { PositionService } from '../../shared/position.service';
+import { Empfaenger } from './../../model/empfaenger';
+import { Kategorie } from './../../model/kategorie';
 
 @Component({
   selector: 'app-create-position',
@@ -20,6 +20,7 @@ export class CreatePositionComponent {
   public isAusgabe!: boolean;
   public isEdit!: boolean;
   public isKontostand!: boolean;
+  public isKredit!: boolean;
   public isTemporaer!: boolean;
   public flgShowDelete: boolean = false;
   public faelligkeit = new FormControl(new Date());
@@ -110,9 +111,11 @@ export class CreatePositionComponent {
 
     this.isKontostand = false;
     this.isTemporaer = false;
+    this.isKredit = false;
 
     this.flgKontostandChanged();
     this.flgTemporaerChanged();
+    this.flgKreditChanged();
   }
 
   flgKontostandChanged() {
@@ -132,6 +135,20 @@ export class CreatePositionComponent {
       this.position.isTemporaer = !this.position.isTemporaer;
       this.position.sender = Sender.LEER;
       this.position.zyklus = Zyklus.M;
+      this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
+    } else {
+      this.initPosition();
+    }
+  }
+
+  flgKreditChanged() {
+    if (this.isKredit) {
+      this.position.isKredit = !this.position.isKredit;
+      this.position.sender = Sender.LEER;
+      this.position.empfaenger = Empfaenger.KREDITE;
+      this.position.zyklus = Zyklus.M;
+      this.position.kategorie = Kategorie.KONTOSTAND;
+      this.position.isKontostand = true;
       this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
     } else {
       this.initPosition();

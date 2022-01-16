@@ -28,14 +28,10 @@ export class KrediteComponent {
   public dataSource!: MatTableDataSource<Position>;
   public sortArray: string[] = [];
   public fallback = false;
-  public kreditAbzahlung = 0;
+  public kreditrate: Position = { monatlich: 0 } as Position;
+  public currentAbzahlung: Position = {} as Position;
 
-  public displayedColumns: string[] = [
-    'faelligkeit',
-    'art',
-    'monatlich',
-    'bearbeiten',
-  ];
+  public displayedColumns: string[] = ['faelligkeit', 'art', 'monatlich'];
 
   @Input()
   public title!: string;
@@ -54,9 +50,22 @@ export class KrediteComponent {
 
       this.sparkontenService.loadAllKrediteAbzahlung().then(() => {
         multisort(this.sparkontenService.gehalt, ['faelligkeit', 'monatlich']);
-        this.kreditAbzahlung =
-          this.sparkontenService.krediteAbzahlung[0].monatlich!;
+
+        if (this.sparkontenService.kreditrate[0]) {
+          this.kreditrate = this.sparkontenService.kreditrate[0];
+        }
+
         this.getTotalCost();
+
+        this.sparkontenService.loadAllAbzahlung().then(() => {
+          multisort(this.sparkontenService.gehalt, [
+            'faelligkeit',
+            'monatlich',
+          ]);
+          this.currentAbzahlung = this.sparkontenService.abzahlung[0]!;
+
+          this.calculateKredit();
+        });
       });
     });
   }
@@ -121,19 +130,39 @@ export class KrediteComponent {
     return total;
   }
 
-  getTooltip() {
-    const text =
-      'Die Sparquote sollte 20 % betragen inkl. Altersvorsorge. Das entspricht bei deinem Gehalt von ' +
-      this.kreditAbzahlung +
-      ' ca. ' +
-      Math.ceil(0.2 * this.kreditAbzahlung) +
-      ' €.';
-    if (this.kreditAbzahlung == 0) {
-      return 'Lege bei den Positionen einen Position mit der Kategorie "Gehalt" fest.';
+  calculateKredit() {
+    if (this.currentAbzahlung && this.kreditrate) {
+      const rateDate = new Date(this.kreditrate.faelligkeit!);
+      const abzahlungDate = new Date(this.currentAbzahlung.faelligkeit!);
+
+      if (abzahlungDate.getTime() < rateDate.getTime()) {
+        const anzMonth = this.monthDiff(abzahlungDate, rateDate);
+
+        this.currentAbzahlung.faelligkeit = this.kreditrate.faelligkeit;
+
+        this.currentAbzahlung.betrag =
+          this.currentAbzahlung.betrag! - this.kreditrate.betrag! * anzMonth;
+        this.currentAbzahlung.monatlich =
+          this.currentAbzahlung.monatlich! -
+          this.kreditrate.monatlich! * anzMonth;
+
+        this.currentAbzahlung.quartalsweise = this.currentAbzahlung.monatlich;
+        this.currentAbzahlung.jaehrlich = this.currentAbzahlung.monatlich;
+
+        this.sparkontenService.update(this.currentAbzahlung);
+        this.dataSource.data = [...this.dataSource.data, this.currentAbzahlung];
+        this.getTotalCost();
+      } else if (this.currentAbzahlung) {
+        this.dataSource.data = [...this.dataSource.data, this.currentAbzahlung];
+      }
     }
-    if (this.totalMonatlich == 0) {
-      return 'Lege bei den Positionen einen Position mit der Kategorie "Sparen" fest.';
-    }
-    return text;
+  }
+
+  monthDiff(d1: Date, d2: Date) {
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
   }
 }
