@@ -38,7 +38,9 @@
         {{ element.monatlich | currency: "EUR":"€" }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        {{ totalMonatlich | currency: "EUR":"€" }}
+        <div [matTooltip]="getTooltip()">
+          {{ totalMonatlich | currency: "EUR":"€" }}
+        </div>
       </td>
     </ng-container>
 

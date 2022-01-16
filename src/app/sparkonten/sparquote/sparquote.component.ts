@@ -131,4 +131,20 @@ export class SparquoteComponent {
 
     return total;
   }
+
+  getTooltip() {
+    const text =
+      'Die Sparquote sollte 20 % betragen inkl. Altersvorsorge. Das entspricht bei deinem Gehalt von ' +
+      this.gehalt +
+      ' ca. ' +
+      Math.ceil(0.2 * this.gehalt) +
+      ' €.';
+    if (this.gehalt == 0) {
+      return 'Lege bei den Positionen einen Position mit der Kategorie "Gehalt" fest.';
+    }
+    if (this.totalMonatlich == 0) {
+      return 'Lege bei den Positionen einen Position mit der Kategorie "Sparen" fest.';
+    }
+    return text;
+  }
 }
