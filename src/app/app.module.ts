@@ -52,6 +52,7 @@ import { VolksbankAusgabenComponent } from './volksbank/volksbank-ausgaben/volks
 import { VolksbankDifferenzComponent } from './volksbank/volksbank-differenz/volksbank-differenz.component';
 import { VolksbankEinnahmenComponent } from './volksbank/volksbank-einnahmen/volksbank-einnahmen.component';
 import { VolksbankComponent } from './volksbank/volksbank.component';
+import { SparquoteComponent } from './sparkonten/sparquote/sparquote.component';
 
 Backendless.initApp(
   environment.backendless.APP_ID,
@@ -93,6 +94,7 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
     RuecklagenComponent,
     RuecklagenGesamtComponent,
     RuecklagenEinzelnComponent,
+    SparquoteComponent,
   ],
   imports: [
     BrowserModule,

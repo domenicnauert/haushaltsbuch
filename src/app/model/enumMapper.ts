@@ -13,6 +13,7 @@ export const EnumMapper: Record<any, string> = {
   [Kategorie.VERSICHERUNG]: 'Versicherung',
   [Kategorie.VERTRAG]: 'Vertrag',
   [Kategorie.KONTOSTAND]: 'Kontostand',
+  [Kategorie.GEHALT]: 'Gehalt',
 
   [Sender.LEER]: '--',
   [Sender.VOLKSBANK]: 'Volksbank',
