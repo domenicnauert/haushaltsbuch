@@ -24,6 +24,7 @@ export const EnumMapper: Record<any, string> = {
   [Sender.DEPOT]: 'Depot',
   [Sender.SPARKONTO]: 'Sparkonto',
   [Sender.RUECKLAGEN]: 'Rücklagen',
+  [Sender.KREDITE]: 'Kredite',
 
   [Empfaenger.LEER]: '--',
   [Empfaenger.VOLKSBANK]: 'Volksbank',
@@ -34,6 +35,7 @@ export const EnumMapper: Record<any, string> = {
   [Empfaenger.DEPOT]: 'Depot',
   [Empfaenger.SPARKONTO]: 'Sparkonto',
   [Empfaenger.RUECKLAGEN]: 'Rücklagen',
+  [Empfaenger.KREDITE]: 'Kredite',
 
   [Zyklus.Q]: 'q',
   [Zyklus.M]: 'm',

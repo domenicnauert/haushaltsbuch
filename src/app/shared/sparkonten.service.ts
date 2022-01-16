@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Backendless from 'backendless';
+import { Empfaenger } from './../model/empfaenger';
 import { Kategorie } from './../model/kategorie';
 import { Position } from './../model/position';
 import { LoginService } from './login.service';
@@ -15,6 +16,8 @@ export class SparkontenService {
   public positionen: Position[] = [];
   public einnahmen: Position[] = [];
   public gehalt: Position[] = [];
+  public kredite: Position[] = [];
+  public krediteAbzahlung: Position[] = [];
 
   async loadAllSparen() {
     if (!this.setCurrentUser()) {
@@ -30,6 +33,54 @@ export class SparkontenService {
     return PositionStore.find<Position>(queryBuilder).then(
       (positionen: Position[]) => {
         this.positionen = positionen;
+      }
+    );
+  }
+
+  async loadAllKredite() {
+    if (!this.setCurrentUser()) {
+      return;
+    }
+
+    const where =
+      "empfaenger = '" +
+      Empfaenger.KREDITE +
+      "' AND " +
+      "kategorie = '" +
+      Kategorie.KONTOSTAND +
+      "'";
+
+    var queryBuilder =
+      Backendless.DataQueryBuilder.create().setWhereClause(where);
+    queryBuilder.setPageSize(100);
+
+    return PositionStore.find<Position>(queryBuilder).then(
+      (kredite: Position[]) => {
+        this.kredite = kredite;
+      }
+    );
+  }
+
+  async loadAllKrediteAbzahlung() {
+    if (!this.setCurrentUser()) {
+      return;
+    }
+
+    const where =
+      "empfaenger = '" +
+      Empfaenger.KREDITE +
+      "' AND " +
+      "kategorie = '" +
+      Kategorie.KREDIT +
+      "'";
+
+    var queryBuilder =
+      Backendless.DataQueryBuilder.create().setWhereClause(where);
+    queryBuilder.setPageSize(100);
+
+    return PositionStore.find<Position>(queryBuilder).then(
+      (krediteAbzahlung: Position[]) => {
+        this.krediteAbzahlung = krediteAbzahlung;
       }
     );
   }

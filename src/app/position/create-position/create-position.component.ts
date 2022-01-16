@@ -112,6 +112,7 @@ export class CreatePositionComponent {
     this.isTemporaer = false;
 
     this.flgKontostandChanged();
+    this.flgTemporaerChanged();
   }
 
   flgKontostandChanged() {
@@ -127,10 +128,9 @@ export class CreatePositionComponent {
   }
 
   flgTemporaerChanged() {
-    if (this.isKontostand) {
+    if (this.isTemporaer) {
       this.position.isTemporaer = !this.position.isTemporaer;
       this.position.sender = Sender.LEER;
-      this.position.kategorie = Kategorie.KONTOSTAND;
       this.position.zyklus = Zyklus.M;
       this.faelligkeit.setValue(new Date('2022-01-01T00:00:00'));
     } else {

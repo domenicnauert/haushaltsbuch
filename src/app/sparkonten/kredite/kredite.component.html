@@ -16,7 +16,7 @@
         {{ element.faelligkeit | date: "dd.MM." }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        {{ sparquote | percent: ".1-2" }}
+        {{ kreditAbzahlung | currency: "EUR":"€" }}
       </td>
     </ng-container>
 
@@ -27,12 +27,12 @@
       <td mat-cell *matCellDef="let element">
         {{ element.art }}
       </td>
-      <td mat-footer-cell *matFooterCellDef>Sparquote bei =></td>
+      <td mat-footer-cell *matFooterCellDef>Abzahlung monatl. |</td>
     </ng-container>
 
     <ng-container matColumnDef="monatlich">
       <th mat-header-cell *matHeaderCellDef>
-        <div>Monatlich</div>
+        <div>Kreditsumme</div>
       </th>
       <td mat-cell *matCellDef="let element">
         {{ element.monatlich | currency: "EUR":"€" }}
@@ -54,7 +54,7 @@
           >edit</mat-icon
         >
       </td>
-      <td mat-footer-cell *matFooterCellDef>monatl.</td>
+      <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

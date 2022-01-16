@@ -8,4 +8,5 @@ export enum Empfaenger {
   EXTERN = 'EXTERN',
   SPARKONTO = 'SPARKONTO',
   RUECKLAGEN = 'RUECKLAGEN',
+  KREDITE = 'KREDITE',
 }

@@ -15,7 +15,7 @@
             matInput
             [matDatepicker]="picker"
             [formControl]="faelligkeit"
-            [disabled]="position.isKontostand!"
+            [disabled]="position.isKontostand! || position.isTemporaer!"
           />
           <mat-datepicker-toggle
             matSuffix
@@ -63,7 +63,7 @@
           <mat-label>Sender</mat-label>
           <mat-select
             [(value)]="position.sender"
-            [disabled]="position.isKontostand"
+            [disabled]="position.isKontostand || position.isTemporaer!"
           >
             <mat-option *ngFor="let item of enumSender" [value]="item">
               {{ EnumMapper[item] }}
@@ -114,6 +114,7 @@
           <mat-slide-toggle
             (change)="flgKontostandChanged()"
             [(ngModel)]="isKontostand"
+            [disabled]="isTemporaer"
             >ist eine Kontostand?</mat-slide-toggle
           >
         </div>
@@ -126,6 +127,7 @@
           <mat-slide-toggle
             (change)="flgTemporaerChanged()"
             [(ngModel)]="isTemporaer"
+            [disabled]="isKontostand"
             >ist Temporär?</mat-slide-toggle
           >
         </div>
