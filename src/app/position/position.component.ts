@@ -14,9 +14,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as multisort from 'multisort';
 import { EnumMapper } from '../model/enumMapper';
 import { Zyklus } from '../model/zyklus';
-import { CreatePositionComponent } from './create-position/create-position.component';
 import { PositionService } from '../shared/position.service';
 import { Position } from './../model/position';
+import { CreatePositionComponent } from './create-position/create-position.component';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 @Component({
@@ -135,9 +135,8 @@ export class PositionComponent {
           new Date(toUpdate[i].faelligkeit!).getMonth() + 1
         );
         toUpdate[i].faelligkeit = new Date(newDate);
+        this.positionenService.update(toUpdate[i]);
       }
-
-      this.positionenService.update(toUpdate[0]);
     }
     return updated;
   }
