@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import Backendless from 'backendless';
 import { Position } from '../model/position';
 import { Empfaenger } from './../model/empfaenger';
+import { Sender } from './../model/sender';
 import { LoginService } from './login.service';
 
 const PositionStore = Backendless.Data.of('Position');
@@ -21,7 +22,11 @@ export class VolksbankService {
       return;
     }
     const where =
-      "sender = '" + Empfaenger.VOLKSBANK + "'  OR isTemporaer = true";
+      "sender = '" +
+      Sender.VOLKSBANK +
+      "' OR (empfaenger = '" +
+      Empfaenger.VOLKSBANK +
+      "' AND isTemporaer = true)";
 
     var queryBuilder =
       Backendless.DataQueryBuilder.create().setWhereClause(where);
@@ -44,8 +49,7 @@ export class VolksbankService {
       return;
     }
 
-    const where =
-      "empfaenger = '" + Empfaenger.VOLKSBANK + "' OR isTemporaer = true";
+    const where = "empfaenger = '" + Empfaenger.VOLKSBANK + "' ";
 
     var queryBuilder =
       Backendless.DataQueryBuilder.create().setWhereClause(where);
